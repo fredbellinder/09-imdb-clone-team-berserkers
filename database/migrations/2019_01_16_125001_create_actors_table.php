@@ -15,12 +15,12 @@ class CreateActorsTable extends Migration
     {
         Schema::create('actors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('movie_id')->unsigned();
+            $table->integer('work_id')->unsigned();
             $table->integer('person_id')->unsigned();
             $table->string('role');
             $table->timestamps();
 
-            $table->foreign('movie_id')->references('id')->on('movies');
+            $table->foreign('work_id')->references('id')->on('works');
             $table->foreign('person_id')->references('id')->on('people');
         });
     }
