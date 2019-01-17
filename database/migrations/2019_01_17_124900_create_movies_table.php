@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorksTable extends Migration
+class CreateMoviesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateWorksTable extends Migration
      */
     public function up()
     {
-        Schema::create('works', function (Blueprint $table) {
+        Schema::create('movies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
             $table->year('year');
@@ -21,8 +21,6 @@ class CreateWorksTable extends Migration
             $table->string('imdb_id');
             $table->string('genre');
             $table->string('runtime');
-            $table->string('total_seasons')->nullable();
-            $table->enum('type', ['series', 'movie']);
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateWorksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('works');
+        Schema::dropIfExists('movies');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActorsTable extends Migration
+class CreatePeopleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateActorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('actors', function (Blueprint $table) {
+        Schema::create('people', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('work_id')->unsigned();
-            $table->integer('person_id')->unsigned();
-            $table->string('role');
+            $table->string('first_name');
+            $table->string('last_name');
             $table->timestamps();
-
-            $table->foreign('work_id')->references('id')->on('works');
-            $table->foreign('person_id')->references('id')->on('people');
         });
     }
 
@@ -32,6 +28,6 @@ class CreateActorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('actors');
+        Schema::dropIfExists('people');
     }
 }

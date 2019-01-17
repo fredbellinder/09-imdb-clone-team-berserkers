@@ -1,8 +1,9 @@
 <?php
-use App\Staff;
+
+use App\Direction;
 use Illuminate\Database\Seeder;
 
-class StaffTableSeeder extends Seeder
+class DirectionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,11 +12,9 @@ class StaffTableSeeder extends Seeder
      */
     public function run()
     {
-        Staff::create(array(
+        Direction::create(array(
             'id' => 1,
-            'work_id' => 2,
-            'person_id' => 3,
-            'job' => 'Director'
+            'person_id' => 3
         ));
     }
 }
