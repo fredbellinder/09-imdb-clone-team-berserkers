@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePeopleTable extends Migration
+class CreateDirectorSeries extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatePeopleTable extends Migration
      */
     public function up()
     {
-        Schema::create('people', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('first_name');
-            $table->string('last_name');
+        Schema::create('director_series', function (Blueprint $table) {
+            $table->integer('director_id');
+            $table->integer('series_id');
             $table->timestamps();
+
+            $table->primary(['director_id', 'series_id']);
         });
     }
 
@@ -28,6 +29,6 @@ class CreatePeopleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('people');
+        Schema::dropIfExists('director_series');
     }
 }

@@ -16,12 +16,10 @@ class CreateSeriesTable extends Migration
         Schema::create('series', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->year('air_start')->nullable();
-            $table->year('air_end')->nullable();
-            $table->string('country')->nullable();
-            $table->string('imdb_id')->nullable();
-            $table->string('genre')->nullable();
-            $table->string('total_seasons')->nullable();
+            $table->text('plot');
+            $table->year('year');
+            $table->string('country');
+            $table->string('seasons');
             $table->timestamps();
         });
     }

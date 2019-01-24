@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCastsTable extends Migration
+class CreateGenreSeries extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCastsTable extends Migration
      */
     public function up()
     {
-        Schema::create('casts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('person_id')->unsigned();
+        Schema::create('genre_series', function (Blueprint $table) {
+            $table->integer('genre_id');
+            $table->integer('series_id');
             $table->timestamps();
 
-            $table->foreign('person_id')->references('id')->on('people');
+            $table->primary(['genre_id', 'series_id']);
         });
     }
 
@@ -29,6 +29,6 @@ class CreateCastsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('casts');
+        Schema::dropIfExists('genre_series');
     }
 }

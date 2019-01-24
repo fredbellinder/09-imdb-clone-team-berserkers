@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class MoviesTableSeeder extends Seeder
+class DirectorsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class MoviesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        //
     }
 }
