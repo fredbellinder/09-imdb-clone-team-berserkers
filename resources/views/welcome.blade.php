@@ -8,9 +8,5 @@
 </head>
 <body>
     <h1>TEST</h1>
-
-    <p>@foreach()
-    
-    @endforeach</p>
 </body>
 </html>
