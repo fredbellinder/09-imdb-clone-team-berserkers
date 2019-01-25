@@ -46,9 +46,9 @@ class DatabaseSeeder extends Seeder
                 $movie->genres()->attach($sliced_genres);
 
             } else {
-                $movie->directors()->attach(array_rand($ids_directors, 1));
-                $movie->casts()->attach(array_rand($ids_casts, 1));
-                $movie->genres()->attach(array_rand($ids_genres, 1));
+                $movie->directors()->attach(mt_rand(1, 19));
+                $movie->casts()->attach(mt_rand(1, 100));
+                $movie->genres()->attach(mt_rand(1, 20));
             }
         });
 
@@ -76,9 +76,9 @@ class DatabaseSeeder extends Seeder
                 $series->genres()->attach($sliced_genres);
 
             } else {
-                $series->directors()->attach(array_rand($ids_directors, 1));
-                $series->casts()->attach(array_rand($ids_casts, 1));
-                $series->genres()->attach(array_rand($ids_genres, 1));
+                $series->directors()->attach(mt_rand(1, 19));
+                $series->casts()->attach(mt_rand(1, 100));
+                $series->genres()->attach(mt_rand(1, 20));
             }
         });
     }
