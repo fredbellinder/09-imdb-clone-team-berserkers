@@ -15,4 +15,7 @@ class Movie extends Model
     public function genres(){
         return $this->belongsToMany(Genre::class);
     }
+    public function photos(){
+        return $this->hasMany(Photomovie::class, 'movie_id');
+    }
 }
