@@ -17,16 +17,16 @@ class DatabaseSeeder extends Seeder
         // $this->call(DirectionsTableSeeder::class);
         // $this->call(CastsTableSeeder::class);
         // $this->call(ProductionsTableSeeder::class);
-        factory(App\Director::class, 15)->create();
-        factory(App\Cast::class, 40)->create();
+        factory(App\Director::class, 20)->create();
+        factory(App\Cast::class, 100)->create();
         factory(App\Genre::class, 20)->create();
 
 
-        factory(App\Movie::class, 20)->create()->each(function ($movie) {
+        factory(App\Movie::class, 100)->create()->each(function ($movie) {
             $boolean = random_int(0, 1);
 
-            $ids_directors = range(1, 15);
-            $ids_casts = range(1, 40);
+            $ids_directors = range(1, 19);
+            $ids_casts = range(1, 100);
             $ids_genres = range(1, 20);
 
 
@@ -34,7 +34,6 @@ class DatabaseSeeder extends Seeder
             shuffle($ids_casts);
             shuffle($ids_genres);
             
-            $movie->photos()->saveMany(factory(App\Photomovie::class,2)->create());
             
             if ($boolean)
             { 
@@ -56,8 +55,8 @@ class DatabaseSeeder extends Seeder
         factory(App\Series::class, 20)->create()->each(function ($series) {
             $boolean = random_int(0, 1);
             
-            $ids_directors = range(1, 15);
-            $ids_casts = range(1, 40);
+            $ids_directors = range(1, 19);
+            $ids_casts = range(1, 100);
             $ids_genres = range(1, 20);
             
             
@@ -65,7 +64,6 @@ class DatabaseSeeder extends Seeder
             shuffle($ids_casts);
             shuffle($ids_genres);
             
-            $series->photos()->saveMany(factory(App\Photoseries::class,2)->create());
             
             if ($boolean)
             { 

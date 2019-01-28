@@ -15,7 +15,4 @@ class Series extends Model
     public function genres(){
         return $this->belongsToMany(Genre::class);
     }
-    public function photos(){
-        return $this->hasMany(Photoseries::class, 'series_id');
-    }
 }
