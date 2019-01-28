@@ -13,7 +13,8 @@
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "tcg/voyager": "^1.1",
-        "twbs/bootstrap": "^4.2"
+        "twbs/bootstrap": "^4.2",
+        "vrana/adminer": "^4.7"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
