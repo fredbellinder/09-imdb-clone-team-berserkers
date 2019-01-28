@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63b3b207a897684f804d001368c908f8",
+    "content-hash": "5f4ef7094ae5603ef1a8bd7798d84fcd",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -4186,6 +4186,44 @@
                 "environment"
             ],
             "time": "2018-10-30T17:29:25+00:00"
+        },
+        {
+            "name": "vrana/adminer",
+            "version": "v4.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vrana/adminer.git",
+                "reference": "7247f801bd06e51347d7ea671484e0fa6a883cbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vrana/adminer/zipball/7247f801bd06e51347d7ea671484e0fa6a883cbb",
+                "reference": "7247f801bd06e51347d7ea671484e0fa6a883cbb",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "plugins/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0",
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Jakub Vrána",
+                    "homepage": "https://www.vrana.cz/"
+                }
+            ],
+            "description": "Database management in a single PHP file.",
+            "homepage": "https://www.adminer.org/",
+            "keywords": [
+                "database"
+            ],
+            "time": "2019-01-24T14:57:17+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

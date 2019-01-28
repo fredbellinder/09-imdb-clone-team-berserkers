@@ -34,7 +34,6 @@ class DatabaseSeeder extends Seeder
             shuffle($ids_casts);
             shuffle($ids_genres);
             
-            $movie->photos()->saveMany(factory(App\Photomovie::class,2)->create());
             
             if ($boolean)
             { 
@@ -65,7 +64,6 @@ class DatabaseSeeder extends Seeder
             shuffle($ids_casts);
             shuffle($ids_genres);
             
-            $series->photos()->saveMany(factory(App\Photoseries::class,2)->create());
             
             if ($boolean)
             { 
