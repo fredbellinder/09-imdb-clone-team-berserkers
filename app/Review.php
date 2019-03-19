@@ -15,6 +15,6 @@ class Review extends Model
 
     public function comments() 
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Comments::class);
     }
 }

@@ -10,6 +10,21 @@ class User extends \TCG\Voyager\Models\User
 {
     use Notifiable;
 
+    public function reviews() 
+    {
+        return $this->hasMany(Reviews::class);
+    }
+
+    public function watchlists() 
+    {
+        return $this->hasMany(Watchlist::class);
+    }
+    
+    public function comments() 
+    {
+        return $this->hasMany(Comments::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *
