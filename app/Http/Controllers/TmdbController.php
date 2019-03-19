@@ -16,7 +16,7 @@ class TmdbController extends Controller
 
         $response = json_decode($request->getBody());
 
-        return view('tmdbtest', [
+        return view('movie', [
             'movie' => $response
         ]);
     }
