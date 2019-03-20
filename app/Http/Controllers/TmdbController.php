@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Watchlist;
+
+
 class TmdbController extends Controller
 {
     public function fetchMovie($id)
@@ -20,4 +23,6 @@ class TmdbController extends Controller
             'movie' => $response
         ]);
     }
+
+
 }
