@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UsersTableSeeder extends Seeder
+class WatchlistsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,6 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = factory(App\User::class)->make();
+        $watchlist = factory(App\Watchlist::class, 5)->create();
     }
-    
 }

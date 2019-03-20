@@ -20,7 +20,7 @@ class CreateReviewsTable extends Migration
             $table->string('headline');
             $table->string('content');
             $table->integer('movie_tmdb_id')->nullable()->unisgned();
-            $table->integer('series_tmdb_id')->nullable()->unisgned();
+            $table->integer('tv_tmdb_id')->nullable()->unisgned();
             $table->integer('rating')->nullable()->unisgned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();

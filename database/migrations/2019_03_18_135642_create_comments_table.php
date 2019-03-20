@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration
             $table->string('headline');
             $table->string('content');
             $table->integer('movie_tmdb_id')->nullable()->unsigned();
-            $table->integer('series_tmdb_id')->nullable()->unsigned();
+            $table->integer('tv_tmdb_id')->nullable()->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('review_id')->unsigned();
             $table->timestamps();
