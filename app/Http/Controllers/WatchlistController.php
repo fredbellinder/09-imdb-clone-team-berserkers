@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Watchlist;
+use App\User;
+
 use Illuminate\Http\Request;
 
 class WatchlistController extends Controller
@@ -12,6 +14,20 @@ class WatchlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getWatchlist()
+    {
+        $watchlist = Watchlist::find(1);
+        $user = User::find(1);
+
+        $list_item = (object) $watchlist->list_item; // typecasting
+
+        return view('list', [
+            'list' => $list_item,
+            'username' => $user->name
+        ]);
+    }
+
     public function index()
     {
         //

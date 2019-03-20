@@ -7,15 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Watchlist extends Model
 {
     protected $hidden = [
-        'created_at', 'updated_at'
+        'created_at', 'updated_at',
     ];
     protected $fillable = [
-        'title', 'poster_url', 'user_id', 'year',
+        'title', 'user_id',
     ];
 
-    protected $attributes = [
-        'tv_tmdb_id' => null,
-        'movie_tmdb_id' => null,
+    protected $casts = [
+        'list_item' => 'array',
     ];
 
     public function user() 
