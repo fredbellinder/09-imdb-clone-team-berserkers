@@ -9,15 +9,19 @@
 <body>
     <h1>WatchList</h1>
     
-    <ul>
-            @foreach ($list as $entries) 
-                <li>
-                    <div class="card">
-                        <h5>{{$entries['title']}}</h5>
-                        <img src="{{$entries['poster_url']}}">
-                    </div>
-                </li>
-            @endforeach
+    <ul>    @if (count($list) > 0) 
+        
+        @foreach ($list as $entries) 
+        <li>
+            <div class="card">
+                <h5>{{$entries['title']}}</h5>
+                <img src="{{$entries['poster_url']}}">
+            </div>
+        </li>
+        @endforeach
+        @else
+            <p> Nothing added to list :(</p>
+        @endif
     </ul>
 </body>
 </html>
