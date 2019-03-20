@@ -15,16 +15,6 @@ class WatchlistController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getWatchlist($id)
-    {
-        $watchlist = Watchlist::find($id);
-        $user = User::find($id);
-        $list_items = (array) $watchlist->list_items; // typecasting
-        return view('list', [
-            'list' => $list_items
-        ]);
-    }
-
     public function index()
     {
         //
@@ -57,9 +47,13 @@ class WatchlistController extends Controller
      * @param  \App\Watchlist  $watchlist
      * @return \Illuminate\Http\Response
      */
-    public function show(Watchlist $watchlist)
+    public function show($watchlist)
     {
-        //
+        $watchlist = Watchlist::find($watchlist);
+        $list_items = (array) $watchlist->list_items; // typecasting
+        return view('list', [
+            'list' => $list_items
+        ]);
     }
 
     /**
