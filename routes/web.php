@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/movies/{id}', 'TmdbController@fetchMovie');
-Route::get('/list', 'WatchlistController@getWatchlist');
+Route::get('/list/{id}', 'WatchlistController@getWatchlist');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

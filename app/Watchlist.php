@@ -14,7 +14,7 @@ class Watchlist extends Model
     ];
 
     protected $casts = [
-        'list_item' => 'array',
+        'list_items' => 'array',
     ];
 
     public function user() 
