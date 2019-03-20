@@ -15,12 +15,12 @@ class CreateWatchlistsTable extends Migration
     {
         Schema::create('watchlists', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
             $table->string('poster_url');
             $table->integer('user_id')->unsigned();
-            $table->string('content');
-            $table->integer('movie_tmdb_id')->nullable()->unisgned();
-            $table->integer('series_tmdb_id')->nullable()->unisgned();
-            $table->date('year')->nullable()->unisgned();
+            $table->integer('movie_tmdb_id')->nullable()->unsigned();
+            $table->integer('tv_tmdb_id')->nullable()->unsigned();
+            $table->string('year')->nullable();
             $table->timestamps();
              
             $table->foreign('user_id')->references('id')->on('users');
