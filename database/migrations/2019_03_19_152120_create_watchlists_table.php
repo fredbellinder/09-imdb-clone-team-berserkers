@@ -16,7 +16,7 @@ class CreateWatchlistsTable extends Migration
         Schema::create('watchlists', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('list_item');
+            $table->text('list_items');
             $table->integer('user_id')->unsigned();
             $table->timestamps();
              

@@ -15,17 +15,14 @@ class WatchlistController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getWatchlist()
+    public function getWatchlist($id)
     {
-        $watchlist = Watchlist::find(1);
-        $user = User::find(1);
-
-        $list_item = (object) $watchlist->list_item; // typecasting
-
-        return view('list', [
-            'list' => $list_item,
-            'username' => $user->name
-        ]);
+        $watchlist = Watchlist::find($id);
+        $user = User::find($id);
+        $list_items = (array) $watchlist->list_items; // typecasting
+        foreach ($list_items as $entries) {
+            echo $entries['title'];
+        }
     }
 
     public function index()
