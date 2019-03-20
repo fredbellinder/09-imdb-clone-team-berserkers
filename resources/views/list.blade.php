@@ -8,12 +8,16 @@
 </head>
 <body>
     <h1>WatchList</h1>
-    <h2><?=$username ?></h2>
+    
     <ul>
-        <li><?= $list->title ?></li>
-        <img src="<?= $list->poster_url ?>"/>
-        <li><?= $list->id ?></li>
-
+            @foreach ($list as $entries) 
+                <li>
+                    <div class="card">
+                        <h5>{{$entries['title']}}</h5>
+                        <img src="{{$entries['poster_url']}}">
+                    </div>
+                </li>
+            @endforeach
     </ul>
 </body>
 </html>

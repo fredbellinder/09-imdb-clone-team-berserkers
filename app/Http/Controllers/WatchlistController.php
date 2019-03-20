@@ -20,9 +20,9 @@ class WatchlistController extends Controller
         $watchlist = Watchlist::find($id);
         $user = User::find($id);
         $list_items = (array) $watchlist->list_items; // typecasting
-        foreach ($list_items as $entries) {
-            echo $entries['title'];
-        }
+        return view('list', [
+            'list' => $list_items
+        ]);
     }
 
     public function index()

@@ -9,9 +9,9 @@ $factory->define(
             ["poster_url" => "http://image.tmdb.org/t/p/w185//adw6Lq9FiC9zjYEpOqfq03ituwp.jpg",
             "title" => "Fight Club",
             "id" => 550],
-            ["poster_url" => "http://image.tmdb.org/t/p/w185//adw6Lq9FiC9zjYEpOqfq03ituwp.jpg",
+            ["poster_url" => "http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
             "title" => "Interstellar",
-            "id" => 220]);
+            "id" => 157336]);
     
         return [
         'title' => $faker->word,
