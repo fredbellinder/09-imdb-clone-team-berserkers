@@ -39,14 +39,15 @@ class WatchlistController extends Controller
      */
     public function store(Request $request)
     {
-        $data = [
-            'title' => 'Rambo',
-            'poster_url' => "https://image.tmdb.org/t/p/w185_and_h278_bestv2/bbYNNEGLXrV3lJpHDg7CKaPscCb.jpg",
-            'id' => 5039
-        ];
-        
-        $watchlist = Watchlist::where('user_id', 1)->find(1);
         dd($watchlist);
+        $listId = $request->list_id;
+        $poster_url = $request->poster_url;
+        $title = $request->title;
+        $movie_id = $request->movie_id;
+        $user_id = $request->user_id;
+
+        
+        $watchlist = Watchlist::where('user_id', $user_id)->find(1);
 
 
         return $watchlist;
