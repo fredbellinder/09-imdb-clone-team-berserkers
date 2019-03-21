@@ -39,18 +39,27 @@ class WatchlistController extends Controller
      */
     public function store(Request $request)
     {
-        dd($watchlist);
-        $listId = $request->list_id;
-        $poster_url = $request->poster_url;
-        $title = $request->title;
-        $movie_id = $request->movie_id;
-        $user_id = $request->user_id;
+        // dd($request);
+        $listId = $request->input('list_id');
+        $poster_url = $request->input('poster_url');
+        $title = $request->input('title');
+        $movie_id = $request->input('movie_id');
+        $user_id = $request->input('user_id');
 
-        
         $watchlist = Watchlist::where('user_id', $user_id)->find(1);
 
+        $pushable_array = $watchlist->list_items;
+        $to_push = ["poster_url" => $poster_url,
+        "title" => $title,
+        "id" => $movie_id];
+        
+        array_push($pushable_array, $to_push);
+        $to_push = [];
 
-        return $watchlist;
+        $watchlist->list_items = $pushable_array;
+
+
+        $watchlist->save();
     }
 
     /**
