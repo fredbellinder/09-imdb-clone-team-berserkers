@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Watchlist;
+
+
 class TmdbController extends Controller
 {
 
@@ -41,4 +44,6 @@ class TmdbController extends Controller
             'movie' => $response
         ]);
     }
+
+
 }
