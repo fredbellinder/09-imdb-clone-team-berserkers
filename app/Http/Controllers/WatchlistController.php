@@ -17,7 +17,8 @@ class WatchlistController extends Controller
 
     public function index()
     {
-        //
+        $watchlist = Watchlist::all()->paginate(1);
+        return view('list')->with('list', $watchlist);
     }
 
     /**
@@ -50,10 +51,15 @@ class WatchlistController extends Controller
     public function show($watchlist)
     {
         $watchlist = Watchlist::find($watchlist);
-        $list_items = (array) $watchlist->list_items; // typecasting
-        return view('list', [
-            'list' => $list_items
-        ]);
+        if ($watchlist) {
+            $list_items = (array) $watchlist->list_items; // typecasting
+            return view('list', [
+                'list' => $list_items]);
+        } else {
+            return view('list', [
+                'list' => []
+                ]);
+        }
     }
 
     /**
