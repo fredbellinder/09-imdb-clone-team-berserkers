@@ -6,11 +6,9 @@ use Illuminate\Http\Request;
 
 use App\Watchlist;
 
-
 class TmdbController extends Controller
 {
-
-    public function query(Request $request) 
+    public function index(Request $request)
     {
         $query=($request->input('query'));
         
@@ -30,7 +28,7 @@ class TmdbController extends Controller
         ]);
     }
 
-    public function fetchMovie($id)
+    public function show($id)
     {
         $client = new \GuzzleHttp\Client();
 
@@ -44,6 +42,4 @@ class TmdbController extends Controller
             'movie' => $response
         ]);
     }
-
-
 }
