@@ -6,8 +6,8 @@
     @foreach ($results as $match)
     	<li>
 				<div style="margin:10px">
-					<img src="http://image.tmdb.org/t/p/w45//{{$match->poster_path}}">
-      	  <a href="#" style="text-decoration:none;color:black"><b>{{ $match->title }}</b> ({{ $match->release_date }})</a>
+          <img src="http://image.tmdb.org/t/p/w45//{{$match->poster_path}}">
+      	  <a href="/movies/{{ $match->id}}" style="text-decoration:none;color:black"><b>{{ $match->title }}</b> ({{ $match->release_date }})</a>
       	<div> 
       </li>
     @endforeach
