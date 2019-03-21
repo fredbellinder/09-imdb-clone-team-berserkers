@@ -6,10 +6,10 @@ $factory->define(
     App\Watchlist::class,
     function (Faker $faker) {
         $movie = array(
-            ["poster_url" => "http://image.tmdb.org/t/p/w185//adw6Lq9FiC9zjYEpOqfq03ituwp.jpg",
+            ["poster_url" => "/adw6Lq9FiC9zjYEpOqfq03ituwp.jpg",
             "title" => "Fight Club",
             "id" => 550],
-            ["poster_url" => "http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
+            ["poster_url" => "/nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg",
             "title" => "Interstellar",
             "id" => 157336]);
     
