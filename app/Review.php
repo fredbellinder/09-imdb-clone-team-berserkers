@@ -14,17 +14,17 @@ class Review extends Model
     ];
 
     protected $attributes = [
-        'tv_imdb_id' => null,
-        'movie_imdb_id' => null,
+        'tv_tmdb_id' => null,
+        'movie_tmdb_id' => null,
         'rating' => null
     ];
 
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function comments() 
+    public function comments()
     {
         return $this->hasMany(Comments::class);
     }
