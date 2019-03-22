@@ -48,7 +48,7 @@ class WatchlistController extends Controller
 
         $watchlist = Watchlist::where('user_id', $user_id)->find(1);
 
-        $pushable_array = $watchlist->list_items;
+        $pushable_array = (array) $watchlist->list_items;
         $to_push = ["poster_url" => $poster_url,
         "title" => $title,
         "id" => $movie_id];
@@ -60,6 +60,8 @@ class WatchlistController extends Controller
 
 
         $watchlist->save();
+
+        return redirect()->route('movies.show', ['movie' => $movie_id]);
     }
 
     /**
