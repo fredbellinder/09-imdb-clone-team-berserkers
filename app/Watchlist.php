@@ -17,7 +17,7 @@ class Watchlist extends Model
         'list_items' => 'array',
     ];
 
-    public function user() 
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
