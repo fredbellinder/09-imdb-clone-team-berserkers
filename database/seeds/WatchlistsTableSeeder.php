@@ -11,6 +11,7 @@ class WatchlistsTableSeeder extends Seeder
      */
     public function run()
     {
-        $watchlist = factory(App\Watchlist::class, 5)->create();
+        factory(App\Watchlist::class)->states('user_id')->create();
+        $watchlist = factory(App\Watchlist::class, 10)->create();
     }
 }

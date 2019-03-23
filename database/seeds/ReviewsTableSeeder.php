@@ -11,6 +11,6 @@ class ReviewsTableSeeder extends Seeder
      */
     public function run()
     {
-        $review = factory(App\Review::class, 20)->create();
+        $review = factory(App\Review::class, 10)->create();
     }
 }

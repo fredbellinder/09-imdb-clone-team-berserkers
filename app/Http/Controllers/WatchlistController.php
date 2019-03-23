@@ -39,7 +39,7 @@ class WatchlistController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        // var_dump($request->input());
         $listId = $request->input('list_id');
         $poster_url = $request->input('poster_url');
         $title = $request->input('title');
@@ -57,7 +57,6 @@ class WatchlistController extends Controller
         $to_push = [];
 
         $watchlist->list_items = $pushable_array;
-
 
         $watchlist->save();
 
