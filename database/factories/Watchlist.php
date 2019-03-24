@@ -2,6 +2,10 @@
 
 use Faker\Generator as Faker;
 
+$factory->state(App\Watchlist::class, 'user_id', [
+    'user_id' => 1,
+]);
+
 $factory->define(
     App\Watchlist::class,
     function (Faker $faker) {
@@ -19,7 +23,6 @@ $factory->define(
         'user_id' => function () {
             return factory(App\User::class)->create()->id;
         },
-
         ];
     }
 );
