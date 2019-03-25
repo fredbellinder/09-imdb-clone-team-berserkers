@@ -18,7 +18,7 @@ class WatchlistController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $watchlists = Watchlist::where('user_id', $user_id)->take(20)->get();
+        $watchlists = Watchlist::where('user_id', $user_id)->take(20)->latest()->get();
 
         return view('lists.lists')->with('list', $watchlists);
     }
@@ -47,7 +47,7 @@ class WatchlistController extends Controller
      */
     public function store(Request $request)
     {
-        $listId = $request->input('list_id');
+        $list_id = $request->input('list_id');
         $poster_url = $request->input('poster_url');
         $title = $request->input('title');
         $movie_id = $request->input('movie_id');
@@ -55,7 +55,7 @@ class WatchlistController extends Controller
 
         
 
-        $watchlist = Watchlist::where('user_id', $user_id)->find(5);
+        $watchlist = Watchlist::where('user_id', $user_id)->where('id', $list_id)->first();
 
         if ($watchlist) {
             $pushable_array = (array) $watchlist->list_items;
@@ -132,8 +132,12 @@ class WatchlistController extends Controller
      * @param  \App\Watchlist  $watchlist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Watchlist $watchlist)
+    public function destroy(Request $request, Watchlist $watchlist)
     {
-        //
+        $id = $watchlist;
+        $user_id = $request->user()->id;
+        Watchlist::where('id', $watchlist)->where('user_id', $user_id)->delete();
+
+        return redirect()->back();
     }
 }

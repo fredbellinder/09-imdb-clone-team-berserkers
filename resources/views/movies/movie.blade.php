@@ -9,13 +9,13 @@
       @csrf
       <input name="title" value="{{ $movie->original_title }}" hidden />
       <input name="movie_id" value="{{ $movie->id }}" hidden />
-      <input name="poster_url" value="{{ $movie->poster_path }}" hidden /> @if ($watchlists) @endif
-      <select class="browser-default custom-select" name="list_id">
-          <option selected>Open this select menu</option>
-          @foreach ($watchlists as $wl)
-          <option value="{{$wl->id}}">{{$wl->title}}</option>   
-          @endforeach
-        </select>
+      <input name="poster_url" value="{{ $movie->poster_path }}" hidden /> @if ($watchlists)
+      <select class="browser-default custom-select" name="list_id" required>
+        <option selected value="">Select watchlist:</option>
+        @foreach ($watchlists as $wl)
+        <option value="{{$wl->id}}">{{$wl->title}}</option>   
+        @endforeach
+      </select> @endif
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
     </form>
   </div>
