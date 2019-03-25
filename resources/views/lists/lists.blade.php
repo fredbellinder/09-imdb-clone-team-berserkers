@@ -1,27 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master') 
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+<h1>WatchLists plural</h1>
 
-<body>
-    <h1>WatchList</h1>
+<ul> @if (count($list) > 0) @foreach ($list as $entries)
+    <li>
+        <div class="card">
+            <h5>{{$entries['title']}}</h5>
+            <a href="/watchlists/{{$entries['id']}}">Check out list</a>
+        </div>
+    </li>
+    @endforeach @else
+    <p> Nothing added to list :(</p>
+    @endif
+</ul>
 
-    <ul> @if (count($list) > 0) @foreach ($list as $entries)
-        <li>
-            <div class="card">
-                <h5>{{$entries['title']}}</h5>
-                <a href="/watchlists/{{$entries['id']}}">Check out list</a>
-            </div>
-        </li>
-        @endforeach @else
-        <p> Nothing added to list :(</p>
-        @endif
-    </ul>
-</body>
-
-</html>
+<form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
+    @csrf
+    <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+</form>
+@endsection
