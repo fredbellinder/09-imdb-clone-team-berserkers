@@ -17,9 +17,9 @@ class TmdbController extends Controller
     
         $apikey = env('TMDB_API_KEY', '');
     
-        $request = $client->get("https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=$queryParam");
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=$queryParam");
 
-        $response = json_decode($request->getBody());
+        $response = json_decode($movie_fetch->getBody());
 
         
         return view('movies.movies', [
@@ -36,17 +36,20 @@ class TmdbController extends Controller
         $user_id = $request->user()->id;
 
 
-        $request = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey");
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey");
 
-        $response = json_decode($request->getBody());
+        $response = json_decode($movie_fetch->getBody());
 
 
         $watchlists = Watchlist::where('user_id', $user_id)->get();
 
-        return view('movies.movie', [
+        return view(
+            'movies.movie',
+            [
             'movie' => $response,
             'watchlists' => $watchlists,
 
-        ]);
+            ]
+        );
     }
 }

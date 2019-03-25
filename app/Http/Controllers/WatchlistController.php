@@ -53,8 +53,6 @@ class WatchlistController extends Controller
         $movie_id = $request->input('movie_id');
         $user_id = $request->user()->id;
 
-        
-
         $watchlist = Watchlist::where('user_id', $user_id)->where('id', $list_id)->first();
 
         if ($watchlist) {
@@ -62,15 +60,11 @@ class WatchlistController extends Controller
             $to_push = ["poster_url" => $poster_url,
             "title" => $title,
             "id" => $movie_id];
-            
             array_push($pushable_array, $to_push);
             $to_push = [];
-            
             $watchlist->list_items = $pushable_array;
-            
-            
             $watchlist->save();
-            return redirect()->route('movies.show', ['movie' => $movie_id]);
+            return redirect()->back();
         } else {
             echo 'WATCHLIST DON\'T NO EXIST';
         }
@@ -91,13 +85,16 @@ class WatchlistController extends Controller
             return view(
                 'lists.list',
                 [
-                'list' => $list_items]
+                'list' => $list_items,
+                'list_id' => $list_id,
+                ]
             );
         } else {
             return view(
                 'lists.list',
                 [
-                'list' => []
+                'list' => [],
+                'list_id' => $list_id,
                 ]
             );
         }
@@ -121,9 +118,27 @@ class WatchlistController extends Controller
      * @param  \App\Watchlist  $watchlist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Watchlist $watchlist)
+    public function update(Request $request)
     {
-        //
+        $list_id = $request->input('list_id');
+        $movie_id = $request->input('id');
+        $user_id = $request->user()->id;
+        $watchlist = Watchlist::where('user_id', $user_id)->where('id', $list_id)->first();
+        if ($watchlist) {
+            $list_items = (array) $watchlist->list_items;
+            $goto = [];
+            foreach ($list_items as $item) {
+                if ($item['id'] !== $movie_id) {
+                    array_push($goto, $item);
+                }
+            }
+            $watchlist->list_items = $goto;
+        
+            $watchlist->save();
+            return redirect()->back();
+        } else {
+            echo 'Sumthin went wrong';
+        }
     }
 
     /**
@@ -132,11 +147,11 @@ class WatchlistController extends Controller
      * @param  \App\Watchlist  $watchlist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Watchlist $watchlist)
+    public function destroy(Request $request)
     {
-        $id = $watchlist;
+        $id = $request->input('id');
         $user_id = $request->user()->id;
-        Watchlist::where('id', $watchlist)->where('user_id', $user_id)->delete();
+        Watchlist::where('id', $id)->where('user_id', $user_id)->delete();
 
         return redirect()->back();
     }
