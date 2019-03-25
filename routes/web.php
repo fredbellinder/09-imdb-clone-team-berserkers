@@ -16,8 +16,12 @@ Route::get('/', function () {
 });
 
 Route::resource('movies', 'TmdbController');
-Route::resource('watchlist', 'WatchlistController');
+Route::resource('watchlists', 'WatchlistController');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

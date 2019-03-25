@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Watchlist;
-
 class TmdbController extends Controller
 {
     public function index(Request $request)
@@ -23,7 +21,7 @@ class TmdbController extends Controller
         $response = json_decode($request->getBody());
 
         
-        return view('movies', [
+        return view('movies.movies', [
             'results' => $response->results
         ]);
     }
@@ -38,7 +36,7 @@ class TmdbController extends Controller
 
         $response = json_decode($request->getBody());
 
-        return view('movie', [
+        return view('movies.movie', [
             'movie' => $response
         ]);
     }
