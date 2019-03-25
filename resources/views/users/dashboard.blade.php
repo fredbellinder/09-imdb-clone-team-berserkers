@@ -4,18 +4,23 @@
 <div class="container">
   <h1 class="text-center">Welcome back {{ $user_name }}</h1>
   <h2>My Watchlists</h2>
-  <ul>
-    @foreach ($watchlist as $entry)
-      <li><a href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a></li>
-    @endforeach
+  <ul> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
+      <li>
+        <a href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a>
+      </li>
+      @endforeach @else
+      <p>You haven't made any lists yet</p>
+      @endif
   </ul>
-  <h2>My Reviews - STATIC WITH DEAD LINKS - INTENDED AS TEMPLATE</h2>
-  <ul>
-    <li><a href="#">Fight Club (1/5)</a></li>
-    <li><a href="#">Us (5/5)</a></li>
-    <li><a href="#">Get Out (5/5)</a></li>
+  <h2>My Reviews</h2>
+  <ul> @if (count($reviews) > 0) @foreach ($reviews as $entry)
+      <li>
+        <a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->headline }} ({{ $entry->rating }}/10)</a>
+      </li>
+      @endforeach @else
+      <p>You haven't made any reviews yet</p>
+      @endif
   </ul>
 </div>
-
-
 @endsection
+
