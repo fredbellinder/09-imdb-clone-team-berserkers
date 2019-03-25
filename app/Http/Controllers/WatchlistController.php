@@ -15,10 +15,12 @@ class WatchlistController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        $watchlist = Watchlist::all();
-        return view('lists.lists')->with('list', $watchlist);
+        $user_id = $request->user()->id;
+        $watchlists = Watchlist::where('user_id', $user_id)->take(20)->get();
+
+        return view('lists.lists')->with('list', $watchlists);
     }
 
     /**
@@ -26,8 +28,15 @@ class WatchlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $watchlist = new Watchlist;
+        $watchlist->title = $request->input('title');
+        $watchlist->user_id = $request->user()->id;
+        $watchlist->list_items = [];
+        $watchlist->save();
+
+        return redirect()->back();
     }
 
     /**
@@ -73,17 +82,24 @@ class WatchlistController extends Controller
      * @param  \App\Watchlist  $watchlist
      * @return \Illuminate\Http\Response
      */
-    public function show($watchlist)
+    public function show($list_id, Request $request)
     {
-        $watchlist = Watchlist::find($watchlist);
+        $user_id = $request->user()->id;
+        $watchlist = Watchlist::where('user_id', $user_id)->find($list_id);
         if ($watchlist) {
             $list_items = (array) $watchlist->list_items; // typecasting
-            return view('lists.list', [
-                'list' => $list_items]);
+            return view(
+                'lists.list',
+                [
+                'list' => $list_items]
+            );
         } else {
-            return view('lists.list', [
+            return view(
+                'lists.list',
+                [
                 'list' => []
-                ]);
+                ]
+            );
         }
     }
 

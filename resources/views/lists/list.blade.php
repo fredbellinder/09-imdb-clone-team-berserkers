@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master') 
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <h1>WatchList</h1>
+<div>
 
     <ul> @if (count($list) > 0) @foreach ($list as $entries)
         <li>
@@ -19,9 +11,9 @@
             </div>
         </li>
         @endforeach @else
-        <p> Nothing added to list :(</p>
+        <p> Nothing added to list :( oooor you tried to watch a watchlist which aint yours! Watch out!</p>
         @endif
     </ul>
-</body>
 
-</html>
+</div>
+@endsection
