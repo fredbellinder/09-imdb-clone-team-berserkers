@@ -15,10 +15,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $watchlist = Watchlist::where('user_id', $user_id)->find(5);
-        dd($watchlist);
+        $user_name = $request->user()->name;
+        $watchlist = Watchlist::where('user_id', $user_id)->get();
         return view('users.dashboard', [
             'user_id' => $user_id,
+            'user_name' => $user_name,
             'watchlist' => $watchlist
         ]);
     }
