@@ -17,8 +17,8 @@ class WatchlistController extends Controller
 
     public function index()
     {
-        $watchlist = Watchlist::all()->paginate(1);
-        return view('list')->with('list', $watchlist);
+        $watchlist = Watchlist::all();
+        return view('lists.lists')->with('list', $watchlist);
     }
 
     /**
@@ -28,7 +28,6 @@ class WatchlistController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -39,29 +38,33 @@ class WatchlistController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $listId = $request->input('list_id');
         $poster_url = $request->input('poster_url');
         $title = $request->input('title');
         $movie_id = $request->input('movie_id');
-        $user_id = $request->input('user_id');
+        $user_id = $request->user()->id;
 
-        $watchlist = Watchlist::where('user_id', $user_id)->find(1);
-
-        $pushable_array = (array) $watchlist->list_items;
-        $to_push = ["poster_url" => $poster_url,
-        "title" => $title,
-        "id" => $movie_id];
         
-        array_push($pushable_array, $to_push);
-        $to_push = [];
 
-        $watchlist->list_items = $pushable_array;
+        $watchlist = Watchlist::where('user_id', $user_id)->find(5);
 
-
-        $watchlist->save();
-
-        return redirect()->route('movies.show', ['movie' => $movie_id]);
+        if ($watchlist) {
+            $pushable_array = (array) $watchlist->list_items;
+            $to_push = ["poster_url" => $poster_url,
+            "title" => $title,
+            "id" => $movie_id];
+            
+            array_push($pushable_array, $to_push);
+            $to_push = [];
+            
+            $watchlist->list_items = $pushable_array;
+            
+            
+            $watchlist->save();
+            return redirect()->route('movies.show', ['movie' => $movie_id]);
+        } else {
+            echo 'WATCHLIST DON\'T NO EXIST';
+        }
     }
 
     /**
@@ -75,10 +78,10 @@ class WatchlistController extends Controller
         $watchlist = Watchlist::find($watchlist);
         if ($watchlist) {
             $list_items = (array) $watchlist->list_items; // typecasting
-            return view('list', [
+            return view('lists.list', [
                 'list' => $list_items]);
         } else {
-            return view('list', [
+            return view('lists.list', [
                 'list' => []
                 ]);
         }
