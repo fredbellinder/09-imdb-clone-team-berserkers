@@ -1,0 +1,60 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+// GLOBAL STYLING ELEMENTS
+
+ul {
+ list-style-type: none; 
+}
+
+// NAVBAR PARTIAL
+#logout-form {
+  display: none;
+}
+
+//FOOTER
+footer {
+  position: sticky;
+  bottom: 0px;
+  width: 100%; margin-top: 20px;
+}
+
+// WELCOME BLADE
+.welcome-container {
+  position:relative;
+  height:600px;
+  color:white;
+  background-repeat:no-repeat;
+  background-position: center center;
+}
+
+.welcome-container-info {
+  position:absolute;
+  top:40%;
+  width:100%;
+  background:rgba(1,1,1,0.7);
+}
+
+// MOVIES BLADE
+.match-container a {
+  text-decoration:none;
+  color:black;
+}
+
+// MOVIE BLADE
+.match-container a {
+  text-decoration:none;
+  color:black;
+}
+
+.movie-card {
+  text-decoration:none;
+  color:black;
+}

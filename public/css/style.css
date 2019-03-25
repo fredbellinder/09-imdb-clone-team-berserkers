@@ -10655,8 +10655,50 @@ a.text-dark:focus {
   }
 }
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+ul {
+  list-style-type: none;
+}
+
+#logout-form {
+  display: none;
+}
+
+footer {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.welcome-container {
+  position: relative;
+  height: 600px;
+  color: white;
+  background: url("https://image.tmdb.org/t/p/w1280/{{$entry->backdrop_path}}");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.welcome-container-info {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  background: rgba(1, 1, 1, 0.7);
+}
+
+.match-container a {
+  text-decoration: none;
+  color: black;
+}
+
+.match-container a {
+  text-decoration: none;
+  color: black;
+}
+
+.movie-card {
+  text-decoration: none;
+  color: black;
 }
 

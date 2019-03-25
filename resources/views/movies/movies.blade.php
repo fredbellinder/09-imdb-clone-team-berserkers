@@ -2,12 +2,12 @@
 
 @section('content')
   <h2>TMDB Movies Search Query Results</h2>
-  <ul style="list-style-type:none">
+  <ul>
     @foreach ($results as $match)
     	<li>
-				<div style="margin:10px">
+				<div class="m-1 match-container">
           <img src="http://image.tmdb.org/t/p/w45//{{$match->poster_path}}">
-      	  <a href="/movies/{{ $match->id}}" style="text-decoration:none;color:black"><b>{{ $match->title }}</b> ({{ $match->release_date }})</a>
+      	  <a href="/movies/{{ $match->id}}"><b>{{ $match->title }}</b> ({{ $match->release_date }})</a>
       	<div> 
       </li>
     @endforeach
