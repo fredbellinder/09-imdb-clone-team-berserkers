@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::resource('movies', 'TmdbController');
+Route::resource('users', 'UserController');
 Route::resource('watchlists', 'WatchlistController');
 
 Route::group(['prefix' => 'admin'], function () {
