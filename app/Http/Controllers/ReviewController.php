@@ -70,9 +70,9 @@ class ReviewController extends Controller
         $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');
 
-        $request = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
 
-        $response = json_decode($request->getBody());
+        $response = json_decode($movie_fetch->getBody());
     
         return view('reviews.review', [
             'movie' => $response,
