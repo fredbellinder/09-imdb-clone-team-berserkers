@@ -31,13 +31,27 @@
       </div>
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-            <form method="POST" action="/watchlists/{{$entries['id']}}">
+            <form method="POST" action="/reviews">
               @csrf 
-              <input type="hidden" name="id" value="{{$entries['id']}}">
-              <input type="hidden" name="id" value="{{$entries['id']}}">
-              <input type="hidden" name="id" value="{{$entries['id']}}">
-              <input type="hidden" name="id" value="{{$entries['id']}}">
-              <button type="submit">X</button>
+              <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
+              <input type="hidden" name="movie_title" value="{{$movie->title}}">
+              <div class="row my-2">
+                <label class="px-2" for="headline">Headline</label>
+                <input type="text" name="headline" placeholder="Enter headline" />
+              </div>
+              <div class="row my-2">
+                <label class="px-2" for="headline">Content</label>
+                <textarea  name="content" placeholder="Enter content"></textarea>
+              </div>
+              <select class="browser-default custom-select" name="rating" required>
+                  <option selected>Rate the movie</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select> 
+              <button class="btn btn-danger mt-2" type="submit">Submit</button>
           </form>
         </div>
       </div>
@@ -52,7 +66,16 @@
       </div>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
-            USER REVIEWS GO HERE
+            @if (count($reviews) > 0)
+            @foreach ($reviews as $review)
+              <div class="container bg-primary color-light mb-2 p-2">
+                <h4>{{$review->headline}}</h4>
+                <p>{{$review->content}}</p>
+                <p>{{$review->rating}}/5</p>
+              </div>
+            @endforeach
+            @endif
+                
         </div>
       </div>
     </div>

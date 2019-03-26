@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Watchlist;
+use App\Review;
 
 class TmdbController extends Controller
 {
@@ -60,13 +61,14 @@ class TmdbController extends Controller
 
 
         $watchlists = Watchlist::where('user_id', $user_id)->get();
+        $reviews = Review::where('movie_tmdb_id', $id)->get();
 
         return view(
             'movies.movie',
             [
             'movie' => $response,
             'watchlists' => $watchlists,
-
+            'reviews' => $reviews
             ]
         );
     }
