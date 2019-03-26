@@ -54,7 +54,7 @@ class WatchlistController extends Controller
         $user_id = $request->user()->id;
 
 
-        $watchlist = Watchlist::where('user_id', $user_id)->get();
+        $watchlist = Watchlist::where('user_id', $user_id)->where('id', $list_id)->first();
 
 
         if ($watchlist) {
