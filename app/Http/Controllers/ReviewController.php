@@ -12,9 +12,11 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user_id = $request->user()->id;
+        $reviews = Review::where('user_id', $user_id)->take(20)->get();
+        return view('reviews.reviews')->with('reviews', $reviews);
     }
 
     /**
@@ -35,7 +37,22 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $headline = $request->input('headline');
+        $content = $request->input('content');
+        $rating = $request->input('rating');
+        $movie_tmdb_id = $request->input('movie_tmdb_id');
+        $user_id = $request->user()->id;
+
+        // store
+        $review = new Review;
+        $review->headline = $headline;
+        $review->content = $content;
+        $review->rating = $rating;
+        $review->movie_tmdb_id = $movie_tmdb_id;
+        $review->user_id = $user_id;
+        $review->save();
+    
+        // ADD PROPER REDIRECT HERE
     }
 
     /**
@@ -44,9 +61,23 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show($review_id, Request $request)
     {
-        //
+        $user_id = $request->user()->id;
+        $movie_tmdb_id = $request->movie_id;
+        $review = Review::where('user_id', $user_id)->find($review_id);
+
+        $client = new \GuzzleHttp\Client();
+        $apikey = env('TMDB_API_KEY', '');
+
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
+
+        $response = json_decode($movie_fetch->getBody());
+    
+        return view('reviews.review', [
+            'movie' => $response,
+            'review' => $review
+        ]);
     }
 
     /**

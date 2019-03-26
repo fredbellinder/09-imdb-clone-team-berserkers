@@ -18,6 +18,7 @@ Route::get('/', function () {
 Route::resource('movies', 'TmdbController');
 Route::resource('users', 'UserController');
 Route::resource('watchlists', 'WatchlistController');
+Route::resource('reviews', 'ReviewController');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

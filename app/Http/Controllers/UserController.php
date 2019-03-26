@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Watchlist;
+use App\Review;
 
 class UserController extends Controller
 {
@@ -16,11 +17,13 @@ class UserController extends Controller
     {
         $user_id = $request->user()->id;
         $user_name = $request->user()->name;
-        $watchlist = Watchlist::where('user_id', $user_id)->get();
+        $watchlists = Watchlist::where('user_id', $user_id)->get();
+        $reviews = Review::where('user_id', $user_id)->get();
         return view('users.dashboard', [
             'user_id' => $user_id,
             'user_name' => $user_name,
-            'watchlist' => $watchlist
+            'watchlists' => $watchlists,
+            'reviews' => $reviews,
         ]);
     }
 

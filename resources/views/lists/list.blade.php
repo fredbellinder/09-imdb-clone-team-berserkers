@@ -3,6 +3,7 @@
 
 <div>
 
+
     <ul> @if (count($list) > 0) @foreach ($list as $entries)
         <li>
             <div class="card">

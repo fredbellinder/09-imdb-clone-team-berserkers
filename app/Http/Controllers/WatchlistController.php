@@ -53,7 +53,9 @@ class WatchlistController extends Controller
         $movie_id = $request->input('movie_id');
         $user_id = $request->user()->id;
 
-        $watchlist = Watchlist::where('user_id', $user_id)->where('id', $list_id)->first();
+
+        $watchlist = Watchlist::where('user_id', $user_id)->get();
+
 
         if ($watchlist) {
             $pushable_array = (array) $watchlist->list_items;
