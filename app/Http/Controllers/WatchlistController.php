@@ -56,19 +56,20 @@ class WatchlistController extends Controller
 
         $watchlist = Watchlist::where('user_id', $user_id)->where('id', $list_id)->first();
 
+        $to_push = ["poster_url" => $poster_url,
+        "title" => $title,
+        "id" => $movie_id];
 
-        if ($watchlist) {
+        if ($watchlist && !in_array($to_push, $watchlist->list_items)) {
             $pushable_array = (array) $watchlist->list_items;
-            $to_push = ["poster_url" => $poster_url,
-            "title" => $title,
-            "id" => $movie_id];
+
             array_push($pushable_array, $to_push);
             $to_push = [];
             $watchlist->list_items = $pushable_array;
             $watchlist->save();
             return redirect()->back();
         } else {
-            echo 'WATCHLIST DON\'T NO EXIST';
+            return redirect()->back();
         }
     }
 
