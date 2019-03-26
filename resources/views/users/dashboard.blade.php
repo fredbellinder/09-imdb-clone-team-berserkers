@@ -15,7 +15,7 @@
   <h2>My Reviews</h2>
   <ul> @if (count($reviews) > 0) @foreach ($reviews as $entry)
       <li>
-        <a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->headline }} ({{ $entry->rating }}/10)</a>
+        <a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }} ({{ $entry->rating }}/10)</a>
       </li>
       @endforeach @else
       <p>You haven't made any reviews yet</p>
