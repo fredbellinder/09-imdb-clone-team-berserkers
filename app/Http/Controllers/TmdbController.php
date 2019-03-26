@@ -38,8 +38,10 @@ class TmdbController extends Controller
         
         $response = json_decode($popular_fetch->getBody());
 
+        $movies = array_slice($response->results, 0, 5);
+
         return view('welcome', [
-            'list' => $response->results
+            'list' => $movies
         ]);
     }
 
