@@ -13,7 +13,6 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-<<<<<<< HEAD
         Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->string('headline');
@@ -23,18 +22,7 @@ class CreateReviewsTable extends Migration
             $table->integer('rating')->nullable()->unsigned();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
-=======
-        Schema::create(
-            'reviews',
-            function (Blueprint $table) {
-                $table->increments('id');
-                $table->string('headline');
-                $table->string('content');
-                $table->integer('movie_tmdb_id')->nullable()->unsigned();
-                $table->integer('rating')->nullable()->unsigned();
-                $table->integer('user_id')->unsigned();
-                $table->timestamps();
->>>>>>> :bug: Fix the duplicate entries of movies on watchlists
+
              
                 $table->foreign('user_id')->references('id')->on('users');
             }
