@@ -41,6 +41,7 @@ class ReviewController extends Controller
         $content = $request->input('content');
         $rating = $request->input('rating');
         $movie_tmdb_id = $request->input('movie_tmdb_id');
+        $movie_title = $request->input('movie_title');
         $user_id = $request->user()->id;
 
         // store
@@ -49,6 +50,7 @@ class ReviewController extends Controller
         $review->content = $content;
         $review->rating = $rating;
         $review->movie_tmdb_id = $movie_tmdb_id;
+        $review->movie_title = $movie_title;
         $review->user_id = $user_id;
         $review->save();
     
