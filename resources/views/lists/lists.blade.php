@@ -8,11 +8,17 @@
         <div class="card">
             <h5>{{$entries['title']}}</h5>
             <a href="/watchlists/{{$entries['id']}}">Check out list</a>
+            <form method="POST" action="/watchlists/{{$entries['id']}}">
+                @csrf @method("DELETE")
+                <input type="hidden" name="id" value="{{$entries['id']}}">
+                <button type="submit">X</button>
+            </form>
         </div>
     </li>
     @endforeach @else
-    <p> Nothing added to list :(</p>
+    <p> No list added:(</p>
     @endif
+
 </ul>
 
 <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">

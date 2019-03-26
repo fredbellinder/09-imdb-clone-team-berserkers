@@ -14,7 +14,7 @@
 
 </head>
 
-<body>
+<body style="height: 100vh;">
   @include('partials.navbar') @yield('content')
   @include('partials.footer')
 
