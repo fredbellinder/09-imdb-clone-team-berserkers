@@ -10675,7 +10675,6 @@ footer {
   position: relative;
   height: 600px;
   color: white;
-  background: url("https://image.tmdb.org/t/p/w1280/{{$entry->backdrop_path}}");
   background-repeat: no-repeat;
   background-position: center center;
 }
