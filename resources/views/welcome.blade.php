@@ -4,7 +4,7 @@
 <h1 class="text-center">Hottest of {{date("Y")}}</h1>
   @foreach ($list as $entry)
       <div class="card w-100 text-center">
-        <div class="welcome-container" style="background:url('https://image.tmdb.org/t/p/w1280/{{$entry->backdrop_path}}');">
+        <div class="welcome-container" style="background-image:url('https://image.tmdb.org/t/p/w1280/{{$entry->backdrop_path}}');">
           <div class="welcome-container-info">
             <h2 class="align-bottom">{{$entry->title}}</h2>
             <h3 class="align-bottom">{{$entry->vote_count}} votes</h3>
