@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-  <h1>{{ $review->headline }} - {{ $review->rating }} / 10</h1>
+  <h1>{{ $review->movie_title }} - {{ $review->rating }} / 10</h1>
     <div class="row">
       <div class="col-6 p-3">
           <img src="http://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="Card image cap">

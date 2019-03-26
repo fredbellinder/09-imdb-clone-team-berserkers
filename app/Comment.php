@@ -15,8 +15,7 @@ class Comment extends Model
     ];
 
     protected $attributes = [
-        'tv_imdb_id' => null,
-        'movie_imdb_id' => null,
+        'movie_tmdb_id' => null,
     ];
 
     public function user() 

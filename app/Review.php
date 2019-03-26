@@ -10,11 +10,10 @@ class Review extends Model
         'created_at', 'updated_at'
     ];
     protected $fillable = [
-        'headline', 'content', 'user_id', 'rating',
+        'headline', 'content', 'user_id', 'rating', 'movie_title'
     ];
 
     protected $attributes = [
-        'tv_tmdb_id' => null,
         'movie_tmdb_id' => null,
         'rating' => null
     ];
