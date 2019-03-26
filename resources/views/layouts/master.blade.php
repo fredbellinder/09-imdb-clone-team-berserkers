@@ -13,8 +13,12 @@
 
 </head>
 
-<body style="height: 100vh;">
-  @include('partials.navbar') @yield('content')
+<body>
+  @include('partials.navbar')
+  
+  <main>
+    @yield('content')
+  </main>
   @include('partials.footer')
 
   <!-- Optional JavaScript -->

@@ -13,6 +13,9 @@
 
 body {
   background: $berserker_primary;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,6 +26,10 @@ ul {
  list-style-type: none; 
 }
 
+main {
+  flex: 1;
+}
+
 // NAVBAR PARTIAL
 #logout-form {
   display: none;
@@ -30,9 +37,8 @@ ul {
 
 //FOOTER PARTIAL
 footer {
-  position: sticky;
-  bottom: 0px;
-  width: 100%; margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 }
 
 // WELCOME BLADE
