@@ -10656,7 +10656,7 @@ a.text-dark:focus {
 }
 
 body {
-  background: #f1b023;
+  background: #e2a115;
 }
 
 h1,
@@ -10687,7 +10687,7 @@ footer {
 .welcome-container {
   position: relative;
   height: 600px;
-  color: #ffff;
+  color: #ebe8e1;
   background-repeat: no-repeat;
   background-position: center center;
 }

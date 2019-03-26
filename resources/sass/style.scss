@@ -12,7 +12,7 @@
 // GLOBAL STYLING ELEMENTS
 
 body {
-  background: $PC;
+  background: $berserker_primary;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -39,7 +39,7 @@ footer {
 .welcome-container {
   position:relative;
   height:600px;
-  color: #ffff;
+  color: $berserker_tertiary;
   background-repeat:no-repeat;
   background-position: center center;
 }
