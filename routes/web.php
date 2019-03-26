@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'TmdbController@showMostPopularOfTheYear');
 
 Route::resource('movies', 'TmdbController');
 Route::resource('users', 'UserController');
