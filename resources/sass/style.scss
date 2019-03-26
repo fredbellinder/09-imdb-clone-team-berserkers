@@ -1,5 +1,6 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
 
 // Variables
 @import 'variables';
@@ -10,6 +11,14 @@
 
 // GLOBAL STYLING ELEMENTS
 
+body {
+  background: $PC;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Exo 2', sans-serif;
+}
+
 ul {
  list-style-type: none; 
 }
@@ -19,7 +28,7 @@ ul {
   display: none;
 }
 
-//FOOTER
+//FOOTER PARTIAL
 footer {
   position: sticky;
   bottom: 0px;
@@ -30,7 +39,7 @@ footer {
 .welcome-container {
   position:relative;
   height:600px;
-  color:white;
+  color: #ffff;
   background-repeat:no-repeat;
   background-position: center center;
 }
