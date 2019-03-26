@@ -24,6 +24,22 @@ class TmdbController extends Controller
         
         return view('movies.movies', [
             'results' => $response->results
+            ]);
+    }
+        
+    public function showMostPopularOfTheYear()
+    {
+        $client = new \GuzzleHttp\Client();
+        
+        $apikey = env('TMDB_API_KEY', '');
+        $current_year = date("Y");
+        
+        $popular_fetch = $client->get("https://api.themoviedb.org/3/discover/movie?api_key=$apikey&sort_by=popularity.desc&page=1&primary_release_year=$current_year");
+        
+        $response = json_decode($popular_fetch->getBody());
+
+        return view('welcome', [
+            'list' => $response->results
         ]);
     }
 
