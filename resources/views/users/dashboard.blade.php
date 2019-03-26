@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-  <h1 class="text-center">Welcome back {{ $user_name }}</h1>
+  <h1 class="text-center">Welcome back {{ $user_name }} - {{ $user_id }}</h1>
   <h2>My Watchlists</h2>
   <ul> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
       <li>
