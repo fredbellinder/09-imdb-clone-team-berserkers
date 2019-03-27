@@ -8,7 +8,7 @@ $factory->define(
         return [
             'headline' => $faker->sentence,
             'content' => $faker->sentence,
-            'user_id' => 6,
+            'user_id' => 1,
             // 'user_id' => $faker->numberBetween($min = 1, $max = 5),
             'rating' => $faker->randomDigitNotNull,
             'movie_tmdb_id' => $faker->numberBetween($min = 550, $max = 1000),

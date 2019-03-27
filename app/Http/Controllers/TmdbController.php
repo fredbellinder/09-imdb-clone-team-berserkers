@@ -24,9 +24,12 @@ class TmdbController extends Controller
         $response = json_decode($movie_fetch->getBody());
 
         
-        return view('movies.movies', [
+        return view(
+            'movies.movies',
+            [
             'results' => $response->results
-            ]);
+            ]
+        );
     }
 
     public function show(Request $request, $id)
@@ -55,15 +58,15 @@ class TmdbController extends Controller
                 ]
             );
         } else {
-        return view(
-            'movies.movie',
-            [
-            'movie' => $response,
-            'watchlists' => null,
-            'reviews' => $reviews,
-            'comments' => $comments
-            ]
-        );
+            return view(
+                'movies.movie',
+                [
+                    'movie' => $response,
+                    'watchlists' => null,
+                    'reviews' => $reviews,
+                    'comments' => $comments
+                    ]
+            );
         }
     }
 }
