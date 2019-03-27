@@ -88,24 +88,23 @@
             @endif
           </div>
           @endforeach
-        </div>
-        @endforeach @endif
-      </div>
-      @endforeach
-      <div class="card-body">
-        <form method="POST" action="/comments">
-          @csrf
-          <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
-          <input type="hidden" name="review_id" value="{{$review->id}}">
-          <div class="row my-2">
-            <label class="px-2" for="headline">Content</label>
-            <textarea name="content" placeholder="Enter content"></textarea>
+          <div class="card mb-2 bg-light text-dark p-2">
+            <h6>Add a comment:</h6>
+            <form method="POST" action="/comments">
+              @csrf
+              <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
+              <input type="hidden" name="review_id" value="{{$review->id}}">
+              <div class="row my-2">
+                <label class="px-2" for="headline">Content</label>
+                <textarea name="content" placeholder="Enter content"></textarea>
+              </div>
+              <button class="btn btn-danger mt-2" type="submit">Submit</button>
+            </form>
           </div>
-          <button class="btn btn-danger mt-2" type="submit">Submit</button>
-        </form>
+        </div>
       </div>
+      @endforeach @endif
     </div>
-    @endforeach @endif
   </div>
 </div>
 </div>
