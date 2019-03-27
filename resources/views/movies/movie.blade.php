@@ -78,7 +78,9 @@
               <div class="container bg-lighter text-dark text-dark mb-2 p-2">
                 <h4>{{$review->headline}}</h4>
                 <p>{{$review->content}}</p>
-                <p>{{$review->rating}}/5</p>
+                <div class="mb-3">
+                  <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
+                </div>
                 @foreach($comments as $comment)
               <div class="card mb-2 bg-light text-dark p-2">
                 <p>{{ $comment->content }}</p>

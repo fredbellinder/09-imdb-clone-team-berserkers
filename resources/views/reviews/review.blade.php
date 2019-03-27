@@ -10,7 +10,9 @@
       <div class="col-6 p-3">
         <h3 class="card-text">{{ $review->headline }}</h3>
         <p class="card-text">{{ $review->content }}</p>
-        <p>Rating: {{ $review->rating }} / 5</p>
+        <div class="mb-3">
+            <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
+        </div>
       </div>
     </div>
 </div>
