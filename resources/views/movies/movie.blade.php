@@ -5,7 +5,7 @@
   <div class="card-body">
     <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
     <p class="card-text">{{ $movie->overview }}</p>
-    @if($watchlists !== null && count($watchlists)>0)
+    @if($user_id !== null && count($watchlists)>0)
     <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
       @csrf
       <input name="title" value="{{ $movie->original_title }}" hidden />
@@ -20,9 +20,8 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
     </form>
     @elseif($watchlists !== null && count($watchlists) === 0)
-    <a href="/watchlists" class="btn btn-warning my-2 my-sm-0" type="submit">Create new list</a> @elseif ($watchlists ===
-    null)
-    <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @else @endif
+    <a href="/watchlists" class="btn btn-warning my-2 my-sm-0" type="submit">Create new list</a> @elseif ($user_id === null)
+    <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
   </div>
 </div>
 <div id="accordion">
@@ -36,6 +35,7 @@
     </div>
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
+        @if($user_id !== null)
         <form method="POST" action="/reviews">
           @csrf
           <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
@@ -58,6 +58,8 @@
                 </select>
           <button class="btn btn-danger mt-2" type="submit">Submit</button>
         </form>
+        @else
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to write a review</a> @endif
       </div>
     </div>
   </div>
@@ -78,7 +80,7 @@
           <div class="mb-3">
             <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
           </div>
-          @foreach($comments as $comment)
+          @if (count($comments) > 0) @foreach($comments as $comment)
           <div class="card mb-2 bg-light text-dark p-2">
             <p>{{ $comment->content }}</p>
             <p>By: {{ $comment->user_name }}</p>
@@ -89,6 +91,7 @@
           </div>
           @endforeach
           <div class="card mb-2 bg-light text-dark p-2">
+            @if ($user_id !== null)
             <h6>Add a comment:</h6>
             <form method="POST" action="/comments">
               @csrf
@@ -100,6 +103,9 @@
               </div>
               <button class="btn btn-danger mt-2" type="submit">Submit</button>
             </form>
+            @else
+            <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> 
+            @endif
           </div>
         </div>
       </div>
