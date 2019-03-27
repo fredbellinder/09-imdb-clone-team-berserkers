@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\User;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -35,7 +36,19 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = new Comment;
+
+        $comment->content = $request->input('content');
+        $comment->movie_tmdb_id = $request->input('movie_tmdb_id');
+        $comment->user_id = $request->user()->id;
+        $comment->review_id = $request->input('review_id');
+        
+        $comment->user_name = User::where('id', $comment->user_id)->first()->name;
+
+        $comment->save();
+    
+        
+        return redirect()->back();
     }
 
     /**
