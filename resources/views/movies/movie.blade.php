@@ -59,8 +59,7 @@
           <button class="btn btn-danger mt-2" type="submit">Submit</button>
         </form>
         @else
-        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to write a review</a> 
-        @endif
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to write a review</a> @endif
       </div>
     </div>
   </div>
@@ -81,16 +80,24 @@
           <div class="mb-3">
             <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
           </div>
-          @if (count($comments) > 0) @foreach($comments as $comment)
-          <div class="card mb-2 bg-light text-dark p-2">
-            <p>{{ $comment->content }}</p>
-            <p>By: {{ $comment->user_name }}</p>
-            <p>{{ $comment->created_at }}</p>
-            @if($comment->created_at != $comment->updated_at)
-            <p>Edited at:{{ $comment->updated_at }}</p>
-            @endif
-            @endforeach @endif 
+          @if (count($comments) > 0)
+          <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments" aria-expanded="false"
+            aria-controls="collapseExample">
+            Toggle comments
+          </button>
+          <div class="collapse" id="collapseComments">
+            @foreach($comments as $comment)
+            <div class="card mb-2 bg-light text-dark p-2">
+              <p>{{ $comment->content }}</p>
+              <p>By: {{ $comment->user_name }}</p>
+              <p>{{ $comment->created_at }}</p>
+              @if($comment->created_at != $comment->updated_at)
+              <p>Edited at:{{ $comment->updated_at }}</p>
+              @endif
+            </div>
+            @endforeach
           </div>
+          @endif
           <div class="card mb-2 bg-light text-dark p-2">
             @if ($user_id !== null)
             <h6>Add a comment:</h6>
@@ -98,15 +105,14 @@
               @csrf
               <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
               <input type="hidden" name="review_id" value="{{$review->id}}">
-              <div class="row my-2">
+              <div class="row my-2 p-2">
                 <label class="px-2" for="headline">Content</label>
-                <textarea name="content" placeholder="Enter content"></textarea>
+                <textarea name="content" rows="2" cols="50" placeholder="Enter content"></textarea>
               </div>
               <button class="btn btn-danger mt-2" type="submit">Submit</button>
             </form>
             @else
-            <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> 
-            @endif
+            <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> @endif
           </div>
         </div>
       </div>
