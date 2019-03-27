@@ -5,19 +5,26 @@
   <div class="card-body">
     <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
     <p class="card-text">{{ $movie->overview }}</p>
+    @if($watchlists !== null && count($watchlists)>0) 
     <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
       @csrf
       <input name="title" value="{{ $movie->original_title }}" hidden />
       <input name="movie_id" value="{{ $movie->id }}" hidden />
-      <input name="poster_url" value="{{ $movie->poster_path }}" hidden /> @if ($watchlists)
+      <input name="poster_url" value="{{ $movie->poster_path }}" hidden /> 
       <select class="browser-default custom-select" name="list_id" required>
         <option selected value="">Select watchlist:</option>
         @foreach ($watchlists as $wl)
         <option value="{{$wl->id}}">{{$wl->title}}</option>   
         @endforeach
-      </select> @endif
+      </select>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
     </form>
+    @elseif($watchlists !== null && count($watchlists) === 0)
+    <a href="/watchlists" class="btn btn-warning my-2 my-sm-0" type="submit">Create new list</a>  
+    @elseif ($watchlists === null)
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a>
+    @else    
+    @endif
   </div>
 </div>
 <div id="accordion">
@@ -68,14 +75,23 @@
         <div class="card-body">
             @if (count($reviews) > 0)
             @foreach ($reviews as $review)
-              <div class="container bg-primary color-light mb-2 p-2">
+              <div class="container bg-lighter text-dark text-dark mb-2 p-2">
                 <h4>{{$review->headline}}</h4>
                 <p>{{$review->content}}</p>
                 <p>{{$review->rating}}/5</p>
+                @foreach($comments as $comment)
+              <div class="card mb-2 bg-light text-dark p-2">
+                <p>{{ $comment->content }}</p>
+                <p>By: {{ $comment->user_name }}</p>
+                <p>{{ $comment->created_at }}</p>
+                @if($comment->created_at != $comment->updated_at)
+                <p>Edited at:{{ $comment->updated_at }}</p>
+                @endif
+                </div>
+                @endforeach
               </div>
             @endforeach
             @endif
-                
         </div>
       </div>
     </div>

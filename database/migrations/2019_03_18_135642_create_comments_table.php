@@ -19,13 +19,13 @@ class CreateCommentsTable extends Migration
             $table->string('content');
             $table->integer('movie_tmdb_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->string('user_name');
             $table->integer('review_id')->unsigned();
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('review_id')->references('id')->on('reviews');
         });
-
     }
 
     /**
