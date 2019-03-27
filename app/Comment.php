@@ -11,7 +11,7 @@ class Comment extends Model
         'created_at', 'updated_at'
     ];
     protected $fillable = [
-        'headline', 'content', 'user_id',
+        'headline', 'content', 'user_id', 'user_name'
     ];
 
     protected $attributes = [

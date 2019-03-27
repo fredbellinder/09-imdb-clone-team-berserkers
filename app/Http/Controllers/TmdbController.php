@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Watchlist;
 use App\Review;
+use App\Comment;
 
 class TmdbController extends Controller
 {
@@ -51,25 +52,36 @@ class TmdbController extends Controller
         $client = new \GuzzleHttp\Client();
 
         $apikey = env('TMDB_API_KEY', '');
-
-        $user_id = $request->user()->id;
-
-
+        
         $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey");
 
         $response = json_decode($movie_fetch->getBody());
 
-
-        $watchlists = Watchlist::where('user_id', $user_id)->get();
         $reviews = Review::where('movie_tmdb_id', $id)->get();
+        $comments = Comment::where('movie_tmdb_id', $id)->get();
 
+        if ($request->user()) {
+            $user_id = $request->user()->id;
+            $watchlists = Watchlist::where('user_id', $user_id)->get();
+            return view(
+                'movies.movie',
+                [
+                'movie' => $response,
+                'watchlists' => $watchlists,
+                'reviews' => $reviews,
+                'comments' => $comments
+                ]
+            );
+        } else {
         return view(
             'movies.movie',
             [
             'movie' => $response,
-            'watchlists' => $watchlists,
-            'reviews' => $reviews
+            'watchlists' => null,
+            'reviews' => $reviews,
+            'comments' => $comments
             ]
         );
+        }
     }
 }

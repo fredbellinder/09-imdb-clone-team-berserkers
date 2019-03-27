@@ -21,6 +21,18 @@
       <p>You haven't made any reviews yet</p>
       @endif
   </ul>
+  <h2>My Comments</h2>
+  @if (count($comments) > 0) @foreach ($comments as $comment)
+      <div class="card mb-2 p-2">
+        <h4>{{$comment->headline}}</h4>
+        <p>{{$comment->content}}</p>
+        <p>Comment ID: {{$comment->id}}</p>
+      </div>
+      </li>
+      @endforeach @else
+      <p>You haven't made any comments yet</p>
+      @endif
+  </ul>
 </div>
 @endsection
 
