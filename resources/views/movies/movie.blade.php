@@ -59,7 +59,8 @@
           <button class="btn btn-danger mt-2" type="submit">Submit</button>
         </form>
         @else
-        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to write a review</a> @endif
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to write a review</a> 
+        @endif
       </div>
     </div>
   </div>
@@ -88,8 +89,8 @@
             @if($comment->created_at != $comment->updated_at)
             <p>Edited at:{{ $comment->updated_at }}</p>
             @endif
+            @endforeach @endif 
           </div>
-          @endforeach
           <div class="card mb-2 bg-light text-dark p-2">
             @if ($user_id !== null)
             <h6>Add a comment:</h6>
