@@ -1,18 +1,19 @@
 @extends('layouts.master')
 @section('content')
 
-<h1 class="text-center">Hottest of {{date("Y")}}</h1>
-  @foreach ($list as $entry)
-      <div class="card w-100 text-center">
-        <div class="welcome-container" style="background-image:url('https://image.tmdb.org/t/p/w1280/{{$entry->backdrop_path}}');">
-          <div class="welcome-container-info">
-            <h2 class="align-bottom">{{$entry->title}}</h2>
-            <h3 class="align-bottom">{{$entry->vote_count}} votes</h3>
-            <h3 class="align-bottom">{{$entry->vote_average}} average grade</h3>
-            <h3 class="align-bottom">{{$entry->popularity}} popularity</h3>
-          </div>
-        </div>
-      </div>
-  @endforeach
+<h1 class="text-center">Welcome to Berserker Movies!</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-4">
+      <h2>Need some inspiration?</h2>
+      <h3>Check out some of our top lists:</h3>
+      <ul class="list-group">
+        <li class="list-group-item bg-secondary"><a class="text-white" href="/popular-this-year">Hottest movies this year</a></li>
+        <li class="list-group-item bg-secondary"><a class="text-white" href="/top-horror-movies">Top 5 rated horror movies</a></li>
+        <li class="list-group-item bg-secondary"></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 @endsection

@@ -28,24 +28,6 @@ class TmdbController extends Controller
             'results' => $response->results
             ]);
     }
-        
-    public function showMostPopularOfTheYear()
-    {
-        $client = new \GuzzleHttp\Client();
-        
-        $apikey = env('TMDB_API_KEY', '');
-        $current_year = date("Y");
-        
-        $popular_fetch = $client->get("https://api.themoviedb.org/3/discover/movie?api_key=$apikey&sort_by=popularity.desc&page=1&primary_release_year=$current_year");
-        
-        $response = json_decode($popular_fetch->getBody());
-
-        $movies = array_slice($response->results, 0, 5);
-
-        return view('welcome', [
-            'list' => $movies
-        ]);
-    }
 
     public function show(Request $request, $id)
     {

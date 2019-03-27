@@ -30,6 +30,11 @@ main {
   flex: 1;
 }
 
+// COLORS
+.text-berserker-primary {
+  color: $berserker_primary;
+}
+
 // NAVBAR PARTIAL
 #logout-form {
   display: none;
