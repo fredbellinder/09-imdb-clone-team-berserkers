@@ -9,7 +9,105 @@ use App\Comment;
 
 class SearchController extends Controller
 {
-    public function index(Request $request)
+    public function view()
+    {
+        $client = new \GuzzleHttp\Client();
+    
+        $apikey = env('TMDB_API_KEY', '');
+    
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/configuration/languages?api_key=$apikey");
+        
+        $languages = json_decode($movie_fetch->getBody());
+      
+        $genres = [
+          [
+            "id" => 28,
+            "name" =>"Action"
+          ],
+          [
+            "id" => 12,
+            "name" => "Adventure"
+          ],
+          [
+            "id" => 16,
+            "name" => "Animation"
+          ],
+          [
+            "id" => 35,
+            "name" => "Comedy"
+          ],
+          [
+            "id" => 80,
+            "name" => "Crime"
+          ],
+          [
+            "id" => 99,
+            "name" => "Documentary"
+          ],
+          [
+            "id" => 18,
+            "name" => "Drama"
+          ],
+          [
+            "id" => 10751,
+            "name" => "Family"
+          ],
+          [
+            "id" => 14,
+            "name" => "Fantasy"
+          ],
+          [
+            "id" => 36,
+            "name" => "History"
+          ],
+          [
+            "id" => 27,
+            "name" => "Horror"
+          ],
+          [
+            "id" => 10402,
+            "name" => "Music"
+          ],
+          [
+            "id" => 9648,
+            "name" => "Mystery"
+          ],
+          [
+            "id" => 10749,
+            "name" => "Romance"
+          ],
+          [
+            "id" => 878,
+            "name" => "Science Fiction"
+          ],
+          [
+            "id" => 10770,
+            "name" => "TV Movie"
+          ],
+          [
+            "id" => 53,
+            "name" => "Thriller"
+          ],
+          [
+            "id" => 10752,
+            "name" => "War"
+          ],
+          [
+            "id" => 37,
+            "name" => "Western"
+          ]
+          ];
+    
+        return view(
+            'search.advanced_search',
+            [
+            'genres' => $genres,
+            'lang' => $languages,
+            ]
+        );
+    }
+
+    public function search(Request $request)
     {
         $query=($request->input('query'));
         
@@ -32,52 +130,40 @@ class SearchController extends Controller
         );
     }
 
-    public function show(Request $request, $id)
+    public function advancedSearch(Request $request)
     {
-        $client = new \GuzzleHttp\Client();
-
-        $apikey = env('TMDB_API_KEY', '');
+        if (!array_filter($request->input())) {
+            return redirect()->back()->withErrors(['All fields empty']);
+        }
         
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey");
+        $urlQuery = "sort_by=popularity.desc&page=1";
+        
+        if ($request->input('lang') !== null) {
+            $urlQuery = $urlQuery."&with_original_language=".$request->input('lang');
+        } 
 
+        if ($request->input('year') !== null) {
+            $urlQuery = $urlQuery."&primary_release_year=".$request->input('year');
+        } 
+
+        if ($request->input('genre') !== null) {
+            $genreString = implode(",", $request->input('genre'));
+            $urlQuery = $urlQuery."&with_genres=".$genreString;
+        } 
+        
+        $client = new \GuzzleHttp\Client();
+    
+        $apikey = env('TMDB_API_KEY', '');
+
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/discover/movie?api_key=$apikey&$urlQuery");
+      
         $response = json_decode($movie_fetch->getBody());
-
-        $reviews = Review::where('movie_tmdb_id', $id)->get();
-        $comments = Comment::where('movie_tmdb_id', $id)->get();
-        $rating = [];
-        $tot_rating = '';
-        if (count($reviews) > 0) {
-            foreach ($reviews as $review) {
-                array_push($rating, $review->rating);
-            }
-            $tot_rating = (array_sum($rating) / count($reviews));
-        }
-        if ($request->user()) {
-            $user_id = $request->user()->id;
-            $watchlists = Watchlist::where('user_id', $user_id)->get();
-            return view(
-                'movies.movie',
-                [
-                  'movie' => $response,
-                  'watchlists' => $watchlists,
-                  'reviews' => $reviews,
-                  'comments' => $comments,
-                  'user_id' => $user_id,
-                  'tot_rating' => $tot_rating,
-                ]
-            );
-        } else {
-            return view(
-                'movies.movie',
-                [
-                  'movie' => $response,
-                  'watchlists' => null,
-                  'reviews' => $reviews,
-                  'comments' => $comments,
-                  'user_id' => null,
-                  'tot_rating' => $tot_rating,
-                ]
-            );
-        }
+        
+        return view(
+            'movies.movies',
+            [
+              'results' => $response->results
+            ]
+        );
     }
 }

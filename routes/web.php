@@ -15,7 +15,11 @@ Route::get('/', 'IndexController@index');
 Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear');
 Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies');
 
-Route::resource('movies', 'SearchController');
+Route::get('/search', 'SearchController@search');
+Route::get('/advanced-search', 'SearchController@advancedSearch');
+Route::get('/advanced-search-view', 'SearchController@view');
+
+Route::resource('movies', 'MovieController');
 Route::resource('users', 'UserController');
 Route::resource('watchlists', 'WatchlistController');
 Route::resource('reviews', 'ReviewController');
