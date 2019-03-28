@@ -81,10 +81,13 @@ class ReviewController extends Controller
 
         $response = json_decode($movie_fetch->getBody());
     
-        return view('reviews.review', [
+        return view(
+            'reviews.review',
+            [
             'movie' => $response,
             'review' => $review
-        ]);
+            ]
+        );
     }
 
     /**

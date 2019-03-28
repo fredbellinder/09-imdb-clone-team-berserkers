@@ -44,7 +44,11 @@ class SearchController extends Controller
 
         $reviews = Review::where('movie_tmdb_id', $id)->get();
         $comments = Comment::where('movie_tmdb_id', $id)->get();
-        
+        $rating = [];
+        foreach ($reviews as $review) {
+            array_push($rating, $review->rating);
+        }
+        $tot_rating = (array_sum($rating) / count($reviews));
         if ($request->user()) {
             $user_id = $request->user()->id;
             $watchlists = Watchlist::where('user_id', $user_id)->get();
@@ -55,7 +59,8 @@ class SearchController extends Controller
                 'watchlists' => $watchlists,
                 'reviews' => $reviews,
                 'comments' => $comments,
-                'user_id' => $user_id
+                'user_id' => $user_id,
+                'tot_rating' => $tot_rating,
                 ]
             );
         } else {
@@ -66,7 +71,8 @@ class SearchController extends Controller
                     'watchlists' => null,
                     'reviews' => $reviews,
                     'comments' => $comments,
-                    'user_id' => null
+                    'user_id' => null,
+                    'tot_rating' => $tot_rating,
                     ]
             );
         }
