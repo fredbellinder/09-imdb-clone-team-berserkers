@@ -23,6 +23,7 @@
 
       </div>
       @if($user_id !== null && count($watchlists)>0)
+      <div class="col">
       <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
         @csrf
         <input name="title" value="{{ $movie->original_title }}" hidden />
@@ -36,28 +37,28 @@
       </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
       </form>
-      @elseif($watchlists !== null && count($watchlists) === 0)
-
-      </a> @elseif ($user_id === null)
+    </div>
+    <div class="col mt-2">
+      <p>
+        <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+          aria-controls="multiCollapseExample1">Create a new watchlist</a>
+      </p>
+    </div>
+      @elseif ($user_id === null)
       <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
-      <a href="/watchlists" class="" type="submit">
-        <p>
-          <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
-            aria-controls="multiCollapseExample1">Create a new watchlist</a>
-        </p>
-        <div class="row">
-          <div class="col">
-            <div class="collapse multi-collapse" id="multiCollapseExample1">
-              <div class="card card-body">
-                <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
-                  @csrf
-                  <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
-                </form>
-              </div>
+      <div class="row">
+        <div class="col">
+          <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+              <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
+                @csrf
+                <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+              </form>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
   <div id="accordion">
