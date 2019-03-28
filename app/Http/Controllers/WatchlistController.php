@@ -69,7 +69,7 @@ class WatchlistController extends Controller
             $watchlist->save();
             return redirect()->back();
         } else {
-            return redirect()->back();
+            return redirect()->back()->withErrors(['Movie already exists in that watchlist ']);
         }
     }
 
