@@ -44,7 +44,7 @@ class TmdbController extends Controller
 
         $reviews = Review::where('movie_tmdb_id', $id)->get();
         $comments = Comment::where('movie_tmdb_id', $id)->get();
-
+        
         if ($request->user()) {
             $user_id = $request->user()->id;
             $watchlists = Watchlist::where('user_id', $user_id)->get();
@@ -54,7 +54,8 @@ class TmdbController extends Controller
                 'movie' => $response,
                 'watchlists' => $watchlists,
                 'reviews' => $reviews,
-                'comments' => $comments
+                'comments' => $comments,
+                'user_id' => $user_id
                 ]
             );
         } else {
@@ -64,7 +65,8 @@ class TmdbController extends Controller
                     'movie' => $response,
                     'watchlists' => null,
                     'reviews' => $reviews,
-                    'comments' => $comments
+                    'comments' => $comments,
+                    'user_id' => null
                     ]
             );
         }

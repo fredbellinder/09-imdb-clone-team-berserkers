@@ -5,7 +5,7 @@
   <div class="card-body">
     <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
     <p class="card-text">{{ $movie->overview }}</p>
-    @if($watchlists !== null && count($watchlists)>0)
+    @if($user_id !== null && count($watchlists)>0)
     <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
       @csrf
       <input name="title" value="{{ $movie->original_title }}" hidden />
@@ -20,9 +20,8 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
     </form>
     @elseif($watchlists !== null && count($watchlists) === 0)
-    <a href="/watchlists" class="btn btn-warning my-2 my-sm-0" type="submit">Create new list</a> @elseif ($watchlists ===
-    null)
-    <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @else @endif
+    <a href="/watchlists" class="btn btn-warning my-2 my-sm-0" type="submit">Create new list</a> @elseif ($user_id === null)
+    <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
   </div>
 </div>
 <div id="accordion">
@@ -36,6 +35,7 @@
     </div>
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
       <div class="card-body">
+        @if($user_id !== null)
         <form method="POST" action="/reviews">
           @csrf
           <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
@@ -58,6 +58,8 @@
                 </select>
           <button class="btn btn-danger mt-2" type="submit">Submit</button>
         </form>
+        @else
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to write a review</a> @endif
       </div>
     </div>
   </div>
@@ -78,28 +80,39 @@
           <div class="mb-3">
             <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
           </div>
-          @foreach($comments as $comment)
-          <div class="card mb-2 bg-light text-dark p-2">
-            <p>{{ $comment->content }}</p>
-            <p>By: {{ $comment->user_name }}</p>
-            <p>{{ $comment->created_at }}</p>
-            @if($comment->created_at != $comment->updated_at)
-            <p>Edited at:{{ $comment->updated_at }}</p>
-            @endif
+          @if (count($comments) > 0)
+          <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments" aria-expanded="false"
+            aria-controls="collapseExample">
+            Toggle comments
+          </button>
+          <div class="collapse" id="collapseComments">
+            @foreach($comments as $comment)
+            <div class="card mb-2 bg-light text-dark p-2">
+              <p>{{ $comment->content }}</p>
+              <p>By: {{ $comment->user_name }}</p>
+              <p>{{ $comment->created_at }}</p>
+              @if($comment->created_at != $comment->updated_at)
+              <p>Edited at:{{ $comment->updated_at }}</p>
+              @endif
+            </div>
+            @endforeach
           </div>
-          @endforeach
+          @endif
           <div class="card mb-2 bg-light text-dark p-2">
+            @if ($user_id !== null)
             <h6>Add a comment:</h6>
             <form method="POST" action="/comments">
               @csrf
               <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
               <input type="hidden" name="review_id" value="{{$review->id}}">
-              <div class="row my-2">
+              <div class="row my-2 p-2">
                 <label class="px-2" for="headline">Content</label>
-                <textarea name="content" placeholder="Enter content"></textarea>
+                <textarea name="content" rows="2" cols="50" placeholder="Enter content"></textarea>
               </div>
               <button class="btn btn-danger mt-2" type="submit">Submit</button>
             </form>
+            @else
+            <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> @endif
           </div>
         </div>
       </div>
