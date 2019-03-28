@@ -12,7 +12,15 @@
       <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
       <p class="card-text">{{ $movie->overview }}</p>
       <div class="mb-3">
-        <img src="{{ asset('assets/'.$tot_rating.'.svg') }}" />
+        @if ($tot_rating && count($reviews) > 0)
+        <div> BMD score: <img src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
+        <p>This movie has not yet been rated at BMD</p>
+        @endif @if($movie->vote_average)
+        <p>TMDb score: <span style="font-weight: bold; font-size: 2em;">{{$movie->vote_average}}</span></p>
+        @else
+        <p>This movie has not yet been rated at TMDb</p>
+        @endif
+
       </div>
       @if($user_id !== null && count($watchlists)>0)
       <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
