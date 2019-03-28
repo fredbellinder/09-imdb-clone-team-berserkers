@@ -70,30 +70,39 @@ class MovieController extends Controller
 
         $reviews = Review::where('movie_tmdb_id', $id)->get();
         $comments = Comment::where('movie_tmdb_id', $id)->get();
-        
+        $rating = [];
+        $tot_rating = '';
+        if (count($reviews) > 0) {
+            foreach ($reviews as $review) {
+                array_push($rating, $review->rating);
+            }
+            $tot_rating = (array_sum($rating) / count($reviews));
+        }
         if ($request->user()) {
             $user_id = $request->user()->id;
             $watchlists = Watchlist::where('user_id', $user_id)->get();
             return view(
                 'movies.movie',
                 [
-                'movie' => $response,
-                'watchlists' => $watchlists,
-                'reviews' => $reviews,
-                'comments' => $comments,
-                'user_id' => $user_id
+                  'movie' => $response,
+                  'watchlists' => $watchlists,
+                  'reviews' => $reviews,
+                  'comments' => $comments,
+                  'user_id' => $user_id,
+                  'tot_rating' => $tot_rating,
                 ]
             );
         } else {
             return view(
                 'movies.movie',
                 [
-                    'movie' => $response,
-                    'watchlists' => null,
-                    'reviews' => $reviews,
-                    'comments' => $comments,
-                    'user_id' => null
-                    ]
+                  'movie' => $response,
+                  'watchlists' => null,
+                  'reviews' => $reviews,
+                  'comments' => $comments,
+                  'user_id' => null,
+                  'tot_rating' => $tot_rating,
+                ]
             );
         }
     }
