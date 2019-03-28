@@ -81,21 +81,23 @@
             <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
           </div>
           @if (count($comments) > 0)
-          <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments" aria-expanded="false"
-            aria-controls="collapseExample">
+          <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"
+            aria-expanded="false" aria-controls="collapseComments{{$review->id}}">
             Toggle comments
           </button>
-          <div class="collapse" id="collapseComments">
-            @foreach($comments as $comment)
+          <div class="collapse" id="collapseComments{{$review->id}}">
+            @foreach($comments as $comment) @if($comment->review_id === $review->id)
             <div class="card mb-2 bg-light text-dark p-2">
               <p>{{ $comment->content }}</p>
               <p>By: {{ $comment->user_name }}</p>
+              <p>By: {{ $comment->review_id }}</p>
+
               <p>{{ $comment->created_at }}</p>
               @if($comment->created_at != $comment->updated_at)
               <p>Edited at:{{ $comment->updated_at }}</p>
               @endif
             </div>
-            @endforeach
+            @endif @endforeach
           </div>
           @endif
           <div class="card mb-2 bg-light text-dark p-2">
