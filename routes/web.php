@@ -15,7 +15,7 @@ Route::get('/', 'IndexController@index');
 Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear');
 Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies');
 
-Route::resource('movies', 'TmdbController');
+Route::resource('movies', 'SearchController');
 Route::resource('users', 'UserController');
 Route::resource('watchlists', 'WatchlistController');
 Route::resource('reviews', 'ReviewController');
