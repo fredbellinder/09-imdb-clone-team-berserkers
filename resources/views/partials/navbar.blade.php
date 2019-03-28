@@ -7,10 +7,19 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-  <div class="collapse navbar-collapse" id="featureContent">
-    <form class="form-inline my-2 my-lg-0" method="GET" action="/movies">
+  <div class="collapse navbar-collapse w-75" id="featureContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/watchlists">Watchlists</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" method="GET" action="/search">
       <input name="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <button class="btn btn-outline-success mr-1 my-2 my-sm-0" type="submit">Search</button>
+      <a href="/advanced-search-view" class="btn btn-outline-success my-2 my-sm-0">Advanced Search</a>
     </form>
   </div>
   <div class="container">

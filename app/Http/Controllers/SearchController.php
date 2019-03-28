@@ -9,7 +9,35 @@ use App\Comment;
 
 class SearchController extends Controller
 {
-    public function index(Request $request)
+    public function view()
+    {
+        $genres = [
+            "Action",
+            "Adventure",
+            "Animation",
+            "Comedy",
+            "Crime",
+            "Documentary",
+            "Drama",
+            "Family",
+            "Fantasy",
+            "History",
+            "Horror",
+            "Music",
+            "Mystery",
+            "Romance",
+            "Science Fiction",
+            "TV Movie",
+        ];
+        return view(
+            'search.advanced_search',
+            [
+            'genres' => $genres
+            ]
+        );
+    }
+
+    public function search(Request $request)
     {
         $query=($request->input('query'));
         
@@ -32,52 +60,25 @@ class SearchController extends Controller
         );
     }
 
-    public function show(Request $request, $id)
+    public function advancedSearch(Request $request)
     {
-        $client = new \GuzzleHttp\Client();
-
-        $apikey = env('TMDB_API_KEY', '');
+        $query=($request->input('query'));
         
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey");
+        $queryParam = urlencode($query);
+        
+        $client = new \GuzzleHttp\Client();
+    
+        $apikey = env('TMDB_API_KEY', '');
+    
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=$queryParam");
 
         $response = json_decode($movie_fetch->getBody());
 
-        $reviews = Review::where('movie_tmdb_id', $id)->get();
-        $comments = Comment::where('movie_tmdb_id', $id)->get();
-        $rating = [];
-        $tot_rating = '';
-        if (count($reviews) > 0) {
-            foreach ($reviews as $review) {
-                array_push($rating, $review->rating);
-            }
-            $tot_rating = (array_sum($rating) / count($reviews));
-        }
-        if ($request->user()) {
-            $user_id = $request->user()->id;
-            $watchlists = Watchlist::where('user_id', $user_id)->get();
-            return view(
-                'movies.movie',
-                [
-                  'movie' => $response,
-                  'watchlists' => $watchlists,
-                  'reviews' => $reviews,
-                  'comments' => $comments,
-                  'user_id' => $user_id,
-                  'tot_rating' => $tot_rating,
-                ]
-            );
-        } else {
-            return view(
-                'movies.movie',
-                [
-                  'movie' => $response,
-                  'watchlists' => null,
-                  'reviews' => $reviews,
-                  'comments' => $comments,
-                  'user_id' => null,
-                  'tot_rating' => $tot_rating,
-                ]
-            );
-        }
+        return view(
+            'movies.movies',
+            [
+            'results' => $response->results
+            ]
+        );
     }
 }
