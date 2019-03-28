@@ -7,7 +7,7 @@ use App\Watchlist;
 use App\Review;
 use App\Comment;
 
-class TmdbController extends Controller
+class SearchController extends Controller
 {
     public function index(Request $request)
     {
