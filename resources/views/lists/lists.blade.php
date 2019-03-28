@@ -1,7 +1,7 @@
 @extends('layouts.master') 
 @section('content')
 
-<h1>WatchLists plural</h1>
+<h1>Watchlists</h1>
 
 <ul> @if (count($list) > 0) @foreach ($list as $entries)
     <li>

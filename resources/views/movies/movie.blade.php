@@ -28,21 +28,36 @@
         <input name="title" value="{{ $movie->original_title }}" hidden />
         <input name="movie_id" value="{{ $movie->id }}" hidden />
         <input name="poster_url" value="{{ $movie->poster_path }}" hidden />
-        <select class="browser-default custom-select" name="list_id" required>
-        <option selected value="">Select watchlist:</option>
-        @foreach ($watchlists as $wl)
-        <option value="{{$wl->id}}">{{$wl->title}}</option>   
-        @endforeach
+        <select class="browser-default custom-select mr-sm-2" name="list_id" required>
+          <option selected value="">Select watchlist:</option>
+          @foreach ($watchlists as $wl)
+          <option value="{{$wl->id}}">{{$wl->title}}</option>   
+          @endforeach
       </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
       </form>
       @elseif($watchlists !== null && count($watchlists) === 0)
-      <a href="/watchlists" class="" type="submit">
-      <button>
-      Create new list
-      </button> 
-    </a> @elseif ($user_id === null)
+
+      </a> @elseif ($user_id === null)
       <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
+      <a href="/watchlists" class="" type="submit">
+        <p>
+          <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+            aria-controls="multiCollapseExample1">Create a new watchlist</a>
+        </p>
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+              <div class="card card-body">
+                <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
+                  @csrf
+                  <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </div>
   <div id="accordion">
@@ -63,13 +78,13 @@
             <input type="hidden" name="movie_title" value="{{$movie->title}}">
             <div class="row my-2">
               <label class="px-2" for="headline">Headline</label>
-              <input type="text" name="headline" placeholder="Enter headline" />
+              <input type="text" class="form-control mx-3" name="headline" placeholder="Enter headline" />
             </div>
             <div class="row my-2">
               <label class="px-2" for="headline">Content</label>
-              <textarea name="content" placeholder="Enter content"></textarea>
+              <textarea name="content" class="form-control mx-3" rows="5" placeholder="Enter content"></textarea>
             </div>
-            <select class="browser-default custom-select" name="rating" required>
+            <select class="form-control mx-auto" name="rating" required>
                   <option selected>Rate the movie</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -117,18 +132,17 @@
               @endif @endforeach
             </div>
             @endif
-            <div class="card mb-2 bg-light text-dark p-2">
+            <div class="card mb-2 bg-light text-dark p-2 mt-2">
               @if ($user_id !== null)
-              <h6>Add a comment:</h6>
+              <h5 class="mt-2">Add a comment:</h5>
               <form method="POST" action="/comments">
                 @csrf
                 <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
                 <input type="hidden" name="review_id" value="{{$review->id}}">
                 <div class="row my-2 p-2">
-                  <label class="px-2" for="headline">Content</label>
-                  <input type="text" name="content" rows="2" cols="50" placeholder="Enter content" />
+                  <input type="text" name="content" class="form-control mx-3" placeholder="Enter content" />
                 </div>
-                <button class="btn btn-danger mt-2" type="submit">Submit</button>
+                <button class="btn btn-danger my-2 mx-3" type="submit">Submit</button>
               </form>
               @else
               <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> @endif
