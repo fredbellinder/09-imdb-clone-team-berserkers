@@ -1,20 +1,43 @@
-@extends('layouts.master')
+@extends('layouts.master') 
 @section('content')
-<div class="container bg-light">
-    <form class="mt-2 p-4" method="GET" action="/advanced-search">
-      <input name="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      <div class="row">
-        <div class="col s6 m12 l12 py-2">
-          @foreach ($genres as $genre)
-          <label class="mr-4">
-            <input type="checkbox" value="{{ $genre }}" />
-            <span>{{ $genre }}</span>
-          </label>
-          @endforeach
-        </div>
+<div class="container bg-light mt-2">
+  <form class="p-4" method="GET" action="/advanced-search">
+    <div class="form-row">
+      <div class="col">
+          <select name="lang" class="custom-select">
+              <option selected value="">Select a language</option>
+              @foreach($lang as $lng)
+              <option value="{{$lng->iso_639_1}}">{{ $lng->english_name }}</option>
+              @endforeach
+            </select>
       </div>
-    </form>
-  </div>
-  @endsection
-  
+      <div class="col">
+          <select name="year" class="custom-select">
+            <option selected value="">Select a release year</option>
+              @for ($i = date("Y"); $i >= 1950; $i--)
+              <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+          </select>     
+      </div>
+      <div class="col">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6 m12 l12 py-2">
+        @foreach ($genres as $genre)
+        <div class="form-check form-check-inline">
+          <input name="genre[]" class="form-check-input" type="checkbox" id="{{ $genre['id'] }}" value="{{ $genre['id'] }}">
+          <label class="form-check-label" for="{{ $genre['id'] }}">{{ $genre['name'] }}</label>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </form>
+</div>
+@if($errors->any())
+<div class="container bg-light mt-2 text-center p-4">
+  <h3>{{ $errors->first() }}<h3>
+</div>
+@endif
+@endsection

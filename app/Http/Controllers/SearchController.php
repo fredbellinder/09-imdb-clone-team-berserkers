@@ -11,28 +11,98 @@ class SearchController extends Controller
 {
     public function view()
     {
+        $client = new \GuzzleHttp\Client();
+    
+        $apikey = env('TMDB_API_KEY', '');
+    
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/configuration/languages?api_key=$apikey");
+        
+        $languages = json_decode($movie_fetch->getBody());
+      
         $genres = [
-            "Action",
-            "Adventure",
-            "Animation",
-            "Comedy",
-            "Crime",
-            "Documentary",
-            "Drama",
-            "Family",
-            "Fantasy",
-            "History",
-            "Horror",
-            "Music",
-            "Mystery",
-            "Romance",
-            "Science Fiction",
-            "TV Movie",
-        ];
+          [
+            "id" => 28,
+            "name" =>"Action"
+          ],
+          [
+            "id" => 12,
+            "name" => "Adventure"
+          ],
+          [
+            "id" => 16,
+            "name" => "Animation"
+          ],
+          [
+            "id" => 35,
+            "name" => "Comedy"
+          ],
+          [
+            "id" => 80,
+            "name" => "Crime"
+          ],
+          [
+            "id" => 99,
+            "name" => "Documentary"
+          ],
+          [
+            "id" => 18,
+            "name" => "Drama"
+          ],
+          [
+            "id" => 10751,
+            "name" => "Family"
+          ],
+          [
+            "id" => 14,
+            "name" => "Fantasy"
+          ],
+          [
+            "id" => 36,
+            "name" => "History"
+          ],
+          [
+            "id" => 27,
+            "name" => "Horror"
+          ],
+          [
+            "id" => 10402,
+            "name" => "Music"
+          ],
+          [
+            "id" => 9648,
+            "name" => "Mystery"
+          ],
+          [
+            "id" => 10749,
+            "name" => "Romance"
+          ],
+          [
+            "id" => 878,
+            "name" => "Science Fiction"
+          ],
+          [
+            "id" => 10770,
+            "name" => "TV Movie"
+          ],
+          [
+            "id" => 53,
+            "name" => "Thriller"
+          ],
+          [
+            "id" => 10752,
+            "name" => "War"
+          ],
+          [
+            "id" => 37,
+            "name" => "Western"
+          ]
+          ];
+    
         return view(
             'search.advanced_search',
             [
-            'genres' => $genres
+            'genres' => $genres,
+            'lang' => $languages,
             ]
         );
     }
@@ -62,22 +132,37 @@ class SearchController extends Controller
 
     public function advancedSearch(Request $request)
     {
-        $query=($request->input('query'));
+        if (!array_filter($request->input())) {
+            return redirect()->back()->withErrors(['All fields empty']);
+        }
         
-        $queryParam = urlencode($query);
+        $urlQuery = "sort_by=popularity.desc&page=1";
+        
+        if ($request->input('lang') !== null) {
+            $urlQuery = $urlQuery."&with_original_language=".$request->input('lang');
+        } 
+
+        if ($request->input('year') !== null) {
+            $urlQuery = $urlQuery."&primary_release_year=".$request->input('year');
+        } 
+
+        if ($request->input('genre') !== null) {
+            $genreString = implode(",", $request->input('genre'));
+            $urlQuery = $urlQuery."&with_genres=".$genreString;
+        } 
         
         $client = new \GuzzleHttp\Client();
     
         $apikey = env('TMDB_API_KEY', '');
-    
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=$queryParam");
 
+        $movie_fetch = $client->get("https://api.themoviedb.org/3/discover/movie?api_key=$apikey&$urlQuery");
+      
         $response = json_decode($movie_fetch->getBody());
-
+        
         return view(
             'movies.movies',
             [
-            'results' => $response->results
+              'results' => $response->results
             ]
         );
     }

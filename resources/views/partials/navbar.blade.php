@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="nav-link" href="/">
-      <img class="logo" width="125" src="{{ asset('assets/logo.svg') }}" />
+      <img class="logo" width="100" src="{{ asset('assets/logo.svg') }}" />
     </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#featureContent" aria-controls="featureContent"
     aria-expanded="false" aria-label="Toggle navigation">
@@ -8,14 +8,6 @@
     </button>
 
   <div class="collapse navbar-collapse w-75" id="featureContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/watchlists">Watchlists</a>
-      </li>
-    </ul>
     <form class="form-inline my-2 my-lg-0" method="GET" action="/search">
       <input name="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
       <button class="btn btn-outline-success mr-1 my-2 my-sm-0" type="submit">Search</button>
