@@ -1,5 +1,8 @@
 @extends('layouts.master') 
 @section('content')
+@if($errors->any())
+<div class="jumbotron text-center"><h3>{{ $errors->first() }}<h3></div>
+@endif
 <div class="movie-card card m-4">
   <img class="card-img-top" src="http://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="Card image cap">
   <div class="card-body">
