@@ -14,8 +14,9 @@ class SearchController extends Controller
         $client = new \GuzzleHttp\Client();
     
         $apikey = env('TMDB_API_KEY', '');
-    
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/configuration/languages?api_key=$apikey");
+
+        $baseURL= "https://api.themoviedb.org/3/configuration";
+        $movie_fetch = $client->get("$baseURL/languages?api_key=$apikey");
         
         $languages = json_decode($movie_fetch->getBody());
       
@@ -110,24 +111,27 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $query=($request->input('query'));
-        
         $queryParam = urlencode($query);
-        
+
         $client = new \GuzzleHttp\Client();
-    
+
         $apikey = env('TMDB_API_KEY', '');
-    
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/search/movie?api_key=$apikey&query=$queryParam");
+
+        $baseURL= "https://api.themoviedb.org/3/search";
+        $movie_fetch = $client->get("$baseURL/movie?api_key=$apikey&query=$queryParam");
 
         $response = json_decode($movie_fetch->getBody());
-
         
-        return view(
-            'movies.movies',
-            [
-            'results' => $response->results
-            ]
-        );
+        if (empty($response->results)) {
+            return redirect()->back()->withErrors(['No matches for search query']);
+        } else {
+            return view(
+                'movies.movies',
+                [
+                'results' => $response->results
+                ]
+            );
+        }
     }
 
     public function advancedSearch(Request $request)
@@ -135,35 +139,40 @@ class SearchController extends Controller
         if (!array_filter($request->input())) {
             return redirect()->back()->withErrors(['All fields empty']);
         }
+
+        $client = new \GuzzleHttp\Client();
+    
+        $apikey = env('TMDB_API_KEY', '');
         
         $urlQuery = "sort_by=popularity.desc&page=1";
         
         if ($request->input('lang') !== null) {
             $urlQuery = $urlQuery."&with_original_language=".$request->input('lang');
-        } 
+        }
 
         if ($request->input('year') !== null) {
             $urlQuery = $urlQuery."&primary_release_year=".$request->input('year');
-        } 
+        }
 
         if ($request->input('genre') !== null) {
             $genreString = implode(",", $request->input('genre'));
             $urlQuery = $urlQuery."&with_genres=".$genreString;
-        } 
+        }
         
-        $client = new \GuzzleHttp\Client();
-    
-        $apikey = env('TMDB_API_KEY', '');
+        $baseURL= "https://api.themoviedb.org/3/discover";
+        $movie_fetch = $client->get("$baseURL/movie?api_key=$apikey&$urlQuery");
 
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/discover/movie?api_key=$apikey&$urlQuery");
-      
         $response = json_decode($movie_fetch->getBody());
         
-        return view(
-            'movies.movies',
-            [
-              'results' => $response->results
-            ]
-        );
+        if (empty($response->results)) {
+            return redirect()->back()->withErrors(['No matches found']);
+        } else {
+            return view(
+                'movies.movies',
+                [
+                  'results' => $response->results
+                ]
+            );
+        }
     }
 }

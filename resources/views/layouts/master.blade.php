@@ -16,7 +16,8 @@
 
 <body>
   @include('partials.navbar')
-
+  @include('partials.error')
+  
   <main>
     @yield('content')
   </main>

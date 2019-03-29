@@ -35,9 +35,4 @@
     </div>
   </form>
 </div>
-@if($errors->any())
-<div class="container bg-light mt-2 text-center p-4">
-  <h3>{{ $errors->first() }}<h3>
-</div>
-@endif
 @endsection
