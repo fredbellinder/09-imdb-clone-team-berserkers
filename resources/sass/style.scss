@@ -46,6 +46,67 @@ footer {
   margin-top: 20px;
 }
 
+// SPLASH SCREEN / WELCOME SCREEN
+.grid-container {
+  display: grid;
+  grid-template-columns: 50px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "year year horror horror"
+    "year year horror horror"
+    "staff staff staff staff";
+}
+
+.hot-year {
+  background: url("https://images.pexels.com/photos/1661688/pexels-photo-1661688.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    no-repeat center center fixed;
+  grid-area: year;
+  color: white;
+}
+
+.hot-horror {
+  background: url("https://images.pexels.com/photos/1690081/pexels-photo-1690081.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    no-repeat center center fixed;
+  grid-area: horror;
+  color: white;
+}
+
+.staff-pick {
+  background: url("https://images.pexels.com/photos/1204649/pexels-photo-1204649.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    no-repeat center center fixed;
+  grid-area: staff;
+  color: white;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  opacity: 0.8;
+  border: 1px solid rgba(1, 1, 1, 0.1);
+  margin: 5px;
+  min-height: 300px;
+}
+
+.panel a {
+  text-align:center;
+  flex-grow:1;
+  color: white;
+  text-decoration: none;
+  background:rgba(1,1,1,0.7);
+  text-decoration: none;
+}
+
+.panel:hover {
+  opacity: 1;
+  -webkit-transition: background 2s; /* Safari */
+  transition: color background 2s;
+}
+
 // WELCOME BLADE
 .welcome-container {
   position:relative;
