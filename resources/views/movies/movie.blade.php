@@ -23,7 +23,6 @@
 
       </div>
       @if($user_id !== null && count($watchlists)>0)
-      <div class="col">
       <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
         @csrf
         <input name="title" value="{{ $movie->original_title }}" hidden />
@@ -37,32 +36,32 @@
       </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
       </form>
-    </div>
-    <div class="col mt-2">
-      <p>
-        <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
-          aria-controls="multiCollapseExample1">Create a new watchlist</a>
-      </p>
-    </div>
-      @elseif ($user_id === null)
+      @elseif($watchlists !== null && count($watchlists) === 0)
+
+      </a> @elseif ($user_id === null)
       <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="multiCollapseExample1">
-            <div class="card card-body">
-              <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
-                @csrf
-                <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
-              </form>
+      <a href="/watchlists" class="" type="submit">
+        <p>
+          <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+            aria-controls="multiCollapseExample1">Create a new watchlist</a>
+        </p>
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+              <div class="card card-body">
+                <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
+                  @csrf
+                  <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
   <div id="accordion">
-    <div class="card">
+    <div class="card mx-auto w-75">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -79,11 +78,11 @@
             <input type="hidden" name="movie_title" value="{{$movie->title}}">
             <div class="row my-2">
               <label class="px-2" for="headline">Headline</label>
-              <input type="text" class="form-control mx-3" name="headline" placeholder="Enter headline" />
+              <input type="text" class="form-control mx-3" name="headline" placeholder="Enter headline" required/>
             </div>
             <div class="row my-2">
               <label class="px-2" for="headline">Content</label>
-              <textarea name="content" class="form-control mx-3" rows="5" placeholder="Enter content"></textarea>
+              <textarea name="content" class="form-control mx-3" rows="5" placeholder="Enter content" required></textarea>
             </div>
             <select class="form-control mx-auto" name="rating" required>
                   <option selected>Rate the movie</option>
@@ -100,7 +99,7 @@
         </div>
       </div>
     </div>
-    <div class="card">
+    <div class="card mx-auto w-75">
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -124,8 +123,17 @@
           </button>
             <div class="collapse" id="collapseComments{{$review->id}}">
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
-              <div class="card mb-2 bg-light text-dark p-2">
-                <p>{{ $comment->content }}</p>
+              <div class="card mb-2 bg-light text-dark p-2 ">
+                <p class="d-inline-block">{{ $comment->content }}</p>
+                @if ($user_id && $comment->user_id === $user_id)
+                <div class="d-inline-block" style="float: right;">
+                  <form class="delete-review">
+                    @csrf @method('DELETE')
+                    <input type="hidden" name="id" value="{{$comment->id}}" />
+                    <button type="submit" class="btn btn-danger">X</button>
+                  </form>
+                </div>
+                @endif
                 <small>By: {{ $comment->user_name }}</small>
                 <small>{{ $comment->created_at }}</small> @if($comment->created_at != $comment->updated_at)
                 <small>Edited at:{{ $comment->updated_at }}</small> @endif
@@ -141,7 +149,7 @@
                 <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
                 <input type="hidden" name="review_id" value="{{$review->id}}">
                 <div class="row my-2 p-2">
-                  <input type="text" name="content" class="form-control mx-3" placeholder="Enter content" />
+                  <input type="text" name="content" class="form-control mx-3" placeholder="Enter content" required/>
                 </div>
                 <button class="btn btn-danger my-2 mx-3" type="submit">Submit</button>
               </form>
@@ -156,4 +164,24 @@
   </div>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script>
+  const id = $('.delete-review');
+     function deleteComment (event) {
+        event.preventDefault();
+        $.ajax(
+          {
+          url: `/comments/${event.target[2].value}`,
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        }).done(() => {
+        $(this).closest('.card').remove();
+        });
+      }
+      id.on('submit', deleteComment)
+
+</script>
 @endsection

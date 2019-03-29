@@ -10,19 +10,19 @@ class User extends \TCG\Voyager\Models\User
 {
     use Notifiable;
 
-    public function reviews() 
+    public function reviews()
     {
-        return $this->hasMany(Reviews::class);
+        return $this->hasMany(Review::class);
     }
 
-    public function watchlists() 
+    public function watchlists()
     {
         return $this->hasMany(Watchlist::class);
     }
     
-    public function comments() 
+    public function comments()
     {
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comment::class);
     }
 
     /**

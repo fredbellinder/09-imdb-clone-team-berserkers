@@ -11,7 +11,7 @@
             <form method="POST" action="/watchlists/{{$entries['id']}}">
                 @csrf @method("DELETE")
                 <input type="hidden" name="id" value="{{$entries['id']}}">
-                <button type="submit">X</button>
+                <button class="btn btn-danger" type="submit">X</button>
             </form>
         </div>
     </li>
