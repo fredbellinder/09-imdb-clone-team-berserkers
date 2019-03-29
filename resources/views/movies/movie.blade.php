@@ -1,5 +1,5 @@
 @extends('layouts.master') 
-@section('content') 
+@section('content')
 
 <div class="movie-card card m-4">
   <div class="movie-card card mx-auto mt-5 mb-5 w-50">
@@ -9,7 +9,7 @@
       <p class="card-text">{{ $movie->overview }}</p>
       <div class="mb-3">
         @if ($tot_rating && count($reviews) > 0)
-        <div> BMD score: <img src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
+        <div> BMD score: <img width="30%" src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
         <p>This movie has not yet been rated at BMD</p>
         @endif @if($movie->vote_average)
         <p>TMDb score: <span style="font-weight: bold; font-size: 2em;">{{$movie->vote_average}}</span></p>
@@ -32,28 +32,25 @@
       </select>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
       </form>
-      @elseif($watchlists !== null && count($watchlists) === 0)
-
-      </a> @elseif ($user_id === null)
+      <p>
+        <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+          aria-controls="multiCollapseExample1">Create a new watchlist</a>
+      </p>
+      @elseif ($user_id === null)
       <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
-      <a href="/watchlists" class="" type="submit">
-        <p>
-          <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
-            aria-controls="multiCollapseExample1">Create a new watchlist</a>
-        </p>
-        <div class="row">
-          <div class="col">
-            <div class="collapse multi-collapse" id="multiCollapseExample1">
-              <div class="card card-body">
-                <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
-                  @csrf
-                  <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
-                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
-                </form>
-              </div>
+      <div class="row">
+        <div class="col">
+          <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+              <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
+                @csrf
+                <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+              </form>
             </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
   <div id="accordion">

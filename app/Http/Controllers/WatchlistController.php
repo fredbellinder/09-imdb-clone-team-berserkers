@@ -17,10 +17,12 @@ class WatchlistController extends Controller
 
     public function index(Request $request)
     {
-        $user_id = $request->user()->id;
-        $watchlists = Watchlist::where('user_id', $user_id)->take(20)->latest()->get();
-
-        return view('lists.lists')->with('list', $watchlists);
+        if ($request->user()) {
+            $user_id = $request->user()->id;
+            $watchlists = Watchlist::where('user_id', $user_id)->take(20)->latest()->get();
+            
+            return view('lists.lists')->with('list', $watchlists);
+        }
     }
 
     /**

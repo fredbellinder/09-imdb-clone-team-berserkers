@@ -11,6 +11,10 @@
 
 // GLOBAL STYLING ELEMENTS
 
+a:hover {
+  text-decoration: none;  
+}
+
 body {
   background: $berserker_primary;
   min-height: 100vh;
@@ -92,13 +96,12 @@ footer {
   min-height: 300px;
 }
 
-.panel a {
+.panel-link {
   text-align:center;
   flex-grow:1;
   color: white;
   text-decoration: none;
   background:rgba(1,1,1,0.7);
-  text-decoration: none;
 }
 
 .panel:hover {
