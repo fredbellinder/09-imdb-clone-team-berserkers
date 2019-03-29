@@ -1,5 +1,4 @@
 @extends('layouts.master')
-@extends('layouts.master') 
 @section('content')
 <div class="grid-container">
   <div class="panel hot-year">
