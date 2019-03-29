@@ -24,12 +24,19 @@ Route::resource('users', 'UserController');
 Route::resource('watchlists', 'WatchlistController');
 Route::resource('reviews', 'ReviewController');
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
+Route::group(
+    ['prefix' => 'admin'],
+    function () {
+        Voyager::routes();
+    }
+);
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/comments', 'CommentController@store')->name('comments.store');
+Route::delete(
+    '/comments/{comment}',
+    'CommentController@destroy'
+);
