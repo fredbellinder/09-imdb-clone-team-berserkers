@@ -1,19 +1,20 @@
 @extends('layouts.master')
 @section('content')
-
-<h1 class="text-center">Welcome to Berserker Movies!</h1>
-<div class="container">
-  <div class="row">
-    <div class="col-12 col-lg-4">
-      <h2>Need some inspiration?</h2>
-      <h3>Check out some of our top lists:</h3>
-      <ul class="list-group">
-        <li class="list-group-item bg-secondary"><a class="text-white" href="/popular-this-year">Hottest movies this year</a></li>
-        <li class="list-group-item bg-secondary"><a class="text-white" href="/top-horror-movies">Top 5 rated horror movies</a></li>
-        <li class="list-group-item bg-secondary"></li>
-      </ul>
-    </div>
+<div class="grid-container">
+  <div class="panel hot-year">
+    <a class="py-2" href="/popular-this-year">
+      <h2>Hottest movies this year</h2>
+    </a>
+  </div>
+  <div class="panel hot-horror text-center align-middle">
+    <a class="py-2" href="/top-horror-movies">
+      <h2>Top 5 rated horror movies</h2>
+    </a>
+  </div>
+  <div class="panel staff-pick text-center align-middle">
+    <a class="py-2" href="#">
+      <h2>Staff picks (NA)</h2>
+    </a>
   </div>
 </div>
-
 @endsection
