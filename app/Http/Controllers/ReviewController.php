@@ -14,9 +14,13 @@ class ReviewController extends Controller
      */
     public function index(Request $request)
     {
-        $user_id = $request->user()->id;
-        $reviews = Review::where('user_id', $user_id)->take(20)->get();
-        return view('reviews.reviews')->with('reviews', $reviews);
+        if ($request->user()) {
+            $user_id = $request->user()->id;
+            $reviews = Review::where('user_id', $user_id)->take(20)->get();
+            return view('reviews.reviews')->with('reviews', $reviews);
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -72,7 +76,7 @@ class ReviewController extends Controller
     {
         $user_id = $request->user()->id;
         $movie_tmdb_id = $request->movie_id;
-        $review = Review::where('user_id', $user_id)->find($review_id);
+        $review = Review::where('user_id', $user_id)->where('approved', true)->find($review_id);
 
         $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');

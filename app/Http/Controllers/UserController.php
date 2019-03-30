@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Watchlist;
 use App\Review;
 use App\Comment;
+use TCG\Voyager\Http\Controllers;
+use TCG\Voyager\Facades\Voyager as Voyager;
 
 class UserController extends Controller
 {
@@ -16,6 +18,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $browse_reviews = $request->user()->hasPermission('browse_reviews');
+        $browse_comments = $request->user()->hasPermission('browse_comments');
         $user_id = $request->user()->id;
         $user_name = $request->user()->name;
         $watchlists = Watchlist::where('user_id', $user_id)->get();
@@ -27,7 +31,9 @@ class UserController extends Controller
             'user_name' => $user_name,
             'watchlists' => $watchlists,
             'reviews' => $reviews,
-            'comments' => $comments
+            'comments' => $comments,
+            'administrate_reviews' => $browse_reviews,
+            'administrate_comments' => $browse_comments
         ]);
     }
 
