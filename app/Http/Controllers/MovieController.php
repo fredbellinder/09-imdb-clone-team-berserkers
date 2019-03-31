@@ -68,8 +68,8 @@ class MovieController extends Controller
 
         $response = json_decode($movie_fetch->getBody());
 
-        $reviews = Review::where('movie_tmdb_id', $id)->get();
-        $comments = Comment::where('movie_tmdb_id', $id)->get();
+        $reviews = Review::where('movie_tmdb_id', $id)->where('approved', true)->get();
+        $comments = Comment::where('movie_tmdb_id', $id)->where('approved', true)->get();
         $rating = [];
         $tot_rating = '';
         if (count($reviews) > 0) {

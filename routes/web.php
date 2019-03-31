@@ -20,7 +20,7 @@ Route::get('/advanced-search', 'SearchController@advancedSearch');
 Route::get('/advanced-search-view', 'SearchController@view');
 
 Route::resource('movies', 'MovieController');
-Route::resource('users', 'UserController');
+Route::resource('users', 'UserController')->middleware('auth');
 Route::resource('watchlists', 'WatchlistController');
 Route::resource('reviews', 'ReviewController');
 

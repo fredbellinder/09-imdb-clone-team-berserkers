@@ -16,8 +16,12 @@
     <h2>My Reviews</h2>
     <ul> @if (count($reviews) > 0) @foreach ($reviews as $entry)
       <li>
-        <a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a>
+        <h3><a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
         <img src="{{ asset('assets/'.$entry->rating.'.svg') }}" />
+        @if (!$entry->approved)
+          <p>Your review is pending approval by a moderator.
+          Until it is approved, only you will be able to see it.</p>
+        @endif
       </li>
       @endforeach @else
       <p>You haven't made any reviews yet</p>
@@ -33,6 +37,10 @@
       <p>Edited at:{{ $comment->updated_at }}</p>
       @endif
     </div>
+      @if (!$comment->approved)
+        <p>Your comment is pending approval by a moderator.
+        Until it is approved, only you will be able to see it.</p>
+      @endif
     @endforeach @else
     <p>You haven't made any comments yet</p>
     @endif
