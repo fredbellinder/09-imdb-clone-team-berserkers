@@ -76,7 +76,15 @@ class MovieController extends Controller
             foreach ($reviews as $review) {
                 array_push($rating, $review->rating);
             }
-            $tot_rating = (array_sum($rating) / count($reviews));
+            $tot_rating = floor((array_sum($rating) / count($reviews)));
+            // Ska vi ha halva poäng så kör vi på denna:
+            // Bilderna behövs då istället för att namnges, 1 2 3 4 5,
+            // namnges, 10 15 20 25 30 35 40 45 0ch 50
+            // $tot_rating = round(
+            //     (array_sum($rating) / 5) / count($reviews),
+            //     1,
+            //     PHP_ROUND_HALF_UP
+            // ) * 50;
         }
         if ($request->user()) {
             $user_id = $request->user()->id;
