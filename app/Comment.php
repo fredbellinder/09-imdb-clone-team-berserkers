@@ -15,6 +15,7 @@ class Comment extends Model
 
     protected $attributes = [
         'movie_tmdb_id' => null,
+        'approved' => false
     ];
 
     public function user()

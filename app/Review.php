@@ -15,7 +15,8 @@ class Review extends Model
 
     protected $attributes = [
         'movie_tmdb_id' => null,
-        'rating' => null
+        'rating' => null,
+        'approved' => false
     ];
 
     public function user()
