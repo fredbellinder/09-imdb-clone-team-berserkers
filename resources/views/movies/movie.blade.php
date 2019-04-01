@@ -1,6 +1,7 @@
 @extends('layouts.master') 
 @section('content')
 
+<<<<<<< HEAD
 <div class="movie-card card m-4">
   <div class="movie-card card mx-auto mt-5 mb-5 w-50">
     @if($movie->poster_path !== null)
@@ -19,45 +20,76 @@
         @else
         <p>This movie has not yet been rated at TMDb</p>
         @endif
+=======
+<div class="movie-card card my-4">
+  <div class="d-flex flex-wrap justify-content-around">
+    <div class="movie-card card mw-500px">
+      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
+        <p class="card-text">{{ $movie->overview }}</p>
+        <div class="mb-3">
+          @if ($tot_rating && count($reviews) > 0)
+          <div> BMD score: <img width="30%" src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
+          <p>This movie has not yet been rated at BMD</p>
+          @endif @if($movie->vote_average)
+          <p>TMDb score: <span style="font-weight: bold; font-size: 2em;">{{$movie->vote_average}}</span></p>
+          @else
+          <p>This movie has not yet been rated at TMDb</p>
+          @endif
+>>>>>>> Now caches the MovieController.show response, which includes the videos (trailers etc.). Working on displaying the trailers in the movie blade.
 
-      </div>
-      @if($user_id !== null && count($watchlists)>0)
-      <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
-        @csrf
-        <input name="title" value="{{ $movie->original_title }}" hidden />
-        <input name="movie_id" value="{{ $movie->id }}" hidden />
-        <input name="poster_url" value="{{ $movie->poster_path }}" hidden />
-        <select class="browser-default custom-select mr-sm-2" name="list_id" required>
-          <option selected value="">Select watchlist:</option>
-          @foreach ($watchlists as $wl)
-          <option value="{{$wl->id}}">{{$wl->title}}</option>   
-          @endforeach
-      </select>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
-      </form>
-      <p>
-        <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
-          aria-controls="multiCollapseExample1">Create a new watchlist</a>
-      </p>
-      @elseif ($user_id === null)
-      <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
-      <div class="row">
-        <div class="col">
-          <div class="collapse multi-collapse" id="multiCollapseExample1">
-            <div class="card card-body">
-              <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
-                @csrf
-                <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
-              </form>
+        </div>
+        @if($user_id !== null && count($watchlists)>0)
+        <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
+          @csrf
+          <input name="title" value="{{ $movie->original_title }}" hidden />
+          <input name="movie_id" value="{{ $movie->id }}" hidden />
+          <input name="poster_url" value="{{ $movie->poster_path }}" hidden />
+          <select class="browser-default custom-select mr-sm-2" name="list_id" required>
+            <option selected value="">Select watchlist:</option>
+            @foreach ($watchlists as $wl)
+            <option value="{{$wl->id}}">{{$wl->title}}</option>   
+            @endforeach
+        </select>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
+        </form>
+        <p>
+          <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
+            aria-controls="multiCollapseExample1">Create a new watchlist</a>
+        </p>
+        @elseif ($user_id === null)
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
+        <div class="row">
+          <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+              <div class="card card-body">
+                <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
+                  @csrf
+                  <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="videos">
+      @foreach ($trailers as $trailer)
+      {{$trailer->name}}
+      <div class="videocontainer">
+        <div class="videowrapper">
+          <iframe class="responsiveiframe" title="{{$trailer->name}}" src="https://www.youtube.com/embed/{{$trailer->key}}" allowfullscreen></iframe>
+        </div>
+      </div>
+      @endforeach
+    </div>
   </div>
+
   <div id="accordion">
-    <div class="card mx-auto w-75">
+    <div class="card mx-auto">
       <div class="card-header" id="headingOne">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -95,7 +127,7 @@
         </div>
       </div>
     </div>
-    <div class="card mx-auto w-75">
+    <div class="card mx-auto">
       <div class="card-header" id="headingTwo">
         <h5 class="mb-0">
           <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
