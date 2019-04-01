@@ -73,8 +73,8 @@ class MovieController extends Controller
         $comments = Comment::where('movie_tmdb_id', $id)->get();
         $rating = [];
         $tot_rating = '';
-        if (count($reviews) > 0) {
-            foreach ($reviews as $review) {
+        if (count($approvedReviews) > 0) {
+            foreach ($approvedReviews as $review) {
                 array_push($rating, $review->rating);
             }
             $tot_rating = round(
