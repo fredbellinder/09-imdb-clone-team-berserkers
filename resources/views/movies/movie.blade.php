@@ -111,7 +111,7 @@
             <h4>{{$review->headline}}</h4>
             <p>{{$review->content}}</p>
             <div class="mb-3">
-              <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
+              <img src="{{ asset('assets/'.($review->rating*10).'.svg') }}" />
             </div>
             @if (count($comments) > 0)
             <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"

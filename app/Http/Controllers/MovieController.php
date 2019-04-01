@@ -68,23 +68,20 @@ class MovieController extends Controller
 
         $response = json_decode($movie_fetch->getBody());
 
-        $reviews = Review::where('movie_tmdb_id', $id)->where('approved', true)->get();
-        $comments = Comment::where('movie_tmdb_id', $id)->where('approved', true)->get();
+        $reviews = Review::where('movie_tmdb_id', $id)->get();
+        $approvedReviews = Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
+        $comments = Comment::where('movie_tmdb_id', $id)->get();
         $rating = [];
         $tot_rating = '';
-        if (count($reviews) > 0) {
-            foreach ($reviews as $review) {
+        if (count($approvedReviews) > 0) {
+            foreach ($approvedReviews as $review) {
                 array_push($rating, $review->rating);
             }
-            $tot_rating = floor((array_sum($rating) / count($reviews)));
-            // Ska vi ha halva poäng så kör vi på denna:
-            // Bilderna behövs då istället för att namnges, 1 2 3 4 5,
-            // namnges, 10 15 20 25 30 35 40 45 0ch 50
-            // $tot_rating = round(
-            //     (array_sum($rating) / 5) / count($reviews),
-            //     1,
-            //     PHP_ROUND_HALF_UP
-            // ) * 50;
+            $tot_rating = round(
+                (array_sum($rating) / 5) / count($approvedReviews),
+                1,
+                PHP_ROUND_HALF_UP
+            ) * 50;
         }
         if ($request->user()) {
             $user_id = $request->user()->id;
