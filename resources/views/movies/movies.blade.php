@@ -6,7 +6,11 @@
     @foreach ($results as $match)
     	<li>
 				<div class="m-1 match-container">
-          <img src="http://image.tmdb.org/t/p/w45//{{$match->poster_path}}">
+            @if($match->poster_path !== null)
+            <img src="http://image.tmdb.org/t/p/w45//{{$match->poster_path}}">
+            @else
+            <img src="https://via.placeholder.com/45x68.png?text=X" alt="{{ $match->title }}"/>
+            @endif
       	  <a href="/movies/{{ $match->id}}"><b>{{ $match->title }}</b> ({{ $match->release_date }})</a>
       	<div> 
       </li>

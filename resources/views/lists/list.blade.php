@@ -8,7 +8,12 @@
         <li>
             <div class="card">
                 <h5>{{$entries['title']}}</h5>
+                
+                @if($entries['poster_url']) !== null)
                 <img style="width: 18rem;" src="http://image.tmdb.org/t/p/w185{{$entries['poster_url']}}">
+                @else
+                <img style="width: 18rem;" src="https://via.placeholder.com/185x150.png?text=No+Poster+Available" alt="{{$entries['title']}}"/>
+                @endif
                 <form method="POST" action="/watchlists/{{$entries['id']}}">
                     @csrf @method("PATCH")
                     <input type="hidden" name="id" value="{{$entries['id']}}">

@@ -3,7 +3,11 @@
 
 <div class="movie-card card m-4">
   <div class="movie-card card mx-auto mt-5 mb-5 w-50">
-    <img class="card-img-top" src="http://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="Card image cap">
+    @if($movie->poster_path !== null)
+    <img class="card-img-top" src="http://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="{{$movie->title}}">
+    @else
+    <img class="card-img-top" src="https://via.placeholder.com/300x150.png?text=No+Poster+Available" alt="{{$movie->title}}"/>
+    @endif
     <div class="card-body">
       <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
       <p class="card-text">{{ $movie->overview }}</p>
