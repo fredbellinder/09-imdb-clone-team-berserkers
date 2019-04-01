@@ -28,6 +28,7 @@ h1, h2, h3, h4, h5, h6 {
 
 ul {
  list-style-type: none; 
+ padding: 0;
 }
 
 main {
@@ -47,7 +48,7 @@ main {
 //FOOTER PARTIAL
 footer {
   width: 100%;
-  margin-top: 20px;
+
 }
 
 // SPLASH SCREEN / WELCOME SCREEN
@@ -142,4 +143,18 @@ footer {
 .movie-card {
   text-decoration:none;
   color:black;
+}
+
+// Watchlist
+
+.list-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-container {
+  background-color: rgb(223, 223, 223);
+  min-height: 100vh;
 }

@@ -92,6 +92,7 @@ class WatchlistController extends Controller
                 [
                 'list' => $list_items,
                 'list_id' => $list_id,
+                'title' => $watchlist['title']
                 ]
             );
         } else {
@@ -100,6 +101,7 @@ class WatchlistController extends Controller
                 [
                 'list' => [],
                 'list_id' => $list_id,
+                'title' => $watchlist['title']
                 ]
             );
         }
