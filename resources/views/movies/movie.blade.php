@@ -1,30 +1,13 @@
 @extends('layouts.master') 
 @section('content')
 
-<<<<<<< HEAD
-<div class="movie-card card m-4">
-  <div class="movie-card card mx-auto mt-5 mb-5 w-50">
-    @if($movie->poster_path !== null)
-    <img class="card-img-top" src="http://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
-    <img class="card-img-top" src="https://via.placeholder.com/300x150.png?text=No+Poster+Available" alt="{{$movie->title}}"
-    /> @endif
-    <div class="card-body">
-      <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
-      <p class="card-text">{{ $movie->overview }}</p>
-      <div class="mb-3">
-        @if ($tot_rating && count($reviews) > 0)
-        <div> BMD score: <img width="30%" src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
-        <p>This movie has not yet been rated at BMD</p>
-        @endif @if($movie->vote_average)
-        <p>TMDb score: <span style="font-weight: bold; font-size: 2em;">{{$movie->vote_average}}</span></p>
-        @else
-        <p>This movie has not yet been rated at TMDb</p>
-        @endif
-=======
 <div class="movie-card card my-4">
   <div class="d-flex flex-wrap justify-content-around">
     <div class="movie-card card mw-500px">
-      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="Card image cap">
+    @if($movie->poster_path !== null)
+    <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
+    <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
+    /> @endif
       <div class="card-body">
         <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
         <p class="card-text">{{ $movie->overview }}</p>
@@ -37,7 +20,6 @@
           @else
           <p>This movie has not yet been rated at TMDb</p>
           @endif
->>>>>>> Now caches the MovieController.show response, which includes the videos (trailers etc.). Working on displaying the trailers in the movie blade.
 
         </div>
         @if($user_id !== null && count($watchlists)>0)
@@ -78,8 +60,8 @@
 
     <div class="videos">
       @foreach ($trailers as $trailer)
-      {{$trailer->name}}
-      <div class="videocontainer">
+      <h4 class="text-center">{{$trailer->name}}</h4>
+      <div class="videocontainer mb-2">
         <div class="videowrapper">
           <iframe class="responsiveiframe" title="{{$trailer->name}}" src="https://www.youtube.com/embed/{{$trailer->key}}" allowfullscreen></iframe>
         </div>

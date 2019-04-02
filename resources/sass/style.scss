@@ -52,10 +52,6 @@ main {
 //FOOTER PARTIAL
 footer {
   width: 100%;
-<<<<<<< HEAD
-
-=======
->>>>>>> Now caches the MovieController.show response, which includes the videos (trailers etc.). Working on displaying the trailers in the movie blade.
 }
 
 // SPLASH SCREEN / WELCOME SCREEN
@@ -152,21 +148,6 @@ footer {
   color:black;
 }
 
-<<<<<<< HEAD
-// Watchlist
-
-.list-item-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.list-container {
-  background-color: rgb(223, 223, 223);
-  min-height: 100vh;
-}
-=======
 // MOVIE BLADE - TRAILERS
 @mixin responsiveiframecontainer($max-width) {
   max-width: $max-width;
@@ -201,4 +182,26 @@ footer {
   border: 0;
 }
 
->>>>>>> Now caches the MovieController.show response, which includes the videos (trailers etc.). Working on displaying the trailers in the movie blade.
+@media screen and (max-width: 600px) {
+  .videos {
+    width: 100%;
+    min-width: 0;
+    margin: 1rem 0;
+    .text-center {
+      background: $berserker_primary;
+    }
+  }
+}
+
+// WATCHLIST
+.list-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-container {
+  background-color: rgb(223, 223, 223);
+  min-height: 100vh;
+}
