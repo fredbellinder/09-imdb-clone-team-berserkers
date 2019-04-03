@@ -74,6 +74,9 @@ class ReviewController extends Controller
      */
     public function show($review_id, Request $request)
     {
+        if (!$request->user()) {
+            return redirect('login');
+        }
         $user_id = $request->user()->id;
         $movie_tmdb_id = $request->movie_id;
         $review = Review::where('user_id', $user_id)->find($review_id);
@@ -81,17 +84,21 @@ class ReviewController extends Controller
         $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');
 
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
-
-        $response = json_decode($movie_fetch->getBody());
+        if ($review) {
+            $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
     
-        return view(
-            'reviews.review',
-            [
-            'movie' => $response,
-            'review' => $review
-            ]
-        );
+            $response = json_decode($movie_fetch->getBody());
+        
+            return view(
+                'reviews.review',
+                [
+                'movie' => $response,
+                'review' => $review
+                ]
+            );
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
