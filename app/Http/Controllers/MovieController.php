@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Watchlist;
 use App\Review;
 use App\Comment;
@@ -61,12 +62,32 @@ class MovieController extends Controller
     public function show(Request $request, $id)
     {
         $client = new \GuzzleHttp\Client();
-
         $apikey = env('TMDB_API_KEY', '');
-        
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey");
+        $append_videos = "append_to_response=videos";
 
-        $response = json_decode($movie_fetch->getBody());
+
+        if (Cache::has("$id")) {
+            $movie = Cache::get("$id");
+        } else {
+            $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey&$append_videos");
+            $movie = json_decode($movie_fetch->getBody());
+            Cache::put("$id", $movie, 36000);
+        }
+        
+        if ($movie->videos->results) {
+            $trailers_array = array();
+            $teasers_array = array();
+            foreach ($movie->videos as $result) {
+                foreach ($result as $video) {
+                    if ($video->site == "YouTube" && $video->type == "Trailer") {
+                        array_push($trailers_array, $video);
+                    } elseif ($video->site == "YouTube" && $video->type == "Teaser") {
+                        array_push($teasers_array, $video);
+                    }
+                }
+            }
+            // dd($trailers_array[0], $teasers_array[0]);
+        }
 
         $reviews = Review::where('movie_tmdb_id', $id)->get();
         $approvedReviews = Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
@@ -89,7 +110,9 @@ class MovieController extends Controller
             return view(
                 'movies.movie',
                 [
-                  'movie' => $response,
+                  'movie' => $movie,
+                  'trailers' => $trailers_array,
+                  'teasers' => $teasers_array,
                   'watchlists' => $watchlists,
                   'reviews' => $reviews,
                   'comments' => $comments,
@@ -101,7 +124,9 @@ class MovieController extends Controller
             return view(
                 'movies.movie',
                 [
-                  'movie' => $response,
+                  'movie' => $movie,
+                  'trailers' => $trailers_array,
+                  'teasers' => $teasers_array,
                   'watchlists' => null,
                   'reviews' => $reviews,
                   'comments' => $comments,
