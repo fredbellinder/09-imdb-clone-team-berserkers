@@ -17,19 +17,7 @@ class MovieController extends Controller
      */
     public function index(Request $request)
     {
-        $user_id = $request->user()->id;
-        $user_name = $request->user()->name;
-        $watchlists = Watchlist::where('user_id', $user_id)->get();
-        $reviews = Review::where('user_id', $user_id)->get();
-        $comments = Comment::where('user_id', $user_id)->get();
-
-        return view('users.dashboard', [
-            'user_id' => $user_id,
-            'user_name' => $user_name,
-            'watchlists' => $watchlists,
-            'reviews' => $reviews,
-            'comments' => $comments
-        ]);
+        return redirect('users');
     }
 
     /**
