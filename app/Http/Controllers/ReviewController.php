@@ -76,7 +76,7 @@ class ReviewController extends Controller
     {
         $user_id = $request->user()->id;
         $movie_tmdb_id = $request->movie_id;
-        $review = Review::where('user_id', $user_id)->where('approved', true)->find($review_id);
+        $review = Review::where('user_id', $user_id)->find($review_id);
 
         $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');

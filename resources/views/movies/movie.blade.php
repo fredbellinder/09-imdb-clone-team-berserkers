@@ -4,10 +4,10 @@
 <div class="movie-card card my-4">
   <div class="d-flex flex-wrap justify-content-around">
     <div class="movie-card card mw-500px">
-    @if($movie->poster_path !== null)
-    <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
-    <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
-    /> @endif
+      @if($movie->poster_path !== null)
+      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
+      <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
+      /> @endif
       <div class="card-body">
         <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
         <p class="card-text">{{ $movie->overview }}</p>
@@ -95,7 +95,7 @@
               <textarea name="content" class="form-control mx-3" rows="5" placeholder="Enter content" required></textarea>
             </div>
             <select class="form-control mx-auto" name="rating" required>
-                  <option selected>Rate the movie</option>
+                  <option selected disabled>Rate the movie</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -124,7 +124,9 @@
             <h4>{{$review->headline}}</h4>
             <p>{{$review->content}}</p>
             <div class="mb-3">
-              <img src="{{ asset('assets/'.($review->rating*10).'.svg') }}" />
+              @if($review->rating === null)
+              <img src="{{ asset('assets/null.svg') }}" /> @else
+              <img src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
             </div>
             @if (count($comments) > 0)
             <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"

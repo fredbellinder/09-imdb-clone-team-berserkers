@@ -9,7 +9,9 @@
         <h3 class="card-text">{{ $review->headline }}</h3>
         <p class="card-text">{{ $review->content }}</p>
         <div class="mb-3">
-            <img src="{{ asset('assets/'.$review->rating.'.svg') }}" />
+            @if($review->rating === null)
+        <img src="{{ asset('assets/null.svg') }}" /> @else
+        <img src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
         </div>
         @if (!$review->approved)
           <h4>Review is pending approval by a moderator.</h4>
