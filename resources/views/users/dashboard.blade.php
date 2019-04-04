@@ -5,23 +5,24 @@
   <div class="innerContainer d-flex justify-content-between">
     <div class="leftContainer">
     <h2>My Watchlists</h2>
-    <ul> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
-      <li>
-        <h3><a class="text-dark" href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a><h3>
+    <ul class="list-group"> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
+      <li class="list-group-item list-group-item-warning text-body">
+        <h4><a href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a></h4>
       </li>
       @endforeach @else
       <p>You haven't made any lists yet</p>
       @endif
     </ul>
+    <hr />
     <h2>My Reviews</h2>
-    <ul> @if (count($reviews) > 0) @foreach ($reviews as $entry)
-      <li>
-        <h3><a class="text-dark" href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
+    <ul class="list-group"> @if (count($reviews) > 0) @foreach ($reviews as $entry)
+      <li class="list-group-item list-group-item-warning text-body">
+        <h3><a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
         @if($entry->rating === null)
         <img src="{{ asset('assets/null.svg') }}" /> @else
         <img src="{{ asset('assets/'.($entry->rating*10).'.svg') }}" /> @endif
         @if (!$entry->approved)
-          <p>Your review is pending approval by a moderator.
+          <p class="mt-2">Your review is pending approval by a moderator.
           Until it is approved, only you will be able to see it.</p>
         @endif
       </li>
@@ -29,6 +30,7 @@
       <p>You haven't made any reviews yet</p>
       @endif
     </ul>
+    <hr />
     <h2>My Comments</h2>
     @if (count($comments) > 0) @foreach($comments as $comment)
     <div class="card mb-2 bg-light text-dark p-2">
