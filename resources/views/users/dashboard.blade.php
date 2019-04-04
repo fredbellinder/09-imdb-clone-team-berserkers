@@ -17,7 +17,9 @@
     <ul> @if (count($reviews) > 0) @foreach ($reviews as $entry)
       <li>
         <h3><a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
-        <img src="{{ asset('assets/'.$entry->rating.'.svg') }}" />
+        @if($entry->rating === null)
+        <img src="{{ asset('assets/null.svg') }}" /> @else
+        <img src="{{ asset('assets/'.($entry->rating*10).'.svg') }}" /> @endif
         @if (!$entry->approved)
           <p>Your review is pending approval by a moderator.
           Until it is approved, only you will be able to see it.</p>
