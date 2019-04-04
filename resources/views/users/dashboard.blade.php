@@ -1,9 +1,9 @@
 @extends('layouts.master') 
 @section('content')
-<div class="container">
-  <h1 class="text-center">Welcome back {{ $user_name }}</h1>
-  <div class="innerContainer d-flex justify-content-between">
-    <div class="leftContainer">
+<h1 class="text-center mb-4 bg-warning">Welcome back {{ $user_name }}</h1>
+<div class="container-fluid">
+  <div class="inner-container d-flex flex-wrap justify-content-around">
+    <div class="left-container">
     <h2>My Watchlists</h2>
     <ul class="list-group"> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
       <li class="list-group-item list-group-item-warning text-body">
@@ -51,7 +51,7 @@
     </ul>
     </div>
     @if ($administrate_reviews && $administrate_comments)
-    <div class="rightContainer">
+    <div class="right-container">
       <a href="admin/reviews"><h2>Administrate Reviews</h2></a>
       <a href="admin/comments"><h2>Administrate Comments</h2></a>
     </div>

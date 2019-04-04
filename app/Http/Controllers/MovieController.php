@@ -74,20 +74,21 @@ class MovieController extends Controller
                     }
                 }
             }
-            // dd($trailers_array[0], $teasers_array[0]);
         }
 
-        $reviews = Review::where('movie_tmdb_id', $id)->get();
-        $approvedReviews = Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
+        $approved_reviews = Cache::remember('reviews' . $id, 36000, function () use ($id) {
+            return Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
+        });
+
         $comments = Comment::where('movie_tmdb_id', $id)->get();
         $rating = [];
         $tot_rating = '';
-        if (count($approvedReviews) > 0) {
-            foreach ($approvedReviews as $review) {
+        if (count($approved_reviews) > 0) {
+            foreach ($approved_reviews as $review) {
                 array_push($rating, $review->rating);
             }
             $tot_rating = round(
-                (array_sum($rating) / 5) / count($approvedReviews),
+                (array_sum($rating) / 5) / count($approved_reviews),
                 1,
                 PHP_ROUND_HALF_UP
             ) * 50;
@@ -102,7 +103,7 @@ class MovieController extends Controller
                   'trailers' => $trailers_array,
                   'teasers' => $teasers_array,
                   'watchlists' => $watchlists,
-                  'reviews' => $reviews,
+                  'reviews' => $approved_reviews,
                   'comments' => $comments,
                   'user_id' => $user_id,
                   'tot_rating' => $tot_rating,
@@ -116,7 +117,7 @@ class MovieController extends Controller
                   'trailers' => $trailers_array,
                   'teasers' => $teasers_array,
                   'watchlists' => null,
-                  'reviews' => $reviews,
+                  'reviews' => $approved_reviews,
                   'comments' => $comments,
                   'user_id' => null,
                   'tot_rating' => $tot_rating,

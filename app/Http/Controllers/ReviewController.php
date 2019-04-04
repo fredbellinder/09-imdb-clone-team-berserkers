@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ReviewController extends Controller
 {
@@ -61,6 +62,7 @@ class ReviewController extends Controller
             $review->movie_title = $movie_title;
             $review->user_id = $user_id;
             $review->save();
+            Cache::forget('reviews' . $movie_tmdb_id);
         }
         
         return redirect()->back();

@@ -205,3 +205,15 @@ footer {
   background-color: rgb(223, 223, 223);
   min-height: 100vh;
 }
+
+// DASHBOARD
+.left-container {
+  max-width: 700px;
+}
+
+@media screen and (max-width: 1100px) {
+  .inner-container {
+    flex-flow: column nowrap;
+    align-content: center;
+  }
+}
