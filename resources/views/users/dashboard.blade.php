@@ -7,7 +7,7 @@
     <h2>My Watchlists</h2>
     <ul> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
       <li>
-        <a href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a>
+        <h3><a class="text-dark" href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a><h3>
       </li>
       @endforeach @else
       <p>You haven't made any lists yet</p>
