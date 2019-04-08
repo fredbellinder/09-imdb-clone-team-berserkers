@@ -7,7 +7,7 @@
     <h2>My Watchlists</h2>
     <ul> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
       <li>
-        <a href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a>
+        <h3><a class="text-dark" href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a><h3>
       </li>
       @endforeach @else
       <p>You haven't made any lists yet</p>
@@ -16,7 +16,7 @@
     <h2>My Reviews</h2>
     <ul> @if (count($reviews) > 0) @foreach ($reviews as $entry)
       <li>
-        <h3><a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
+        <h3><a class="text-dark" href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
         @if($entry->rating === null)
         <img src="{{ asset('assets/null.svg') }}" /> @else
         <img src="{{ asset('assets/'.($entry->rating*10).'.svg') }}" /> @endif

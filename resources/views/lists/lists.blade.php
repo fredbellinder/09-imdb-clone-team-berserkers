@@ -7,7 +7,7 @@
     <li>
         <div class="card">
             <h5>{{$entries['title']}}</h5>
-            <a href="/watchlists/{{$entries['id']}}">Check out list</a>
+            <a class="text-dark" href="/watchlists/{{$entries['id']}}">Check out list</a>
             <form method="POST" action="/watchlists/{{$entries['id']}}">
                 @csrf @method("DELETE")
                 <input type="hidden" name="id" value="{{$entries['id']}}">
