@@ -17,7 +17,9 @@ class ReviewController extends Controller
     {
         if ($request->user()) {
             $user_id = $request->user()->id;
-            $reviews = Review::where('user_id', $user_id)->take(20)->get();
+            $reviews = Cache::remember('reviews' . $user_id, 36000, function () use ($user_id) {
+                return Review::where('user_id', $user_id)->take(20)->get();
+            });
             return view('reviews.reviews')->with('reviews', $reviews);
         } else {
             return redirect()->back();
@@ -63,8 +65,8 @@ class ReviewController extends Controller
             $review->user_id = $user_id;
             $review->save();
             Cache::forget('reviews' . $movie_tmdb_id);
+            Cache::forget('reviews' . $user_id);
         }
-        
         return redirect()->back();
     }
 
@@ -87,9 +89,12 @@ class ReviewController extends Controller
         $apikey = env('TMDB_API_KEY', '');
 
         if ($review) {
-            $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
-    
-            $response = json_decode($movie_fetch->getBody());
+            $response = Cache::remember($movie_tmdb_id, 36000, function () use ($client, $apikey, $movie_tmdb_id) {
+                $append_videos = "append_to_response=videos";
+                $base_url = "https://api.themoviedb.org/3/movie";
+                $movie_fetch = $client->get("$base_url/$movie_tmdb_id?api_key=$apikey&$append_videos");
+                return json_decode($movie_fetch->getBody());
+            });
         
             return view(
                 'reviews.review',

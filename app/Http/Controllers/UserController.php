@@ -23,8 +23,12 @@ class UserController extends Controller
         $user_id = $request->user()->id;
         $user_name = $request->user()->name;
         $watchlists = Watchlist::where('user_id', $user_id)->get();
-        $reviews = Review::where('user_id', $user_id)->get();
-        $comments = Comment::where('user_id', $user_id)->get();
+        $reviews = Cache::remember('reviews' . $user_id, 36000, function () use ($user_id) {
+            return Review::where('user_id', $user_id)->get();
+        });
+        $comments = Cache::remember('comments' . $user_id, 36000, function () use ($user_id) {
+            return Comment::where('user_id', $user_id)->get();
+        });
 
         return view('users.dashboard', [
             'user_id' => $user_id,

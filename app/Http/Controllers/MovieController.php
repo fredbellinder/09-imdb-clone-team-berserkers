@@ -76,11 +76,15 @@ class MovieController extends Controller
             }
         }
 
-        $approved_reviews = Cache::remember('reviews' . $id, 36000, function () use ($id) {
+        $approved_reviews = Cache::remember('approved_reviews' . $id, 36000, function () use ($id) {
             return Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
         });
 
-        $comments = Comment::where('movie_tmdb_id', $id)->get();
+        $approved_comments = Cache::remember('approved_comments' . $id, 36000, function () use ($id) {
+            return Comment::where('movie_tmdb_id', $id)->where('approved', 1)->get();
+        });
+
+        
         $rating = [];
         $tot_rating = '';
         if (count($approved_reviews) > 0) {
@@ -104,7 +108,7 @@ class MovieController extends Controller
                   'teasers' => $teasers_array,
                   'watchlists' => $watchlists,
                   'reviews' => $approved_reviews,
-                  'comments' => $comments,
+                  'comments' => $approved_comments,
                   'user_id' => $user_id,
                   'tot_rating' => $tot_rating,
                 ]
@@ -118,7 +122,7 @@ class MovieController extends Controller
                   'teasers' => $teasers_array,
                   'watchlists' => null,
                   'reviews' => $approved_reviews,
-                  'comments' => $comments,
+                  'comments' => $approved_comments,
                   'user_id' => null,
                   'tot_rating' => $tot_rating,
                 ]
