@@ -80,6 +80,11 @@
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
+          statusCode: {
+    200: function() {
+      alert( "page not found" );
+    }
+  }
         }).done(() => {
         $(this).closest('.card').remove();
         });
