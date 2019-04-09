@@ -148,14 +148,6 @@ footer {
   color:black;
 }
 
-.review-delete-btn {
-  min-width: 36px;
-}
-
-.comment-delete-btn {
-  min-width: 36px;
-}
-
 // MOVIE BLADE - TRAILERS
 @mixin responsiveiframecontainer($max-width) {
   max-width: $max-width;

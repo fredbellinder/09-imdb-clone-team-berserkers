@@ -137,7 +137,7 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review, Request $request)
+    public function destroy(Review $review)
     {
         $user_id = $request->user()->id;
         $review_id = $review->id;

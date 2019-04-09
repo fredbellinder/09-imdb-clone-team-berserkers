@@ -122,19 +122,8 @@
         <div class="card-body">
           @if (count($reviews) > 0) @foreach ($reviews as $review)
           <div class="container bg-lighter text-dark text-dark mb-2 p-2">
-            <div class="d-flex flex-row">
-              <h4 class="w-100">{{$review->headline}}</h4>
-              @if ($user_id && $review->user_id === $user_id)
-              <div class="review-delete-btn">
-                <form class="delete-review">
-                  @csrf @method('DELETE')
-                  <input type="hidden" name="id" value="{{$review->id}}" />
-                  <button type="submit" class="btn btn-danger">X</button>
-                </form>
-              </div>
-            </div>
+            <h4>{{$review->headline}}</h4>
             <p>{{$review->content}}</p>
-            @endif
             <div class="mb-3">
               @if($review->rating === null)
               <img src="{{ asset('assets/null.svg') }}" /> @else
@@ -147,21 +136,17 @@
           </button>
             <div class="collapse" id="collapseComments{{$review->id}}">
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
-              <div class="card mb-2 bg-light text-dark p-2">
-                <div class="d-flex flex-row">
-                  <div class="w-100">
-                    <p>{{ $comment->content }}</p>
-                  </div>
-                  @if ($user_id && $comment->user_id === $user_id)
-                  <div class="comment-delete-btn">
-                    <form class="delete-comment">
-                      @csrf @method('DELETE')
-                      <input type="hidden" name="id" value="{{$comment->id}}" />
-                      <button type="submit" class="btn btn-danger">X</button>
-                    </form>
-                  </div>
-                  @endif
+              <div class="card mb-2 bg-light text-dark p-2 ">
+                <p class="d-inline-block">{{ $comment->content }}</p>
+                @if ($user_id && $comment->user_id === $user_id)
+                <div class="d-inline-block" style="float: right;">
+                  <form class="delete-review">
+                    @csrf @method('DELETE')
+                    <input type="hidden" name="id" value="{{$comment->id}}" />
+                    <button type="submit" class="btn btn-danger">X</button>
+                  </form>
                 </div>
+                @endif
                 <small>By: {{ $comment->user_name }}</small>
                 <small>{{ $comment->created_at }}</small> @if($comment->created_at != $comment->updated_at)
                 <small>Edited at:{{ $comment->updated_at }}</small> @endif
@@ -198,7 +183,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
 <script>
-  const commentToDelete = $('.delete-comment');
+  const id = $('.delete-review');
      function deleteComment (event) {
         event.preventDefault();
         $.ajax(
@@ -212,25 +197,7 @@
         $(this).closest('.card').remove();
         });
       }
-      commentToDelete.on('submit', deleteComment)
-
-
-      const reviewToDelete = $('.delete-review');
-     function deleteReview (event) {
-        event.preventDefault();
-        console.log(event.target[2].value);
-        $.ajax(
-          {
-          url: `/reviews/${event.target[2].value}`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).done(() => {
-        $(this).closest('.container').remove();
-        });
-      }
-      reviewToDelete.on('submit', deleteReview)
+      id.on('submit', deleteComment)
 
 </script>
 @endsection
