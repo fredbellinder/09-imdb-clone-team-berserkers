@@ -123,19 +123,8 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review, Request $request)
+    public function destroy(Review $review)
     {
-        $user_id = $request->user()->id;
-        $review_id = $review->id;
-
-        $toDelete = Review::where(
-            'id',
-            $review_id
-        )->where(
-            'user_id',
-            $user_id
-        )->delete();
-
-        return redirect()->back()->withErrors(['Something went wrong']);
+        //
     }
 }
