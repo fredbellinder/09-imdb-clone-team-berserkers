@@ -12,6 +12,8 @@ class SearchController extends Controller
     public function view()
     {
         $client = new \GuzzleHttp\Client();
+
+        dd($client);
     
         $apikey = env('TMDB_API_KEY', '');
 
@@ -108,12 +110,18 @@ class SearchController extends Controller
         );
     }
 
-    public function search(Request $request)
+    public function search(\GuzzleHttp\Client $client, Request $request)
     {
+
+      $client1 = resolve('GuzzleHttp\Client');
+      $client2 = resolve('GuzzleHttp\Client');
+      $client3 = resolve('GuzzleHttp\Client');
+
+      dd($client1, $client2, $client3, $client);
+
         $query=($request->input('query'));
         $queryParam = urlencode($query);
 
-        $client = new \GuzzleHttp\Client();
 
         $apikey = env('TMDB_API_KEY', '');
 
@@ -134,13 +142,23 @@ class SearchController extends Controller
         }
     }
 
-    public function advancedSearch(Request $request)
+    public function advancedSearch(\GuzzleHttp\Client $client, Request $request)
     {
+
+      $client1 = resolve('GuzzleHttp\Client');
+      $client2 = resolve('GuzzleHttp\Client');
+      $client3 = resolve('GuzzleHttp\Client');
+
+      dd($client1, $client2, $client3, $client);
+
         if (!array_filter($request->input())) {
             return redirect()->back()->withErrors(['All fields empty']);
         }
 
         $client = new \GuzzleHttp\Client();
+
+        dd($client);
+
     
         $apikey = env('TMDB_API_KEY', '');
         
