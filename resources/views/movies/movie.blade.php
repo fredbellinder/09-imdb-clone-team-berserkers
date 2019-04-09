@@ -118,7 +118,7 @@
           </button>
         </h5>
       </div>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
           @if (count($reviews) > 0) @foreach ($reviews as $review)
           <div class="container bg-lighter text-dark text-dark mb-2 p-2">
@@ -180,8 +180,6 @@
   </div>
 </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
 <script>
   const id = $('.delete-review');
      function deleteComment (event) {
