@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-  <h2 class="text-center">TMDB Movies Search Query Results</h2>
+<h2 class="text-center bg-light my-2">Results for "{{$query}}"</h2>
   <ul>
     @foreach ($results as $match)
     	<li>
