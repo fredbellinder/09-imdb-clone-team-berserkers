@@ -131,12 +131,13 @@ class SearchController extends Controller
         $response = json_decode($movie_fetch->getBody());
         
         if (empty($response->results)) {
-            return redirect()->back()->withErrors(['No matches for search query']);
+            return redirect()->back()->withErrors(['No matches for ' . $query]);
         } else {
             return view(
                 'movies.movies',
                 [
-                'results' => $response->results
+                'results' => $response->results,
+                'query' => $query
                 ]
             );
         }
