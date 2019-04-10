@@ -28,10 +28,26 @@ class LoginTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-    public function testDashboard()
+    public function testWatchlists()
     {
         $user = factory(User::class)->make();
 
-        $this->actingAs($user)->get('/users')->assertViewIs('users.dashboard');
+        $this->actingAs($user)->get('/watchlists')->assertOk();
+    }
+    
+    public function testDashboardAsAdmin()
+    {
+        $user = factory(User::class)->make([
+            'role_id' => 1
+        ]);
+
+        $this->actingAs($user)->get('/users')->assertSeeText('Administrate Reviews');
+    }
+
+    public function testDashboardAsUser()
+    {
+        $user = factory(User::class)->make();
+
+        $this->actingAs($user)->get('/users')->assertOk();
     }
 }

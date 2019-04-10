@@ -13,7 +13,7 @@ class MovieTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testFightClubRoute()
     {
         $response = $this->get('/movies/550');
 
