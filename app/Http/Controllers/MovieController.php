@@ -17,19 +17,7 @@ class MovieController extends Controller
      */
     public function index(Request $request)
     {
-        $user_id = $request->user()->id;
-        $user_name = $request->user()->name;
-        $watchlists = Watchlist::where('user_id', $user_id)->get();
-        $reviews = Review::where('user_id', $user_id)->get();
-        $comments = Comment::where('user_id', $user_id)->get();
-
-        return view('users.dashboard', [
-            'user_id' => $user_id,
-            'user_name' => $user_name,
-            'watchlists' => $watchlists,
-            'reviews' => $reviews,
-            'comments' => $comments
-        ]);
+        return redirect('users');
     }
 
     /**
@@ -74,9 +62,9 @@ class MovieController extends Controller
             Cache::put("$id", $movie, 36000);
         }
         
+        $trailers_array = array();
+        $teasers_array = array();
         if ($movie->videos->results) {
-            $trailers_array = array();
-            $teasers_array = array();
             foreach ($movie->videos as $result) {
                 foreach ($result as $video) {
                     if ($video->site == "YouTube" && $video->type == "Trailer") {
@@ -86,20 +74,25 @@ class MovieController extends Controller
                     }
                 }
             }
-            // dd($trailers_array[0], $teasers_array[0]);
         }
 
-        $reviews = Review::where('movie_tmdb_id', $id)->get();
-        $approvedReviews = Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
-        $comments = Comment::where('movie_tmdb_id', $id)->get();
+        $approved_reviews = Cache::remember('approved_reviews' . $id, 36000, function () use ($id) {
+            return Review::where('movie_tmdb_id', $id)->where('approved', 1)->get();
+        });
+
+        $approved_comments = Cache::remember('approved_comments' . $id, 36000, function () use ($id) {
+            return Comment::where('movie_tmdb_id', $id)->where('approved', 1)->get();
+        });
+
+        
         $rating = [];
         $tot_rating = '';
-        if (count($approvedReviews) > 0) {
-            foreach ($approvedReviews as $review) {
+        if (count($approved_reviews) > 0) {
+            foreach ($approved_reviews as $review) {
                 array_push($rating, $review->rating);
             }
             $tot_rating = round(
-                (array_sum($rating) / 5) / count($approvedReviews),
+                (array_sum($rating) / 5) / count($approved_reviews),
                 1,
                 PHP_ROUND_HALF_UP
             ) * 50;
@@ -114,8 +107,8 @@ class MovieController extends Controller
                   'trailers' => $trailers_array,
                   'teasers' => $teasers_array,
                   'watchlists' => $watchlists,
-                  'reviews' => $reviews,
-                  'comments' => $comments,
+                  'reviews' => $approved_reviews,
+                  'comments' => $approved_comments,
                   'user_id' => $user_id,
                   'tot_rating' => $tot_rating,
                 ]
@@ -128,8 +121,8 @@ class MovieController extends Controller
                   'trailers' => $trailers_array,
                   'teasers' => $teasers_array,
                   'watchlists' => null,
-                  'reviews' => $reviews,
-                  'comments' => $comments,
+                  'reviews' => $approved_reviews,
+                  'comments' => $approved_comments,
                   'user_id' => null,
                   'tot_rating' => $tot_rating,
                 ]
