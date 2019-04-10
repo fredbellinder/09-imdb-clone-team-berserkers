@@ -19,15 +19,6 @@ class SearchController extends Controller
     public function view()
     {
         $client = $this->client;
-        // dd($client, app(), 'yolo');
-
-        // $client1 = $this->client;
-        // $client2 = $this->client;
-        // $client3 = $this->client;
-
-        // dd($client1, $client2, $client3, $client);
-
-
     
         $apikey = env('TMDB_API_KEY', '');
 
@@ -159,11 +150,6 @@ class SearchController extends Controller
             return redirect()->back()->withErrors(['All fields empty']);
         }
 
-        $client = $this->client;
-
-        dd($client);
-
-    
         $apikey = env('TMDB_API_KEY', '');
         
         $urlQuery = "sort_by=popularity.desc&page=1";
