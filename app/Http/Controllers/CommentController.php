@@ -46,7 +46,8 @@ class CommentController extends Controller
         $comment->user_name = User::where('id', $comment->user_id)->first()->name;
 
         $comment->save();
-    
+        
+        Cache::forget('comments' . $comment->movie_tmdb_id);
         
         return redirect()->back();
     }

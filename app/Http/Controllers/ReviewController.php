@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class ReviewController extends Controller
 {
@@ -16,7 +17,9 @@ class ReviewController extends Controller
     {
         if ($request->user()) {
             $user_id = $request->user()->id;
-            $reviews = Review::where('user_id', $user_id)->take(20)->get();
+            $reviews = Cache::remember('reviews' . $user_id, 36000, function () use ($user_id) {
+                return Review::where('user_id', $user_id)->take(20)->get();
+            });
             return view('reviews.reviews')->with('reviews', $reviews);
         } else {
             return redirect()->back();
@@ -61,8 +64,9 @@ class ReviewController extends Controller
             $review->movie_title = $movie_title;
             $review->user_id = $user_id;
             $review->save();
+            Cache::forget('reviews' . $movie_tmdb_id);
+            Cache::forget('reviews' . $user_id);
         }
-        
         return redirect()->back();
     }
 
@@ -74,6 +78,9 @@ class ReviewController extends Controller
      */
     public function show($review_id, Request $request)
     {
+        if (!$request->user()) {
+            return redirect('login');
+        }
         $user_id = $request->user()->id;
         $movie_tmdb_id = $request->movie_id;
         $review = Review::where('user_id', $user_id)->find($review_id);
@@ -81,17 +88,24 @@ class ReviewController extends Controller
         $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');
 
-        $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
-
-        $response = json_decode($movie_fetch->getBody());
-    
-        return view(
-            'reviews.review',
-            [
-            'movie' => $response,
-            'review' => $review
-            ]
-        );
+        if ($review) {
+            $response = Cache::remember($movie_tmdb_id, 36000, function () use ($client, $apikey, $movie_tmdb_id) {
+                $append_videos = "append_to_response=videos";
+                $base_url = "https://api.themoviedb.org/3/movie";
+                $movie_fetch = $client->get("$base_url/$movie_tmdb_id?api_key=$apikey&$append_videos");
+                return json_decode($movie_fetch->getBody());
+            });
+        
+            return view(
+                'reviews.review',
+                [
+                'movie' => $response,
+                'review' => $review
+                ]
+            );
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
