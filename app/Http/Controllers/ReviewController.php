@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use Illuminate\Http\Request;
+use App\Services\Client;
 
 class ReviewController extends Controller
 {
@@ -72,13 +73,12 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function show($review_id, Request $request)
+    public function show($review_id, Request $request, Client $client)
     {
         $user_id = $request->user()->id;
         $movie_tmdb_id = $request->movie_id;
         $review = Review::where('user_id', $user_id)->find($review_id);
 
-        $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');
 
         $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$movie_tmdb_id?api_key=$apikey");
