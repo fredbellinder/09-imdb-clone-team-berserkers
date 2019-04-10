@@ -137,6 +137,11 @@ footer {
   color:black;
 }
 
+.overview-text {
+  max-height: 138px;
+  overflow-y: hidden;
+}
+
 // MOVIE BLADE
 .match-container a {
   text-decoration:none;
