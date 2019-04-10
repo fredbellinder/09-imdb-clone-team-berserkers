@@ -5,10 +5,10 @@
 <div class="movie-card card mb-4">
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
-    @if($movie->poster_path !== null)
-    <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
-    <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
-    /> @endif
+      @if($movie->poster_path !== null)
+      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" />      @else
+      <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
+      /> @endif
       <div class="card-body">
         <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
         <p class="card-text">{{ $movie->overview }}</p>
@@ -37,12 +37,12 @@
         </select>
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
         </form>
+        @endif
+        @if($user_id !== null)
         <p>
           <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
             aria-controls="multiCollapseExample1">Create a new watchlist</a>
         </p>
-        @elseif ($user_id === null)
-        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
         <div class="row">
           <div class="col">
             <div class="collapse multi-collapse" id="multiCollapseExample1">
@@ -56,6 +56,9 @@
             </div>
           </div>
         </div>
+        @elseif ($user_id === null)
+        <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a>
+         @endif
       </div>
     </div>
 
@@ -186,9 +189,8 @@
             </div>
           </div>
         </div>
-        @endforeach @endif
-        @if (count($reviews) == 0)
-            <h5>No reviews for this movie yet!</h5>
+        @endforeach @endif @if (count($reviews) == 0)
+        <h5>No reviews for this movie yet!</h5>
         @endif
       </div>
     </div>
