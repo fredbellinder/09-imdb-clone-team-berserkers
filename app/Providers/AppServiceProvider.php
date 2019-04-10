@@ -24,14 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // \App::singleton('GuzzleHttp\Client', function () {
-        //     return new \GuzzleHttp\Client();
-        // });
 
-        $this->app->singleton(
-            'GuzzleHttp\Client', function () {
-                return new \GuzzleHttp\Client();
-            }
-        );
     }
 }

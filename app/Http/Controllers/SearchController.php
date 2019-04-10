@@ -6,14 +6,28 @@ use Illuminate\Http\Request;
 use App\Watchlist;
 use App\Review;
 use App\Comment;
+use App\Services\Client;
 
 class SearchController extends Controller
 {
+    private $_client;
+
+    public function __construct(Client $_client)
+    {
+        $this->client = $_client;
+    }
     public function view()
     {
-        $client = new \GuzzleHttp\Client();
+        $client = $this->client;
+        // dd($client, app(), 'yolo');
 
-        dd($client);
+        // $client1 = $this->client;
+        // $client2 = $this->client;
+        // $client3 = $this->client;
+
+        // dd($client1, $client2, $client3, $client);
+
+
     
         $apikey = env('TMDB_API_KEY', '');
 
@@ -110,14 +124,9 @@ class SearchController extends Controller
         );
     }
 
-    public function search(\GuzzleHttp\Client $client, Request $request)
+    public function search(Request $request)
     {
-
-      $client1 = resolve('GuzzleHttp\Client');
-      $client2 = resolve('GuzzleHttp\Client');
-      $client3 = resolve('GuzzleHttp\Client');
-
-      dd($client1, $client2, $client3, $client);
+        $client = $this->client;
 
         $query=($request->input('query'));
         $queryParam = urlencode($query);
@@ -142,20 +151,15 @@ class SearchController extends Controller
         }
     }
 
-    public function advancedSearch(\GuzzleHttp\Client $client, Request $request)
+    public function advancedSearch(Request $request)
     {
-
-      $client1 = resolve('GuzzleHttp\Client');
-      $client2 = resolve('GuzzleHttp\Client');
-      $client3 = resolve('GuzzleHttp\Client');
-
-      dd($client1, $client2, $client3, $client);
-
+        $client = $this->client;
+  
         if (!array_filter($request->input())) {
             return redirect()->back()->withErrors(['All fields empty']);
         }
 
-        $client = new \GuzzleHttp\Client();
+        $client = $this->client;
 
         dd($client);
 

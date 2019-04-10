@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Client;
 
 class IndexController extends Controller
 {
@@ -12,9 +13,9 @@ class IndexController extends Controller
         return view('welcome');
     }
 
-    public function showMostPopularOfTheYear()
+    public function showMostPopularOfTheYear(Client $client)
     {
-        $client = new \GuzzleHttp\Client();
+        $apikey = env('TMDB_API_KEY', '');
         $current_year = date("Y");
 
         $popular_fetch = Cache::remember('popular_fetch', 3600, function () use ($current_year, $client) {
@@ -34,9 +35,8 @@ class IndexController extends Controller
         ]);
     }
 
-    public function showTopHorrorMovies()
+    public function showTopHorrorMovies(Client $client)
     {
-        $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');
         $discover_base_url = "https://api.themoviedb.org/3/discover/movie";
         $horror_query = "sort_by=vote_average.desc&with_genres=27&vote_count.gte=50";
