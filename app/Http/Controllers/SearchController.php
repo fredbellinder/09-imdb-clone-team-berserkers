@@ -6,12 +6,19 @@ use Illuminate\Http\Request;
 use App\Watchlist;
 use App\Review;
 use App\Comment;
+use App\Services\Client;
 
 class SearchController extends Controller
 {
+    private $_client;
+
+    public function __construct(Client $_client)
+    {
+        $this->client = $_client;
+    }
     public function view()
     {
-        $client = new \GuzzleHttp\Client();
+        $client = $this->client;
     
         $apikey = env('TMDB_API_KEY', '');
 
@@ -110,10 +117,11 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
+        $client = $this->client;
+
         $query=($request->input('query'));
         $queryParam = urlencode($query);
 
-        $client = new \GuzzleHttp\Client();
 
         $apikey = env('TMDB_API_KEY', '');
 
@@ -136,12 +144,12 @@ class SearchController extends Controller
 
     public function advancedSearch(Request $request)
     {
+        $client = $this->client;
+  
         if (!array_filter($request->input())) {
             return redirect()->back()->withErrors(['All fields empty']);
         }
 
-        $client = new \GuzzleHttp\Client();
-    
         $apikey = env('TMDB_API_KEY', '');
         
         $urlQuery = "sort_by=popularity.desc&page=1";

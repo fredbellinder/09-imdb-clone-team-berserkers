@@ -8,21 +8,6 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <!-- Custom CSS -->
   <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-
-  <title>IMDB clone- Team berserkers</title>
-
-</head>
-
-<body>
-  @include('partials.navbar')
-  @include('partials.error')
-  
-  <main>
-    @yield('content')
-  </main>
-  @include('partials.footer')
-
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -33,6 +18,21 @@
     crossorigin="anonymous"></script>
   <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
+
+  <title>BMD</title>
+
+</head>
+
+<body>
+  @include('partials.navbar')
+  @include('partials.error')
+
+  <main>
+    @yield('content')
+  </main>
+  @include('partials.footer')
+
+
 </body>
 
 </html>

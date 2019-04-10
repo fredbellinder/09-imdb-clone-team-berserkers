@@ -104,7 +104,5 @@ class CommentController extends Controller
             'user_id',
             $user_id
         )->delete();
-
-        return redirect()->back()->withErrors(['Something went wrong']);
     }
 }

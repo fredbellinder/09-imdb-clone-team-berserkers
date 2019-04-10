@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Watchlist;
 use App\Review;
 use App\Comment;
+use App\Services\Client;
 
 class MovieController extends Controller
 {
@@ -47,9 +48,8 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, Client $client, $id)
     {
-        $client = new \GuzzleHttp\Client();
         $apikey = env('TMDB_API_KEY', '');
         $append_videos = "append_to_response=videos";
 
