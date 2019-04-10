@@ -16,11 +16,9 @@ class LoginTest extends TestCase
      */
     public function testLogin()
     {
-        $user = factory(\App\User::class)->create();
+        $user = factory(User::class)->make();
 
-        $response = $this->actingAs($user, 'web')->get('/users');
-
-        $response->assertSeeText('My Watchlists');
+        $this->actingAs($user)->assertAuthenticated();
     }
 
     public function testUsersRedirect()
@@ -28,5 +26,12 @@ class LoginTest extends TestCase
         $response = $this->get('/users');
 
         $response->assertRedirect('/login');
+    }
+
+    public function testDashboard()
+    {
+        $user = factory(User::class)->make();
+
+        $this->actingAs($user)->get('/users')->assertViewIs('users.dashboard');
     }
 }
