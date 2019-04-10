@@ -16,6 +16,8 @@ class PermissionsTableSeeder extends Seeder
             'browse_database',
             'browse_media',
             'browse_compass',
+            'browse_reviews',
+            'browse_comments'
         ];
 
         foreach ($keys as $key) {
