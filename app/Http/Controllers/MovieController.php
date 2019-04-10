@@ -62,9 +62,9 @@ class MovieController extends Controller
             Cache::put("$id", $movie, 36000);
         }
         
+        $trailers_array = array();
+        $teasers_array = array();
         if ($movie->videos->results) {
-            $trailers_array = array();
-            $teasers_array = array();
             foreach ($movie->videos as $result) {
                 foreach ($result as $video) {
                     if ($video->site == "YouTube" && $video->type == "Trailer") {
