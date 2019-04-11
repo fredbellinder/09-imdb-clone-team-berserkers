@@ -14,6 +14,7 @@
 
 
 Route::get('/', 'IndexController@index');
+
 Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear');
 Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies');
 
@@ -35,10 +36,17 @@ Route::group(
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function () {
+    return redirect('/');
+});
+
 
 Route::post('/comments', 'CommentController@store')->name('comments.store');
 Route::delete(
     '/comments/{comment}',
     'CommentController@destroy'
 );
+
+Route::get('/{any}', function () {
+    return redirect('/');
+});
