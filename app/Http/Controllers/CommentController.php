@@ -102,6 +102,8 @@ class CommentController extends Controller
         $user_id = $request->user()->id;
         $comment_id = $comment->id;
 
+        dd($request);
+
         $toDelete = Comment::where(
             'id',
             $comment_id
@@ -109,5 +111,8 @@ class CommentController extends Controller
             'user_id',
             $user_id
         )->delete();
+
+        Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $comment->movie_tmdb_id);
     }
 }

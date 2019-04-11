@@ -166,6 +166,8 @@ class ReviewController extends Controller
         $user_id = $request->user()->id;
         $review_id = $review->id;
 
+        dd($review, $request);
+
         $toDelete = Review::where(
             'id',
             $review_id
@@ -173,5 +175,10 @@ class ReviewController extends Controller
             'user_id',
             $user_id
         )->delete();
+
+        Cache::forget('reviews' . $movie_tmdb_id);
+        Cache::forget('reviews' . $user_id);
+        Cache::forget('approved_reviews' . $movie_tmdb_id);
+        Cache::forget('approved_reviews' . $user_id);
     }
 }
