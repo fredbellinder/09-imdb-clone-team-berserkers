@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -42,6 +43,9 @@ class CommentController extends Controller
         $comment->movie_tmdb_id = $request->input('movie_tmdb_id');
         $comment->user_id = $request->user()->id;
         $comment->review_id = $request->input('review_id');
+        if ($request->user()->role_id === 1 || $request->user()->role_id === 3) {
+            $comment->approved = 1;
+        }
         
         $comment->user_name = User::where('id', $comment->user_id)->first()->name;
 
