@@ -7,12 +7,25 @@
     <div class="left-container">
       <h2>My Watchlists</h2>
       <ul class="list-group"> @if (count($watchlists) > 0) @foreach ($watchlists as $entry)
-        <li class="list-group-item list-group-item-warning text-body">
-          <h4><a href="/watchlists/{{$entry->id}}">{{ $entry->title }}</a></h4>
+        <li class="list-group-item list-group-item-warning d-flex justify-content-between text-body">
+          <a href="/watchlists/{{$entry['id']}}">
+            <h5>{{$entry['title']}}</h5>
+          </a>
+          <form method="POST" action="/watchlists/{{$entry['id']}}">
+            @csrf @method("DELETE")
+            <input type="hidden" name="id" value="{{$entry['id']}}">
+            <button class="btn btn-danger" type="submit">X</button>
+          </form>
+        </li>
         </li>
         @endforeach @else
         <p>You haven't made any lists yet</p>
         @endif
+        <form class="form-inline my-2" method="GET" action="/watchlists/create">
+          @csrf
+          <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
+      </form>
       </ul>
       <hr/>
       <h2>My Reviews</h2>
@@ -104,5 +117,6 @@
         });
       }
       commentToDelete.on('submit', deleteComment)
+
 </script>
 @endsection
