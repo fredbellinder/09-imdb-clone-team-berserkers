@@ -64,6 +64,9 @@ class ReviewController extends Controller
             $review->movie_tmdb_id = $movie_tmdb_id;
             $review->movie_title = $movie_title;
             $review->user_id = $user_id;
+            if ($request->user()->role_id === 1 || $request->user()->role_id === 3) {
+                $review->approved = 1;
+            }
             $review->save();
             Cache::forget('reviews' . $movie_tmdb_id);
             Cache::forget('reviews' . $user_id);

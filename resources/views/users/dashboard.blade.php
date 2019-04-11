@@ -1,8 +1,8 @@
 @extends('layouts.master') 
 @section('content')
 
+<h1 class="text-center mb-4 bg-warning">Welcome back {{ $user_name }}</h1>
 <div class="container-fluid">
-  <h1 class="text-center mb-4 bg-warning">Welcome back {{ $user_name }}</h1>
   <div class="inner-container d-flex flex-wrap justify-content-around">
     <div class="left-container">
       <h2>My Watchlists</h2>
@@ -29,6 +29,7 @@
         <p>You haven't made any reviews yet</p>
         @endif
       </ul>
+      <hr />
       <h2>My Comments</h2>
       @if (count($comments) > 0) @foreach($comments as $comment)
       <div class="card mb-2 bg-light text-dark p-2">
@@ -54,23 +55,6 @@
         @endif
       </div>
       @endforeach @else
-      <p>You haven't made any comments yet</p>
-      @endif
-      </ul>
-      <hr />
-      <h2>My Comments</h2>
-      @if (count($comments) > 0) @foreach($comments as $comment)
-      <div class="card mb-2 bg-light text-dark p-2">
-        <p>{{ $comment->content }}</p>
-        <p>By: {{ $comment->user_name }}</p>
-        <p>{{ $comment->created_at }}</p>
-        @if($comment->created_at != $comment->updated_at)
-        <p>Edited at:{{ $comment->updated_at }}</p>
-        @endif
-      </div>
-      @if (!$comment->approved)
-      <p>Your comment is pending approval by a moderator. Until it is approved, only you will be able to see it.</p>
-      @endif @endforeach @else
       <p>You haven't made any comments yet</p>
       @endif
       </ul>
