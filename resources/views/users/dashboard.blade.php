@@ -47,8 +47,7 @@
       @if (count($comments) > 0) @foreach($comments as $comment)
       <div class="card mb-2 bg-light text-dark p-2">
         <div class="d-flex flex-row">
-
-          <div class="w-100">
+          <div class="flex-grow-1">
             <p>{{ $comment->content }}</p>
           </div>
           @if ($user_id && $comment->user_id === $user_id)
