@@ -24,7 +24,11 @@ Route::get('/advanced-search-view', 'SearchController@view');
 
 Route::resource('movies', 'MovieController');
 Route::resource('users', 'UserController')->middleware('auth');
-Route::resource('watchlists', 'WatchlistController');
+
+Route::resource('watchlists', 'WatchlistController')->except([
+    'index', 'edit'
+]);
+
 Route::resource('reviews', 'ReviewController');
 
 Route::group(
