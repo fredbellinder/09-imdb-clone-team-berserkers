@@ -131,9 +131,28 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request)
     {
-        //
+        $user_id = $request->user()->id;
+        $review_id = $request->review_id;
+        $headline = $request->input('headline');
+        $content = $request->input('content');
+        $rating = $request->input('rating');
+        $movie_tmdb_id = $request->input('movie_tmdb_id');
+
+
+        $updatedReview = Review::where('id', $review_id)->first();
+
+        $updatedReview->headline = $headline;
+        $updatedReview->content = $content;
+        $updatedReview->rating = $rating;
+    
+        $updatedReview->save();
+
+        Cache::forget('reviews' . $movie_tmdb_id);
+        
+
+        return redirect()->back();
     }
 
     /**

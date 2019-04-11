@@ -34,4 +34,57 @@
         </a>
     </section>
   </div>
+  {{-- <div class="card-body edit-review-container-{{$review->id}}" style="display:none"> --}}
+  <div class="card-body edit-review-container-{{$review->id}}">
+      
+      <form method="POST" action="/reviews/{{$review->id}}">
+        @csrf @method('PATCH')
+        <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
+        <input type="hidden" name="review_id" value="{{$review->id}}">
+        <input type="hidden" name="movie_title" value="{{$movie->title}}">
+        <div class="row my-2">
+          <label class="px-2" for="headline">Headline</label>
+          <input type="text" class="form-control mx-3" name="headline" value="{{$review->headline}}" required/>
+        </div>
+        <div class="row my-2">
+          <label class="px-2" for="headline">Content</label>
+          <textarea name="content" class="form-control mx-3" rows="5" value="{{$review->content}}" required>{{$review->content}}</textarea>
+        </div>
+        <select class="form-control mx-auto" name="rating" required>
+              <option selected disabled>New Rating</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+        <button class="btn btn-danger mt-2 edit-submit-{{$review->id}}" type="submit">Submit</button>
+        <button class="btn btn-danger mt-2 edit-review-cancel">Cancel</button>
+      </form>
+    </div>
+    <script>
+
+        const editReviewForm = $('.edit-review');
+        function editReview(event) {
+          event.preventDefault();
+          const review_id=(event.target[1].value);
+          const reviewInfo = $(this).closest('.container-review');
+            const editReview = $(`.edit-review-container-${review_id}`);
+          editReview.show();
+          reviewInfo.hide();
+          
+          $(`.edit-submit-${review_id}`).on('submit', function(event, reviewInfo) {
+            event.preventDefault();
+            $(`.edit-review-container-${review_id}`).hide();
+            editReview.hide();
+            reviewInfo.show();
+            
+          });
+          $(`.edit-review-cancel`).on('click', function(event) {
+            event.preventDefault();
+            $(`.edit-review-container-${review_id}`).hide();
+            reviewInfo.show();
+          });
+        }
+        editReviewForm.on("submit", editReview);
 @endsection
