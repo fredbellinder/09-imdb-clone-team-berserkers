@@ -48,6 +48,7 @@ class CommentController extends Controller
         $comment->save();
         
         Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $comment->movie_tmdb_id);
         
         return redirect()->back();
     }
