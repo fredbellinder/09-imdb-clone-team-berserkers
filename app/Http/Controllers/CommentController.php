@@ -52,7 +52,9 @@ class CommentController extends Controller
         $comment->save();
         
         Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('comments' . $comment->user_id);
         Cache::forget('approved_comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $comment->user_id);
         
         return redirect()->back();
     }
@@ -102,8 +104,6 @@ class CommentController extends Controller
         $user_id = $request->user()->id;
         $comment_id = $comment->id;
 
-        dd($request);
-
         $toDelete = Comment::where(
             'id',
             $comment_id
@@ -113,6 +113,8 @@ class CommentController extends Controller
         )->delete();
 
         Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('comments' . $user_id);
         Cache::forget('approved_comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $user_id);
     }
 }

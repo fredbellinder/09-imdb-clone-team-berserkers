@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Review;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Client;
@@ -161,13 +162,13 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Request $request, Review $review)
     {
         $user_id = $request->user()->id;
         $review_id = $review->id;
+        $movie_tmdb_id = $review->movie_tmdb_id;
 
-        dd($review, $request);
-
+        $comments = Comment::where('review_id', $review_id)->delete();
         $toDelete = Review::where(
             'id',
             $review_id
