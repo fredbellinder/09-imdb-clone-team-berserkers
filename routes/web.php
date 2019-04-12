@@ -14,8 +14,9 @@
 // Index controller routes
 Route::get('cache', 'IndexController@flushCache'); // Delete this when we're in production
 Route::get('/', 'IndexController@index')->name('home.index');
-Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear')->name('home.mostpopular');
-Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies')->name('home.tophorror');
+Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear')->name('home.most-popular');
+Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies')->name('home.top-horror');
+Route::get('/top-comedy-movies', 'IndexController@showTopComedyMovies')->name('home.top-comedy');
 
 // Search controller routes
 Route::get('/search', 'SearchController@search')->name('search.search');

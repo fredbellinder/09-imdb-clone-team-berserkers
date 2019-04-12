@@ -62,7 +62,7 @@ footer {
   grid-template-areas:
     "year year horror horror"
     "year year horror horror"
-    "staff staff staff staff";
+    "comedy comedy comedy comedy";
 }
 
 .hot-year {
@@ -79,10 +79,10 @@ footer {
   color: white;
 }
 
-.staff-pick {
-  background: url("https://images.pexels.com/photos/1204649/pexels-photo-1204649.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-    no-repeat center center fixed;
-  grid-area: staff;
+.hot-comedy {
+  background: url("https://images.pexels.com/photos/1267696/pexels-photo-1267696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    no-repeat center top fixed;
+  grid-area: comedy;
   color: white;
 }
 
