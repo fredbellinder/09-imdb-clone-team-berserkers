@@ -51,4 +51,10 @@ class IndexController extends Controller
             'list' => $movies
         ]);
     }
+
+    public function clearCache()
+    {
+        Cache::flush();
+        return redirect()->back();
+    }
 }
