@@ -170,7 +170,6 @@ class ReviewController extends Controller
         $review_id = $review->id;
         $movie_tmdb_id = $review->movie_tmdb_id;
 
-        $comments = Comment::where('review_id', $review_id)->delete();
         $toDelete = Review::where(
             'id',
             $review_id

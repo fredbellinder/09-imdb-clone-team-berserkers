@@ -90,7 +90,10 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('comments' . $user_id);
+        Cache::forget('approved_comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $user_id);
     }
 
     /**
