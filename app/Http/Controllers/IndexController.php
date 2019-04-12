@@ -52,6 +52,7 @@ class IndexController extends Controller
         ]);
     }
 
+    /* Delete this when we go live */
     public function clearCache()
     {
         Cache::flush();
