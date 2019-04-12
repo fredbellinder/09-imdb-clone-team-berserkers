@@ -57,13 +57,20 @@ class MovieController extends Controller
         if (Cache::has("$id")) {
             $movie = Cache::get("$id");
         } else {
-            $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey&$append_videos");
+            $movie_fetch = $client->get("https://api.themoviedb.org/3/movie/$id?api_key=$apikey&append_to_response=credits%2Cvideos");
             $movie = json_decode($movie_fetch->getBody());
             Cache::put("$id", $movie, 36000);
         }
-        
+        $cast_array = array();
+        $crew_array = array();
         $trailers_array = array();
         $teasers_array = array();
+        
+        for ($i = 0; $i < 6; $i++) {
+            array_push($cast_array, $movie->credits->cast[$i]);
+            array_push($crew_array, $movie->credits->crew[$i]);
+        }
+
         if ($movie->videos->results) {
             foreach ($movie->videos as $result) {
                 foreach ($result as $video) {
@@ -83,8 +90,7 @@ class MovieController extends Controller
         $approved_comments = Cache::remember('approved_comments' . $id, 36000, function () use ($id) {
             return Comment::where('movie_tmdb_id', $id)->where('approved', 1)->get();
         });
-
-        
+    
         $rating = [];
         $tot_rating = '';
         if (count($approved_reviews) > 0) {
@@ -111,6 +117,8 @@ class MovieController extends Controller
                   'comments' => $approved_comments,
                   'user_id' => $user_id,
                   'tot_rating' => $tot_rating,
+                  'cast' => $cast_array,
+                  'crew' => $crew_array
                 ]
             );
         } else {
@@ -125,6 +133,8 @@ class MovieController extends Controller
                   'comments' => $approved_comments,
                   'user_id' => null,
                   'tot_rating' => $tot_rating,
+                  'cast' => $cast_array,
+                  'crew' => $crew_array
                 ]
             );
         }

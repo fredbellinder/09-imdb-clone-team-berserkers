@@ -5,13 +5,20 @@
 <div class="movie-card card mb-4">
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
-    @if($movie->poster_path !== null)
-    <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
-    <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
-    /> @endif
+      @if($movie->poster_path !== null)
+      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
+      <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
+      /> @endif
       <div class="card-body">
-        <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
         <p class="card-text">{{ $movie->overview }}</p>
+        <ul>
+          <li>Genres: @foreach ($movie->genres as $genre)
+            <span class="ml-1">{{$genre->name}}</span> @endforeach
+          </li>
+          <li>Budget: {{$movie->budget}} USD</li>
+          <li>Runtime: {{$movie->runtime}} min</li>
+          <li>Release date: {{$movie->release_date}}</li>
+        </ul>
         <div class="mb-3">
           @if ($tot_rating && count($reviews) > 0)
           <div> BMD score: <img width="30%" src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
@@ -71,6 +78,37 @@
     </div>
   </div>
 
+  <!-- CAST AND CREW -->
+  <div class="container-fluid">
+    <div class="row bg-dark">
+      <div class="col-12 text-center  text-light py-2">
+        <h2>Cast</h2>
+        <div class="row my-2">
+          @foreach($cast as $person)
+          <div class="col-6 col-md-2 my-2">
+            @if($person->profile_path === null)
+            <img src="https://via.placeholder.com/92x138.png?text=NA" /> <br /> @else
+            <img src="https://image.tmdb.org/t/p/w92/{{$person->profile_path}}" /> <br /> @endif
+            <h5 class="text-light ml-2">{{$person->name}} as {{$person->character}}</h5>
+          </div>
+          @endforeach
+        </div>
+      </div>
+      <div class="col-12 text-center py-2 text-light">
+        <h2>Crew</h2>
+        <div class="row my-2">
+          @foreach($crew as $person)
+          <div class="col-6 col-md-2 my-2">
+            @if($person->profile_path === null)
+            <img src="https://via.placeholder.com/92x138.png?text=NA" /> <br /> @else
+            <img src="https://image.tmdb.org/t/p/w92/{{$person->profile_path}}" /> <br /> @endif
+            <h5 class="text-light ml-2">{{$person->job}} - {{$person->name}}</h5>
+          </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="accordion">
     <div class="card mx-auto">
       <div class="card-header" id="headingOne">
@@ -221,15 +259,15 @@
             </div>
           </div>
         </div>
-        @endforeach @endif
-        @if (count($reviews) == 0)
-            <h5>No reviews for this movie yet!</h5>
+        @endforeach @endif @if (count($reviews) == 0)
+        <h5>No reviews for this movie yet!</h5>
         @endif
       </div>
     </div>
   </div>
 </div>
 </div>
+
 <script>
 
 const editReviewForm = $('.edit-review');
