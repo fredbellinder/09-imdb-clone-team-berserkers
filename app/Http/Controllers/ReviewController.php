@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Review;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Client;
@@ -150,8 +151,10 @@ class ReviewController extends Controller
         $updatedReview->save();
 
         Cache::forget('reviews' . $movie_tmdb_id);
+        Cache::forget('reviews' . $user_id);
+        Cache::forget('approved_reviews' . $movie_tmdb_id);
+        Cache::forget('approved_reviews' . $user_id);
         
-
         return redirect()->back();
     }
 
@@ -161,10 +164,11 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Request $request, Review $review)
     {
         $user_id = $request->user()->id;
         $review_id = $review->id;
+        $movie_tmdb_id = $review->movie_tmdb_id;
 
         $toDelete = Review::where(
             'id',
@@ -173,5 +177,10 @@ class ReviewController extends Controller
             'user_id',
             $user_id
         )->delete();
+
+        Cache::forget('reviews' . $movie_tmdb_id);
+        Cache::forget('reviews' . $user_id);
+        Cache::forget('approved_reviews' . $movie_tmdb_id);
+        Cache::forget('approved_reviews' . $user_id);
     }
 }
