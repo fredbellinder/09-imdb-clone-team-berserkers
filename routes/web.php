@@ -12,7 +12,7 @@
 */
 
 // Index controller routes
-Route::get('cache', 'IndexController@flushCache'); // Delete this when we're in production
+Route::get('cache', 'IndexController@clearCache'); // Delete this when we're in production
 Route::get('/', 'IndexController@index')->name('home.index');
 Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear')->name('home.mostpopular');
 Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies')->name('home.tophorror');
