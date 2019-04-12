@@ -25,18 +25,37 @@
           @csrf
           <input type="text" name="title" class="form-control mr-sm-2" value="" placeholder="Enter List Title" required/>
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add list</button>
-      </form>
+        </form>
       </ul>
       <hr/>
       <h2>My Reviews</h2>
-      <ul class="list-group"> @if (count($reviews) > 0) @foreach ($reviews as $entry)
+      <ul class="list-group"> @if (count($reviews) > 0) @foreach ($reviews as $review)
         <li class="list-group-item list-group-item-warning text-body">
-          <h3><a href="/reviews/{{$entry->id}}?movie_id={{ $entry->movie_tmdb_id}}">{{ $entry->movie_title }}</a></h3>
-          @if($entry->rating === null)
-          <img src="{{ asset('assets/null.svg') }}" /> @else
-          <img src="{{ asset('assets/'.($entry->rating*10).'.svg') }}" /> @endif @if (!$entry->approved)
-          <p>Your review is pending approval by a moderator. Until it is approved, only you will be able to see it.</p>
-          @endif
+          <div class="container bg-lighter text-dark text-dark">
+            <div class="d-flex flex-wrap justify-content-between">
+              <div>
+                <h4><a href="/reviews/{{$review->id}}?movie_id={{ $review->movie_tmdb_id}}">{{ $review->movie_title }}</a></h4>
+              </div>
+              @if ($user_id && $review->user_id === $user_id)
+              <div class="review-delete-btn">
+                <form class="delete-review">
+                  @csrf @method('DELETE')
+                  <input type="hidden" name="id" value="{{$review->id}}" />
+                  <button type="submit" class="btn btn-danger">X</button>
+                </form>
+              </div>
+            </div>
+            @endif
+            <div class="mb-3 row w-100">
+              @if($review->rating === null)
+              <img class="flex-start" src="{{ asset('assets/null.svg') }}" /> @else
+              <img class="flex-start" src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
+            </div>
+            <p class="w-100">{{$review->content}}</p>
+            @if (!$review->approved)
+            <p>Your review is pending approval by a moderator. Until it is approved, only you will be able to see it.</p>
+            @endif
+          </div>
         </li>
         @endforeach @else
         <p>You haven't made any reviews yet</p>
@@ -83,23 +102,4 @@
     @endif
   </div>
 </div>
-
-<script>
-  const commentToDelete = $('.delete-comment');
-     function deleteComment (event) {
-        event.preventDefault();
-        $.ajax(
-          {
-          url: `/comments/${event.target[2].value}`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).done(() => {
-        $(this).closest('.card').remove();
-        });
-      }
-      commentToDelete.on('submit', deleteComment)
-
-</script>
 @endsection

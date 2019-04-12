@@ -6,7 +6,7 @@
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
       @if($movie->poster_path !== null)
-      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
+      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" />      @else
       <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
       /> @endif
       <div class="card-body">
@@ -187,11 +187,11 @@
             </form>
             @endif
           </div>
-          <div class="container container-review bg-lighter text-dark text-dark mb-2 p-2">
-            <div class="d-flex flex-row">
-                <div class="flex-grow-1">
-              <h4>{{$review->headline}}</h4>
-                </div>
+          <div class="container bg-lighter text-dark text-dark mb-2 p-2">
+            <div class="d-flex flex-wrap justify-content-between">
+              <div>
+                <h4>{{$review->headline}}</h4>
+              </div>
               @if ($user_id && $review->user_id === $user_id)
               <div class="review-delete-btn">
                 <form class="delete-review">
@@ -202,27 +202,29 @@
               </div>
               <form class="edit-review">
                 @csrf
-                <input type="hidden" name="review_id" value="{{$review->id}}"/>
+                <input type="hidden" name="review_id" value="{{$review->id}}" />
                 <button type="submit" class="btn btn-warning btn-edit-review">Edit</button>
               </form>
             </div>
-            <p>{{$review->content}}</p>
             @endif
-            <div class="mb-3">
+            <div class="mb-3 row w-100">
               @if($review->rating === null)
-              <img src="{{ asset('assets/null.svg') }}" /> @else
-              <img src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
+              <img class="flex-start" src="{{ asset('assets/null.svg') }}" /> @else
+              <img class="flex-start" src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
             </div>
+            <p class="w-100">{{$review->content}}</p>
             @if (count($comments) > 0)
-            <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"
-              aria-expanded="false" aria-controls="collapseComments{{$review->id}}">
+            <div class="w-100 p-2">
+              <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"
+                aria-expanded="false" aria-controls="collapseComments{{$review->id}}">
             Toggle comments
           </button>
-            <div class="collapse" id="collapseComments{{$review->id}}">
+            </div>
+            <div class="collapse container" id="collapseComments{{$review->id}}">
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
               <div class="card mb-2 bg-light text-dark p-2">
                 <div class="d-flex flex-row">
-                  <div class="flex-grow-1">
+                  <div class="mr-auto">
                     <p>{{ $comment->content }}</p>
                   </div>
                   @if ($user_id && $comment->user_id === $user_id)
@@ -255,7 +257,7 @@
                 <button class="btn btn-danger my-2 mx-3" type="submit">Submit</button>
               </form>
               @else
-              <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> @endif
+              <button href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</button> @endif
             </div>
           </div>
         </div>
@@ -269,8 +271,7 @@
 </div>
 
 <script>
-
-const editReviewForm = $('.edit-review');
+  const editReviewForm = $('.edit-review');
 function editReview(event) {
   event.preventDefault();
   const review_id=(event.target[1].value);
