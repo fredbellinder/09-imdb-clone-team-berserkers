@@ -11,26 +11,32 @@
 |
 */
 
+// Index controller routes
+Route::get('/', 'IndexController@index')->name('home.index');
+Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear')->name('home.mostpopular');
+Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies')->name('home.tophorror');
 
+// Search controller routes
+Route::get('/search', 'SearchController@search')->name('search.search');
+Route::get('/advanced-search', 'SearchController@advancedSearch')->name('search.advanced');
+Route::get('/advanced-search-view', 'SearchController@view')->name('search.advnacedview');
 
-Route::get('/', 'IndexController@index');
-
-Route::get('/popular-this-year', 'IndexController@showMostPopularOfTheYear');
-Route::get('/top-horror-movies', 'IndexController@showTopHorrorMovies');
-
-Route::get('/search', 'SearchController@search');
-Route::get('/advanced-search', 'SearchController@advancedSearch');
-Route::get('/advanced-search-view', 'SearchController@view');
-
-Route::resource('movies', 'MovieController');
+// Resource routes
 Route::resource('users', 'UserController')->middleware('auth');
-
+Route::resource('movies', 'MovieController')->except([
+    'create', 'store', 'edit', 'update', 'destroy'
+]);
 Route::resource('watchlists', 'WatchlistController')->except([
     'index', 'edit'
 ]);
+Route::resource('comments', 'CommentController')->except([
+    'index', 'create', 'show', 'edit'
+]);
+Route::resource('reviews', 'ReviewController')->except([
+    'create', 'edit'
+]);
 
-Route::resource('reviews', 'ReviewController');
-
+// Admin, auth and additional voyager routes
 Route::group(
     ['prefix' => 'admin'],
     function () {
@@ -40,17 +46,12 @@ Route::group(
 
 Auth::routes();
 
+// Voyager home route redirect
 Route::get('/home', function () {
     return redirect('/');
 });
 
-
-Route::post('/comments', 'CommentController@store')->name('comments.store');
-Route::delete(
-    '/comments/{comment}',
-    'CommentController@destroy'
-);
-
+// Wildcard route
 Route::get('/{any}', function () {
     return redirect('/');
-});
+})->name('wildcard');
