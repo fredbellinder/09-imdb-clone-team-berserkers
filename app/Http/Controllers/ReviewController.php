@@ -151,8 +151,10 @@ class ReviewController extends Controller
         $updatedReview->save();
 
         Cache::forget('reviews' . $movie_tmdb_id);
+        Cache::forget('reviews' . $user_id);
+        Cache::forget('approved_reviews' . $movie_tmdb_id);
+        Cache::forget('approved_reviews' . $user_id);
         
-
         return redirect()->back();
     }
 
