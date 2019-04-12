@@ -6,7 +6,11 @@
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
       @if($movie->poster_path !== null)
+<<<<<<< HEAD
       <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" />      @else
+=======
+      <img class="card-img-top" src="https://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
+>>>>>>> Changed the http links I could find to https.
       <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
       /> @endif
       <div class="card-body">

@@ -27,7 +27,7 @@
     <section class="col-12 col-sm-6 text-center">
       <a href="/movies/{{ $movie->id}}">
         @if($movie->poster_path !== null)
-        <img src="http://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="{{$movie->title}}">
+        <img src="https://image.tmdb.org/t/p/w300//{{$movie->poster_path}}" alt="{{$movie->title}}">
         @else
         <img class="card-img-top" src="https://via.placeholder.com/300x150.png?text=No+Poster+Available" alt="{{$movie->title}}"/>
         @endif
