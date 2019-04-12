@@ -9,7 +9,7 @@ function deleteComment(event) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         }).done(() => {
-            $(this).closest('.card').remove();
+            $(this).closest('.container-comment').remove();
         });
 }
 commentToDelete.on('submit', deleteComment)
@@ -28,7 +28,31 @@ function deleteReview(event) {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         }).done(() => {
-            $(this).closest('.container').remove();
+            $(this).closest('.container-review').remove();
         });
 }
 reviewToDelete.on('submit', deleteReview)
+
+const editReviewForm = $('.edit-review');
+function editReview(event) {
+    event.preventDefault();
+    const review_id = (event.target[1].value);
+    const reviewInfo = $(this).closest('.container-review');
+    const editReview = $(`.edit-review-container-${review_id}`);
+    editReview.show();
+    reviewInfo.hide();
+
+    $(`.edit-submit-${review_id}`).on('submit', function (event, reviewInfo) {
+        event.preventDefault();
+        $(`.edit-review-container-${review_id}`).hide();
+        editReview.hide();
+        reviewInfo.show();
+
+    });
+    $(`.edit-review-cancel`).on('click', function (event) {
+        event.preventDefault();
+        $(`.edit-review-container-${review_id}`).hide();
+        reviewInfo.show();
+    });
+}
+editReviewForm.on("submit", editReview);

@@ -30,7 +30,7 @@
       <hr/>
       <h2>My Reviews</h2>
       <ul class="list-group"> @if (count($reviews) > 0) @foreach ($reviews as $review)
-        <li class="list-group-item list-group-item-warning text-body">
+        <li class="list-group-item list-group-item-warning text-body container-review dashboard-review">
           <div class="container bg-lighter text-dark text-dark">
             <div class="d-flex flex-wrap justify-content-between">
               <div>
@@ -64,9 +64,9 @@
       <hr />
       <h2>My Comments</h2>
       @if (count($comments) > 0) @foreach($comments as $comment)
-      <div class="card mb-2 bg-light text-dark p-2">
+      <div class="card mb-2 bg-light text-dark p-2 container-comment">
         <div class="d-flex flex-row">
-          <div class="flex-grow-1">
+          <div class="mr-auto">
             <p>{{ $comment->content }}</p>
           </div>
           @if ($user_id && $comment->user_id === $user_id)
@@ -87,19 +87,16 @@
       </div>
       @endforeach @else
       <p>You haven't made any comments yet</p>
+      @endif @if ($administrate_reviews && $administrate_comments)
+      <div class="right-container">
+        <a href="admin/reviews">
+          <h2>Administrate Reviews</h2>
+        </a>
+        <a href="admin/comments">
+          <h2>Administrate Comments</h2>
+        </a>
+      </div>
       @endif
-      </ul>
     </div>
-    @if ($administrate_reviews && $administrate_comments)
-    <div class="right-container">
-      <a href="admin/reviews">
-        <h2>Administrate Reviews</h2>
-      </a>
-      <a href="admin/comments">
-        <h2>Administrate Comments</h2>
-      </a>
-    </div>
-    @endif
   </div>
-</div>
 @endsection

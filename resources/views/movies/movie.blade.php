@@ -187,24 +187,25 @@
             </form>
             @endif
           </div>
-          <div class="container bg-lighter text-dark text-dark mb-2 p-2">
-            <div class="d-flex flex-wrap justify-content-between">
-              <div>
+          <hr/>
+          <div class="container bg-lighter text-dark text-dark mb-2 p-2 container-review">
+            <div class="d-flex row">
+              <div class="mr-auto">
                 <h4>{{$review->headline}}</h4>
               </div>
               @if ($user_id && $review->user_id === $user_id)
-              <div class="review-delete-btn">
+              <form class="edit-review">
+                @csrf
+                <input type="hidden" name="review_id" value="{{$review->id}}" />
+                <button type="submit" class="btn btn-warning btn-edit-review">✎</button>
+              </form>
+              <div class="review-delete-btn ml-1">
                 <form class="delete-review">
                   @csrf @method('DELETE')
                   <input type="hidden" name="id" value="{{$review->id}}" />
                   <button type="submit" class="btn btn-danger">X</button>
                 </form>
               </div>
-              <form class="edit-review">
-                @csrf
-                <input type="hidden" name="review_id" value="{{$review->id}}" />
-                <button type="submit" class="btn btn-warning btn-edit-review">Edit</button>
-              </form>
             </div>
             @endif
             <div class="mb-3 row w-100">
@@ -222,7 +223,7 @@
             </div>
             <div class="collapse container" id="collapseComments{{$review->id}}">
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
-              <div class="card mb-2 bg-light text-dark p-2">
+              <div class="card mb-2 bg-light text-dark p-2 container-comment">
                 <div class="d-flex flex-row">
                   <div class="mr-auto">
                     <p>{{ $comment->content }}</p>
@@ -244,7 +245,7 @@
               @endif @endforeach
             </div>
             @endif
-            <div class="card mb-2 bg-light text-dark p-2 mt-2">
+            <div class="mb-2 bg-white text-dark p-2 mt-2 container">
               @if ($user_id !== null)
               <h5 class="mt-2">Add a comment:</h5>
               <form method="POST" action="/comments">
@@ -268,65 +269,4 @@
     </div>
   </div>
 </div>
-</div>
-
-<script>
-  const editReviewForm = $('.edit-review');
-function editReview(event) {
-  event.preventDefault();
-  const review_id=(event.target[1].value);
-  const reviewInfo = $(this).closest('.container-review');
-    const editReview = $(`.edit-review-container-${review_id}`);
-  editReview.show();
-  reviewInfo.hide();
-  
-  $(`.edit-submit-${review_id}`).on('submit', function(event, reviewInfo) {
-    event.preventDefault();
-    $(`.edit-review-container-${review_id}`).hide();
-    editReview.hide();
-    reviewInfo.show();
-    
-  });
-  $(`.edit-review-cancel`).on('click', function(event) {
-    event.preventDefault();
-    $(`.edit-review-container-${review_id}`).hide();
-    reviewInfo.show();
-  });
-}
-editReviewForm.on("submit", editReview);
-
-  const commentToDelete = $('.delete-comment');
-     function deleteComment (event) {
-        event.preventDefault();
-        $.ajax(
-          {
-          url: `/comments/${event.target[2].value}`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).done(() => {
-        $(this).closest('.card').remove();
-        });
-      }
-      commentToDelete.on('submit', deleteComment)
-
-
-      const reviewToDelete = $('.delete-review');
-     function deleteReview (event) {
-        event.preventDefault();
-        $.ajax(
-          {
-          url: `/reviews/${event.target[2].value}`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).done(() => {
-        $(this).closest('.container').remove();
-        });
-      }
-      reviewToDelete.on('submit', deleteReview)
-
-</script>
 @endsection
