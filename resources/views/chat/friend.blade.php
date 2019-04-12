@@ -49,6 +49,9 @@
                         </div>
                     @endforelse
                 </div>
+                <div style="text-align: center" class="mt-5">
+                        <a style="border-radius: 15px; box-shadow: 2px 2px 5px 2px grey;" class="bg-primary p-2 text-white lead" href="/chat">Start to Chat</a>
+                    </div>
         </div>
 
 @endsection

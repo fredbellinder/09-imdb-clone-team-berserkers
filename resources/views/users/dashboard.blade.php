@@ -1,7 +1,7 @@
 @extends('layouts.master') 
 @section('content')
 
-<h1 class="text-center mb-4 bg-warning">Welcome back {{ $user_name }}</h1>
+  <h1 class="text-center mb-4 bg-warning">Welcome back {{ $user_name }} </h1>
 <div class="container-fluid">
   <div class="inner-container d-flex flex-wrap justify-content-around">
     <div class="left-container">
@@ -82,6 +82,12 @@
     </div>
     @endif
   </div>
+</div>
+<div style="text-align:center" class="mb-4">
+  <a style="border-radius: 15px; box-shadow: 2px 2px 5px 2px grey;" class="bg-primary p-2 text-white" href="/friend">Find friend to chat</a>
+</div>
+<div style="text-align:center">
+  <a style="border-radius: 15px; box-shadow: 2px 2px 5px 2px grey;" class="bg-primary p-2 text-white" href="/chat">Chat with your friends</a>
 </div>
 
 <script>

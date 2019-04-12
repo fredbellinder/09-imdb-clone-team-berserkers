@@ -24,5 +24,8 @@
             </div>
         </div>
     </div>
+    <div class="mt-5" style="text-align:center">
+        <a style="border-radius: 15px; box-shadow: 2px 2px 5px 2px grey;" class="bg-primary p-2 text-white lead" href="/friend">Find friends</a>
+    </div>
 
 @endsection
