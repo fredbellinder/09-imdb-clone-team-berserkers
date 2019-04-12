@@ -121,9 +121,39 @@
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
           @if (count($reviews) > 0) @foreach ($reviews as $review)
-          <div class="container bg-lighter text-dark text-dark mb-2 p-2">
+          <div class="card-body edit-review-container-{{$review->id}}" style="display:none">
+            @if($user_id !== null)
+            <form method="POST" action="/reviews/{{$review->id}}">
+              @csrf @method('PATCH')
+              <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
+              <input type="hidden" name="review_id" value="{{$review->id}}">
+              <input type="hidden" name="movie_title" value="{{$movie->title}}">
+              <div class="row my-2">
+                <label class="px-2" for="headline">Headline</label>
+                <input type="text" class="form-control mx-3" name="headline" value="{{$review->headline}}" required/>
+              </div>
+              <div class="row my-2">
+                <label class="px-2" for="headline">Content</label>
+                <textarea name="content" class="form-control mx-3" rows="5" value="{{$review->content}}" required>{{$review->content}}</textarea>
+              </div>
+              <select class="form-control mx-auto" name="rating" required>
+                    <option selected disabled>New Rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+              <button class="btn btn-danger mt-2 edit-submit-{{$review->id}}" type="submit">Submit</button>
+              <button class="btn btn-danger mt-2 edit-review-cancel">Cancel</button>
+            </form>
+            @endif
+          </div>
+          <div class="container container-review bg-lighter text-dark text-dark mb-2 p-2">
             <div class="d-flex flex-row">
+                <div class="flex-grow-1">
               <h4>{{$review->headline}}</h4>
+                </div>
               @if ($user_id && $review->user_id === $user_id)
               <div class="review-delete-btn">
                 <form class="delete-review">
@@ -132,6 +162,11 @@
                   <button type="submit" class="btn btn-danger">X</button>
                 </form>
               </div>
+              <form class="edit-review">
+                @csrf
+                <input type="hidden" name="review_id" value="{{$review->id}}"/>
+                <button type="submit" class="btn btn-warning btn-edit-review">Edit</button>
+              </form>
             </div>
             <p>{{$review->content}}</p>
             @endif
@@ -149,7 +184,7 @@
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
               <div class="card mb-2 bg-light text-dark p-2">
                 <div class="d-flex flex-row">
-                  <div class="w-100">
+                  <div class="flex-grow-1">
                     <p>{{ $comment->content }}</p>
                   </div>
                   @if ($user_id && $comment->user_id === $user_id)
@@ -196,6 +231,31 @@
 </div>
 </div>
 <script>
+
+const editReviewForm = $('.edit-review');
+function editReview(event) {
+  event.preventDefault();
+  const review_id=(event.target[1].value);
+  const reviewInfo = $(this).closest('.container-review');
+    const editReview = $(`.edit-review-container-${review_id}`);
+  editReview.show();
+  reviewInfo.hide();
+  
+  $(`.edit-submit-${review_id}`).on('submit', function(event, reviewInfo) {
+    event.preventDefault();
+    $(`.edit-review-container-${review_id}`).hide();
+    editReview.hide();
+    reviewInfo.show();
+    
+  });
+  $(`.edit-review-cancel`).on('click', function(event) {
+    event.preventDefault();
+    $(`.edit-review-container-${review_id}`).hide();
+    reviewInfo.show();
+  });
+}
+editReviewForm.on("submit", editReview);
+
   const commentToDelete = $('.delete-comment');
      function deleteComment (event) {
         event.preventDefault();
@@ -216,8 +276,6 @@
       const reviewToDelete = $('.delete-review');
      function deleteReview (event) {
         event.preventDefault();
-        console.log(event.target[2].value);
-        
         $.ajax(
           {
           url: `/reviews/${event.target[2].value}`,
