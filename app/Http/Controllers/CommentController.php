@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -42,12 +43,18 @@ class CommentController extends Controller
         $comment->movie_tmdb_id = $request->input('movie_tmdb_id');
         $comment->user_id = $request->user()->id;
         $comment->review_id = $request->input('review_id');
+        if ($request->user()->role_id === 1 || $request->user()->role_id === 3) {
+            $comment->approved = 1;
+        }
         
         $comment->user_name = User::where('id', $comment->user_id)->first()->name;
 
         $comment->save();
         
         Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('comments' . $comment->user_id);
+        Cache::forget('approved_comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $comment->user_id);
         
         return redirect()->back();
     }
@@ -83,7 +90,10 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
+        Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('comments' . $user_id);
+        Cache::forget('approved_comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $user_id);
     }
 
     /**
@@ -104,5 +114,10 @@ class CommentController extends Controller
             'user_id',
             $user_id
         )->delete();
+
+        Cache::forget('comments' . $comment->movie_tmdb_id);
+        Cache::forget('comments' . $user_id);
+        Cache::forget('approved_comments' . $comment->movie_tmdb_id);
+        Cache::forget('approved_comments' . $user_id);
     }
 }

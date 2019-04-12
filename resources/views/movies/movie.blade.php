@@ -5,13 +5,20 @@
 <div class="movie-card card mb-4">
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
-    @if($movie->poster_path !== null)
-    <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
-    <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
-    /> @endif
+      @if($movie->poster_path !== null)
+      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" />      @else
+      <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
+      /> @endif
       <div class="card-body">
-        <h5 class="card-title">{{ $movie->original_title }} ({{ $movie->release_date }})</h5>
         <p class="card-text">{{ $movie->overview }}</p>
+        <ul>
+          <li>Genres: @foreach ($movie->genres as $genre)
+            <span class="ml-1">{{$genre->name}}</span> @endforeach
+          </li>
+          <li>Budget: {{$movie->budget}} USD</li>
+          <li>Runtime: {{$movie->runtime}} min</li>
+          <li>Release date: {{$movie->release_date}}</li>
+        </ul>
         <div class="mb-3">
           @if ($tot_rating && count($reviews) > 0)
           <div> BMD score: <img width="30%" src="{{ asset('assets/'.$tot_rating.'.svg') }}" /> </div> @else
@@ -71,6 +78,37 @@
     </div>
   </div>
 
+  <!-- CAST AND CREW -->
+  <div class="container-fluid">
+    <div class="row bg-dark">
+      <div class="col-12 text-center  text-light py-2">
+        <h2>Cast</h2>
+        <div class="row my-2">
+          @foreach($cast as $person)
+          <div class="col-6 col-md-2 my-2">
+            @if($person->profile_path === null)
+            <img src="https://via.placeholder.com/92x138.png?text=NA" /> <br /> @else
+            <img src="https://image.tmdb.org/t/p/w92/{{$person->profile_path}}" /> <br /> @endif
+            <h5 class="text-light ml-2">{{$person->name}} as {{$person->character}}</h5>
+          </div>
+          @endforeach
+        </div>
+      </div>
+      <div class="col-12 text-center py-2 text-light">
+        <h2>Crew</h2>
+        <div class="row my-2">
+          @foreach($crew as $person)
+          <div class="col-6 col-md-2 my-2">
+            @if($person->profile_path === null)
+            <img src="https://via.placeholder.com/92x138.png?text=NA" /> <br /> @else
+            <img src="https://image.tmdb.org/t/p/w92/{{$person->profile_path}}" /> <br /> @endif
+            <h5 class="text-light ml-2">{{$person->job}} - {{$person->name}}</h5>
+          </div>
+          @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="accordion">
     <div class="card mx-auto">
       <div class="card-header" id="headingOne">
@@ -121,11 +159,47 @@
       <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
           @if (count($reviews) > 0) @foreach ($reviews as $review)
-          <div class="container bg-lighter text-dark text-dark mb-2 p-2">
-            <div class="d-flex flex-row">
-              <h4>{{$review->headline}}</h4>
+          <div class="card-body edit-review-container-{{$review->id}}" style="display:none">
+            @if($user_id !== null)
+            <form method="POST" action="/reviews/{{$review->id}}">
+              @csrf @method('PATCH')
+              <input type="hidden" name="movie_tmdb_id" value="{{$movie->id}}">
+              <input type="hidden" name="review_id" value="{{$review->id}}">
+              <input type="hidden" name="movie_title" value="{{$movie->title}}">
+              <div class="row my-2">
+                <label class="px-2" for="headline">Headline</label>
+                <input type="text" class="form-control mx-3" name="headline" value="{{$review->headline}}" required/>
+              </div>
+              <div class="row my-2">
+                <label class="px-2" for="headline">Content</label>
+                <textarea name="content" class="form-control mx-3" rows="5" value="{{$review->content}}" required>{{$review->content}}</textarea>
+              </div>
+              <select class="form-control mx-auto" name="rating" required>
+                    <option selected disabled>New Rating</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+              <button class="btn btn-danger mt-2 edit-submit-{{$review->id}}" type="submit">Submit</button>
+              <button class="btn btn-danger mt-2 edit-review-cancel">Cancel</button>
+            </form>
+            @endif
+          </div>
+          <hr/>
+          <div class="container bg-lighter text-dark text-dark mb-2 p-2 container-review">
+            <div class="d-flex row">
+              <div class="mr-auto">
+                <h4>{{$review->headline}}</h4>
+              </div>
               @if ($user_id && $review->user_id === $user_id)
-              <div class="review-delete-btn">
+              <form class="edit-review">
+                @csrf
+                <input type="hidden" name="review_id" value="{{$review->id}}" />
+                <button type="submit" class="btn btn-warning btn-edit-review">✎</button>
+              </form>
+              <div class="review-delete-btn ml-1">
                 <form class="delete-review">
                   @csrf @method('DELETE')
                   <input type="hidden" name="id" value="{{$review->id}}" />
@@ -133,23 +207,25 @@
                 </form>
               </div>
             </div>
-            <p>{{$review->content}}</p>
             @endif
-            <div class="mb-3">
+            <div class="mb-3 row w-100">
               @if($review->rating === null)
-              <img src="{{ asset('assets/null.svg') }}" /> @else
-              <img src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
+              <img class="flex-start" src="{{ asset('assets/null.svg') }}" /> @else
+              <img class="flex-start" src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
             </div>
+            <p class="w-100">{{$review->content}}</p>
             @if (count($comments) > 0)
-            <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"
-              aria-expanded="false" aria-controls="collapseComments{{$review->id}}">
+            <div class="w-100 p-2">
+              <button class="btn btn-success mb-2" type="button" data-toggle="collapse" data-target="#collapseComments{{$review->id}}"
+                aria-expanded="false" aria-controls="collapseComments{{$review->id}}">
             Toggle comments
           </button>
-            <div class="collapse" id="collapseComments{{$review->id}}">
+            </div>
+            <div class="collapse container" id="collapseComments{{$review->id}}">
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
-              <div class="card mb-2 bg-light text-dark p-2">
+              <div class="card mb-2 bg-light text-dark p-2 container-comment">
                 <div class="d-flex flex-row">
-                  <div class="w-100">
+                  <div class="mr-auto">
                     <p>{{ $comment->content }}</p>
                   </div>
                   @if ($user_id && $comment->user_id === $user_id)
@@ -169,7 +245,7 @@
               @endif @endforeach
             </div>
             @endif
-            <div class="card mb-2 bg-light text-dark p-2 mt-2">
+            <div class="mb-2 bg-white text-dark p-2 mt-2 container">
               @if ($user_id !== null)
               <h5 class="mt-2">Add a comment:</h5>
               <form method="POST" action="/comments">
@@ -182,54 +258,15 @@
                 <button class="btn btn-danger my-2 mx-3" type="submit">Submit</button>
               </form>
               @else
-              <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</a> @endif
+              <button href="/login" class="btn btn-warning my-2 my-sm-0">Login to comment</button> @endif
             </div>
           </div>
         </div>
-        @endforeach @endif
-        @if (count($reviews) == 0)
-            <h5>No reviews for this movie yet!</h5>
+        @endforeach @endif @if (count($reviews) == 0)
+        <h5>No reviews for this movie yet!</h5>
         @endif
       </div>
     </div>
   </div>
 </div>
-</div>
-<script>
-  const commentToDelete = $('.delete-comment');
-     function deleteComment (event) {
-        event.preventDefault();
-        $.ajax(
-          {
-          url: `/comments/${event.target[2].value}`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).done(() => {
-        $(this).closest('.card').remove();
-        });
-      }
-      commentToDelete.on('submit', deleteComment)
-
-
-      const reviewToDelete = $('.delete-review');
-     function deleteReview (event) {
-        event.preventDefault();
-        console.log(event.target[2].value);
-        
-        $.ajax(
-          {
-          url: `/reviews/${event.target[2].value}`,
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-        }).done(() => {
-        $(this).closest('.container').remove();
-        });
-      }
-      reviewToDelete.on('submit', deleteReview)
-
-</script>
 @endsection

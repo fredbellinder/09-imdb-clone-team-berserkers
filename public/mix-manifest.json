@@ -1,5 +1,11 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+<<<<<<< HEAD
     "/css/style.css": "/css/style.css"
 }
+=======
+    "/css/style.css": "/css/style.css",
+    "/js/bmd.js": "/js/bmd.js"
+}
+>>>>>>> 4b1856915e9fa7631b24ad16e2b4cc4e3d9eb364
