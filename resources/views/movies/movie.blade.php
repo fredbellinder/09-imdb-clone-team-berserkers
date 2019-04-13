@@ -6,7 +6,7 @@
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
       @if($movie->poster_path !== null)
-      <img class="card-img-top" src="http://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" />      @else
+      <img class="card-img-top" src="https://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
       <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
       /> @endif
       <div class="card-body">
@@ -223,12 +223,30 @@
             </div>
             <div class="collapse container" id="collapseComments{{$review->id}}">
               @foreach($comments as $comment) @if($comment->review_id === $review->id)
+              <div class="bg-secondary card edit-comment-container-{{$comment->id}}" style="display:none">
+                @if($user_id !== null)
+                <form method="POST" action="/comments/{{$comment->id}}">
+                  @csrf @method('PATCH')
+                  <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                  <div class="row my-2 p-2">
+                    <input type="text" name="content" class="form-control mx-3" value="{{$comment->content}}" required/>
+                  </div>
+                  <button class="btn btn-danger my-2 ml-1" type="submit">Edit Comment</button>
+                  <button class="btn btn-warning my-2 edit-comment-cancel" type="button">Cancel</button>
+                </form>
+                @endif
+              </div>
               <div class="card mb-2 bg-light text-dark p-2 container-comment">
                 <div class="d-flex flex-row">
                   <div class="mr-auto">
                     <p>{{ $comment->content }}</p>
                   </div>
                   @if ($user_id && $comment->user_id === $user_id)
+                  <form class="edit-comment">
+                    @csrf
+                    <input type="hidden" name="comment_id" value="{{$comment->id}}" />
+                    <button type="submit" class="btn btn-warning edit-comment mr-1">✎</button>
+                  </form>
                   <div class="comment-delete-btn">
                     <form class="delete-comment">
                       @csrf @method('DELETE')

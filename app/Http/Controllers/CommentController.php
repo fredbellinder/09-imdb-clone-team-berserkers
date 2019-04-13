@@ -90,10 +90,20 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
+        $user_id = $request->user()->id;
+        $comment_id = $request->comment_id;
+        $content = $request->input('content');
+        $updatedComment = Comment::where('id', $comment_id)->first();
+        $updatedComment->content = $content;
+    
+        $updatedComment->save();
+
         Cache::forget('comments' . $comment->movie_tmdb_id);
         Cache::forget('comments' . $user_id);
         Cache::forget('approved_comments' . $comment->movie_tmdb_id);
         Cache::forget('approved_comments' . $user_id);
+        
+        return redirect()->back();
     }
 
     /**
