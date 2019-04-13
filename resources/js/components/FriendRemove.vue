@@ -17,9 +17,9 @@
                 }
                 console.log(this.friendid)
                         axios.delete('/friend', data).then((response) => {
-                        console.log(response.data);
+                        console.log(response);
                     })
-                            .catch(err => res.json(err))
+                            .catch(err => console.log(err))
                 }
         }
     }

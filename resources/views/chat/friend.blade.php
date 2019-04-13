@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="col-md-8 offset-2 mb-5">
-            <div class="card bm-5">
+<div class="container">
+    <div class="col-md-8 offset-2 mb-5">
+        <div class="card bm-5">
+
+         
+
                 <div class="card-header text-white bg-dark lead">
                     List of all Users
                 </div>
@@ -27,6 +30,10 @@
             </div>
         </div>
 
+        @if(Session::has('success'))
+        <p class="alert alert-info">{{ Session::get('success') }}</p>
+        @endif        
+        
             <div class="col-md-8 offset-2">
                 <div class="card">
                     <div class="card-header text-white bg-success lead">

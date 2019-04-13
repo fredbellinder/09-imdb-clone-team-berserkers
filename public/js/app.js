@@ -1900,7 +1900,15 @@ __webpack_require__.r(__webpack_exports__);
         user_id: this.myid
       };
       axios.post('/friend', data).then(function (response) {
-        return true;
+        if (response.data === 'error.addedbefore') {
+          return alert('You have added before!');
+        }
+
+        if (response.data == 'error.1') {
+          return alert('You cant add yourself');
+        } else {
+          return true;
+        }
       }).catch(function (err) {
         return res.json(err);
       });
@@ -1937,9 +1945,9 @@ __webpack_require__.r(__webpack_exports__);
       };
       console.log(this.friendid);
       axios.delete('/friend', data).then(function (response) {
-        console.log(response.data);
+        console.log(response);
       }).catch(function (err) {
-        return res.json(err);
+        return console.log(err);
       });
     }
   }

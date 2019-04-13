@@ -41,13 +41,20 @@ class FriendController extends Controller
     public function addFriend(Request $request)
     {
         //validate
-        if ($request->user_id == $request->friend_id) {
-            return Session::flash('error', 'You can not add your self');
+        $user = Auth::user()->id;
+        $friends = Friend::where('user_id',$user)->pluck('friend_id');
+        foreach ($friends as $friend) {
+          if ($friend === $request->friend_id)
+          return ('error.addedbefore');
         }
+
+        if ($request->user_id == $request->friend_id) {
+            return $response='error.1';
+        }
+       
 
         // Add to database
 
-//        Auth::user()->id;
         $friend = new Friend;
         $friend->user_id = $request->user_id;
         $friend->friend_id = $request->friend_id;
