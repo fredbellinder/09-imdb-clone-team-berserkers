@@ -10,7 +10,7 @@
             <div class="col-4  col-sm-2 offset-sm-2">
               <a href="/movies/{{ $match->id}}">
               @if($match->poster_path !== null)
-              <img src="http://image.tmdb.org/t/p/w92//{{$match->poster_path}}">
+              <img src="https://image.tmdb.org/t/p/w92//{{$match->poster_path}}">
               @else
               <img src="https://via.placeholder.com/45x68.png?text=X" alt="{{ $match->title }}"/>
             </a>
