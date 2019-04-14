@@ -69,12 +69,14 @@ class FriendController extends Controller
      * @param  \App\Friend  $friend
      * @return \Illuminate\Http\Response
      */
-    public function removeFriend($id)
+    public function removeFriend(Request $request)
     {
-        $userId = Auth::user()->id;
+        $userId = $request->user_id;
+        // $userId = Auth::user()->id;
+        $friendId = $request->friend_id;
         Friend::where([
             ['user_id', $userId],
-            ['friend_id', $id]
+            ['friend_id', $friendId]
             ])->delete();
        
         // Session::flash('success', 'Friend has been deleted');

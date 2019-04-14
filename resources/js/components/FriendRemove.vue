@@ -11,7 +11,11 @@
         },
         methods: {
             removeFriend: function() {
-                axios.delete('/friend/'+this.friendid)
+                var data = {
+                     friend_id: this.friendid,
+                     user_id: this.myid   
+                    }
+                axios.post('/friend/removeFriend', data)
                 .then((response) => {
                     window.location.href = "/friend";
                     return response.data;

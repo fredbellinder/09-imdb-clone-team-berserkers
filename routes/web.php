@@ -71,11 +71,11 @@ Route::get('/chat', 'ChatController@index')->middleware('auth')->name('chat.inde
 Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
 Route::post('/chat/getChat{id}', 'ChatController@getChat')->middleware('auth');
 Route::post('/chat/sendChat', 'ChatController@sendChat')->middleware('auth');
-Route::delete('/chat/{id}', 'ChatController@clearChat')->middleware('auth');
+Route::post('/chat/clearChat', 'ChatController@clearChat')->middleware('auth');
 
 Route::get('/friend', 'FriendController@index')->middleware('auth')->name('chat.friend');
 Route::post('/friend', 'FriendController@addFriend')->middleware('auth');
-Route::delete('/friend/{id}', 'FriendController@removeFriend')->middleware('auth');
+Route::post('/friend/removeFriend', 'FriendController@removeFriend')->middleware('auth');
 
 // Voyager home route redirect
 Route::get('/home', function () {

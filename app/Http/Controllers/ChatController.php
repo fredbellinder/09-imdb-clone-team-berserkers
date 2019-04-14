@@ -47,14 +47,22 @@ class ChatController extends Controller
         return view('chat.show')->withFriend($friend);
     }
 
-    public function clearChat($id)
+    public function clearChat(Request $request)
     {
-        $userId = Auth::user()->id;
-        $chat = \DB::table('chats')->where([
+        $userId = $request->user_id;
+        $friendId = $request->friend_id;
+
+        $chat1 = \DB::table('chats')->where([
             ['user_id', $userId],
-            ['friend_id', $id]
+            ['friend_id', $friendId]
         ]);
 
-        $chat->delete();   
+        $chat2 = \DB::table('chats')->where([
+            ['user_id', $friendId],
+            ['friend_id', $userId]
+        ]);
+
+        $chat1->delete();   
+        $chat2->delete();   
     }
 }

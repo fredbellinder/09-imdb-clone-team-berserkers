@@ -34,7 +34,11 @@
                 }
             },
             clearChat: function() {
-                axios.delete('/chat/'+ this.friendid)
+                const data2 = {
+                    friend_id: this.friendid,
+                    user_id: this.userid
+                }
+                axios.post('/chat/clearChat', data2)
                 .then((response) => {
                     window.location.href = `/chat/${this.friendid}`;
                     return response.data;
