@@ -1,15 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="nav-link" href="/">
-      <img class="logo" width="100" src="{{ asset('assets/logo.svg') }}" />
-  </a>
 
-  <div class="container justify-content-end">
-    <button class="navbar-toggler btn btn-outline-success" style="height: 37px" type="button" data-toggle="collapse" data-target="#featureContent"
+  <div class="container-fluid d-flex justify-content-between">
+    <a class="nav-link" href="/">
+        <img class="logo" width="100" src="{{ asset('assets/logo.svg') }}" />
+    </a>
+
+    <button class="navbar-toggler btn btn-outline-success mr-2 ml-auto nav-button" type="button" data-toggle="collapse" data-target="#featureContent"
       aria-controls="featureContent" aria-expanded="false" aria-label="Toggle navigation">
     🔍
   </button>
 
-    <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#loginContent" aria-controls="loginContent"
+    <button class="navbar-toggler nav-button" type="button" data-toggle="collapse" data-target="#loginContent" aria-controls="loginContent"
       aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -38,7 +39,7 @@
         </li>
         @endif @else
         <li class="nav-item dropdown">
-          <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+          <a id="navbarDropdown" class="nav-link dropdown-toggle text-right" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false" v-pre>
             {{ Auth::user()->name }} <span class="caret"></span>
           </a>
