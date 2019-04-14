@@ -80,38 +80,4 @@ class FriendController extends Controller
         // Session::flash('success', 'Friend has been deleted');
         // return redirect()->back();
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Friend  $friend
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Friend $friend)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Friend  $friend
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Friend $friend)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Friend  $friend
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Friend $friend)
-    {
-        //
-    }
 }

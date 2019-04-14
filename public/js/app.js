@@ -1843,6 +1843,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['chats', 'userid', 'friendid'],
   data: function data() {
@@ -1865,6 +1866,16 @@ __webpack_require__.r(__webpack_exports__);
           _this.chats.push(data);
         });
       }
+    },
+    clearChat: function clearChat() {
+      var _this2 = this;
+
+      axios.delete('/chat/' + this.friendid).then(function (response) {
+        window.location.href = "/chat/".concat(_this2.friendid);
+        return response.data;
+      }).catch(function (err) {
+        return console.log(err);
+      });
     }
   }
 });
@@ -1938,8 +1949,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     removeFriend: function removeFriend() {
       axios.delete('/friend/' + this.friendid).then(function (response) {
-        window.location.reload();
-        return response;
+        window.location.href = "/friend";
+        return response.data;
       }).catch(function (err) {
         return console.log(err);
       });
@@ -48105,6 +48116,10 @@ var render = function() {
         attrs: { type: "button", value: "Send" },
         on: { click: _vm.sendChat }
       })
+    ]),
+    _vm._v(" "),
+    _c("button", { staticClass: "bg-danger", on: { click: _vm.clearChat } }, [
+      _vm._v("Clear")
     ])
   ])
 }

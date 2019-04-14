@@ -13,8 +13,8 @@
             removeFriend: function() {
                 axios.delete('/friend/'+this.friendid)
                 .then((response) => {
-                    window.location.reload();
-                    return response;
+                    window.location.href = "/friend";
+                    return response.data;
                 })
                 .catch(err => console.log(err))
             }

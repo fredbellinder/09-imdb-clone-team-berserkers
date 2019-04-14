@@ -6,6 +6,7 @@
         <div class="control auto-width">
             <input type="button" class="button bg-dark text-white" value="Send" v-on:click="sendChat">
         </div>
+    <button class="bg-danger" v-on:click="clearChat">Clear</button>
     </div>
 </template>
 
@@ -31,6 +32,14 @@
                             this.chats.push(data)
                         });
                 }
+            },
+            clearChat: function() {
+                axios.delete('/chat/'+ this.friendid)
+                .then((response) => {
+                    window.location.href = `/chat/${this.friendid}`;
+                    return response.data;
+                })
+                .catch(err => console.log(err))
             }
         }
     }

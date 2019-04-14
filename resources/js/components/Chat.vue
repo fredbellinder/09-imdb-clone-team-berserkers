@@ -48,7 +48,7 @@
       There are no messages
     </div>
     <chat-composer v-bind:userid="userid" v-bind:chats="chats"
-    v-bind:friendid="friendid"></chat-composer>
+      v-bind:friendid="friendid"></chat-composer>
   </div>
 </template>
 

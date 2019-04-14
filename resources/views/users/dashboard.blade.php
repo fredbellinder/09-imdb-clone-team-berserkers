@@ -102,7 +102,7 @@
   <div style="text-align:center" class="mb-4">
       <a style="border-radius: 15px; box-shadow: 2px 2px 5px 2px grey;" class="bg-primary p-2 text-white" href="/friend">Find friend to chat</a>
     </div>
-    <div style="text-align:center">
+    <div style="text-align:center" class="mb-4">
       <a style="border-radius: 15px; box-shadow: 2px 2px 5px 2px grey;" class="bg-primary p-2 text-white" href="/chat">Chat with your friends</a>
     </div>
 @endsection
