@@ -15,19 +15,18 @@
                     friend_id: this.userid,
                     user_id: this.myid
                 }
-                        axios.post('/friend', data).then((response) => {
-                            if (response.data === 'error.addedbefore') {
-                                return alert('You have added before!')
-                            }
-                            if (response.data == 'error.1') {
-                                 return alert('You cant add yourself');
-                            } else {
-                                return true;
-                                }
-
-                    })
-                            .catch(err => res.json(err))
-                }
+                axios.post('/friend', data).then((response) => {
+                    if (response.data === 'error.addedbefore') {
+                        return alert('You have added before!')
+                    }
+                    if (response.data === 'error.1') {
+                            return alert('You cant add yourself');
+                    }
+                        window.location.reload();
+                        return response;
+                })
+                .catch(err => res.json(err))
+            }
         }
     }
 </script>

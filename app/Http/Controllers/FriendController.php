@@ -51,7 +51,6 @@ class FriendController extends Controller
         if ($request->user_id == $request->friend_id) {
             return $response='error.1';
         }
-       
 
         // Add to database
 
@@ -59,11 +58,9 @@ class FriendController extends Controller
         $friend->user_id = $request->user_id;
         $friend->friend_id = $request->friend_id;
         $friend->save();
-
-
+                
         Session::flash('success', 'Friend has been added');
         return redirect()->back();
-
     }
 
     /**
@@ -74,9 +71,14 @@ class FriendController extends Controller
      */
     public function removeFriend(Request $request)
     {
-        return Auth::user()->id;
-//        $friend->friend_id = $request->friend_id;
-
+        $userId = Auth::user()->id;
+        Friend::where([
+            ['user_id', $userId],
+            ['friend_id', $request->id]
+            ])->delete();
+       
+        // Session::flash('success', 'Friend has been deleted');
+        // return redirect()->back();
     }
 
     /**

@@ -74,7 +74,7 @@ Route::post('/chat/sendChat', 'ChatController@sendChat')->middleware('auth');
 
 Route::get('/friend', 'FriendController@index')->middleware('auth')->name('chat.friend');
 Route::post('/friend', 'FriendController@addFriend')->middleware('auth');
-Route::delete('/friend', 'FriendController@removeFriend')->middleware('auth');
+Route::delete('/friend/{id}', 'FriendController@removeFriend')->middleware('auth');
 
 // Voyager home route redirect
 Route::get('/home', function () {

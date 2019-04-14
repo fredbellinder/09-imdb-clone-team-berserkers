@@ -1904,11 +1904,12 @@ __webpack_require__.r(__webpack_exports__);
           return alert('You have added before!');
         }
 
-        if (response.data == 'error.1') {
+        if (response.data === 'error.1') {
           return alert('You cant add yourself');
-        } else {
-          return true;
         }
+
+        window.location.reload();
+        return response;
       }).catch(function (err) {
         return res.json(err);
       });
@@ -1935,17 +1936,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['myid', 'friendid'],
   data: function data() {
-    return {};
+    return {// message: ''
+    };
   },
   methods: {
     removeFriend: function removeFriend() {
-      var data = {
-        friend_id: this.friendid,
-        user_id: this.myid
-      };
-      console.log(this.friendid);
-      axios.delete('/friend', data).then(function (response) {
-        console.log(response);
+      axios.delete('/friend/' + this.friendid).then(function (response) {
+        window.location.reload();
+        return true; // return this.message = 'data is added';
       }).catch(function (err) {
         return console.log(err);
       });
