@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="col-md-8 offset-2">
+    <div class="container mx-auto" style="display: flex; justify-content:center">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-white bg-dark lead">
                     List of all Friends

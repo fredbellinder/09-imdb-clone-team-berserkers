@@ -1818,10 +1818,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['chats', 'userid', 'friendid'],
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+  props: ['chats', 'userid', 'friendid']
 });
 
 /***/ }),
@@ -1936,14 +1933,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['myid', 'friendid'],
   data: function data() {
-    return {// message: ''
-    };
+    return {};
   },
   methods: {
     removeFriend: function removeFriend() {
       axios.delete('/friend/' + this.friendid).then(function (response) {
         window.location.reload();
-        return true; // return this.message = 'data is added';
+        return response;
       }).catch(function (err) {
         return console.log(err);
       });

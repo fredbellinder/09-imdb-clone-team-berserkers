@@ -7,16 +7,14 @@
     export default {
         props: ['myid', 'friendid'],
         data() {
-            return {
-                // message: ''
-            }
+            return {}
         },
         methods: {
             removeFriend: function() {
-                axios.delete('/friend/'+this.friendid).then((response) => {
+                axios.delete('/friend/'+this.friendid)
+                .then((response) => {
                     window.location.reload();
-                    return true;
-                    // return this.message = 'data is added';
+                    return response;
                 })
                 .catch(err => console.log(err))
             }

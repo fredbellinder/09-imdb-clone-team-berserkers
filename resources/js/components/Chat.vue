@@ -54,9 +54,6 @@
 
 <script>
     export default {
-     props: ['chats', 'userid', 'friendid'],
-        mounted() {
-            console.log('Component mounted.')
-        }
+     props: ['chats', 'userid', 'friendid']
     }
 </script>

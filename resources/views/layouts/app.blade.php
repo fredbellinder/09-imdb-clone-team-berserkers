@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="mx-0">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand bg-warning p-2" href="{{ url('/') }}">
@@ -72,7 +72,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="py-4 mx-auto">
             @yield('content')
         </main>
     </div>
