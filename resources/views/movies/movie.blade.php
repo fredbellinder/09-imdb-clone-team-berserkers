@@ -6,7 +6,7 @@
   <div class="d-flex flex-wrap justify-content-around py-2">
     <div class="movie-card card mw-500px align-self-start">
       @if($movie->poster_path !== null)
-      <img class="card-img-top" src="https://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" /> @else
+      <img class="card-img-top" src="https://image.tmdb.org/t/p/w500//{{$movie->poster_path}}" alt="{{$movie->title}}" />      @else
       <img class="card-img-top" src="https://via.placeholder.com/500x250.png?text=No+Poster+Available" alt="{{$movie->title}}"
       /> @endif
       <div class="card-body">
@@ -30,29 +30,32 @@
           @endif
 
         </div>
-        @if($user_id !== null && count($watchlists)>0)
-        <form class="form-inline my-2 my-lg-0" method="POST" action="/watchlists">
-          @csrf
-          <input name="title" value="{{ $movie->original_title }}" hidden />
-          <input name="movie_id" value="{{ $movie->id }}" hidden />
-          <input name="poster_url" value="{{ $movie->poster_path }}" hidden />
-          <select class="browser-default custom-select mr-sm-2" name="list_id" required>
-            <option selected value="">Select watchlist:</option>
-            @foreach ($watchlists as $wl)
-            <option value="{{$wl->id}}">{{$wl->title}}</option>   
-            @endforeach
-        </select>
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
-        </form>
-        <p>
-          <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false"
-            aria-controls="multiCollapseExample1">Create a new watchlist</a>
-        </p>
+        @if($user_id) @if(count($watchlists)>0)
+        <div class="row justify-content-around">
+          <form class="form-inline my-2 my-lg-0 justify-content-around" method="POST" action="/watchlists">
+            @csrf
+            <input name="title" value="{{ $movie->original_title }}" hidden />
+            <input name="movie_id" value="{{ $movie->id }}" hidden />
+            <input name="poster_url" value="{{ $movie->poster_path }}" hidden />
+            <select class="browser-default custom-select mr-sm-2" name="list_id" required>
+              <option selected value="">Select watchlist:</option>
+              @foreach ($watchlists as $wl)
+              <option value="{{$wl->id}}">{{$wl->title}}</option>   
+              @endforeach
+            </select>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add to list</button>
+          </form>
+          @endif
+          <p class="my-2 my-lg-0">
+            <a class="btn btn-outline-success my-2 my-sm-0" data-toggle="collapse" href="#multiCollapse1" role="button" aria-expanded="false"
+              aria-controls="multiCollapse1">Create a new watchlist</a>
+          </p>
+        </div>
         @elseif ($user_id === null)
         <a href="/login" class="btn btn-warning my-2 my-sm-0">Login to create a watchlist and add this movie</a> @endif
         <div class="row">
           <div class="col">
-            <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="collapse multi-collapse my-2" id="multiCollapse1">
               <div class="card card-body">
                 <form class="form-inline my-2 my-lg-0" method="GET" action="/watchlists/create">
                   @csrf
@@ -210,8 +213,8 @@
             @endif
             <div class="mb-3 row w-100">
               @if($review->rating === null)
-              <img class="flex-start" src="{{ asset('assets/null.svg') }}" /> @else
-              <img class="flex-start" src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
+              <img class="flex-start" width="30%" src="{{ asset('assets/null.svg') }}" /> @else
+              <img class="flex-start" width="30%" src="{{ asset('assets/'.($review->rating*10).'.svg') }}" /> @endif
             </div>
             <p class="w-100">{{$review->content}}</p>
             @if (count($comments) > 0)
