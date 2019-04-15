@@ -32,7 +32,7 @@ class LoginTest extends TestCase
     {
         $user = factory(User::class)->make();
 
-        $this->actingAs($user)->get('/watchlists')->assertOk();
+        $this->actingAs($user)->get('/watchlists')->assertRedirect();
     }
     
     public function testDashboardAsAdmin()
